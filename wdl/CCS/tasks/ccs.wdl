@@ -1,16 +1,23 @@
 version 1.0
 
 
+task GetSubreadsTask {
+	
+}
+
+task StatSubreadsTask {
+
+}
+
+
 task CcsTask {
 	input {
 		String projectdir
 		String sampleName
-		String filename = 'bc1001.ccs.bam'
-		String barcode = 'bc1001'
-
 	}
 
-	String workdir = projectdir + "/CCS/${sampleName}"
+	String workdir = "${projectdir}/CCS/${sampleName}"
+	String subreadspath = "${projectdir}/Subreads"
 
 	command <<<
 		set -vex
@@ -21,16 +28,26 @@ task CcsTask {
             exit 0
         fi
 
-		/export/pipeline/RNASeq/Software/Miniconda/bin/ccs --min-passes 1 --min-rq 0.9 --max-length 50000 --min-length 100 /export/Project/PAG/RNA-seq/pacbio_noref/WHXWZKY-202207335A-01_zhiwu_wangxinjing/Subreads/bc1001.subreads.bam bc1001.ccs.bam -j 20
-		python /export/pipeline/RNASeq/Pipeline/noRef_Isoseq/seq_np_rq.py ~{filename}
-		Rscript /export/pipeline/RNASeq/Pipeline/Ref_Isoseq/automation/scripts/plot_np_rq.r ~{barcode} 
-		perl /export/pipeline/RNASeq/Pipeline/Ref_Isoseq/automation/scripts/fastaDeal.pl -attr id:len ~{barcode}.ccs.fasta > bc1001.ccs.fasta.len
-		/export/pipeline/RNASeq/Software/R/R_3.5.1/bin/Rscript /export/pipeline/RNASeq/Pipeline/Ref_Isoseq/automation/scripts/ccs_length_distribution.R bc1001.ccs.fasta.len bc1001
-		convert bc1001_np_rq.png ~{barcode}_np_rq.pdf
+		/export/pipeline/RNASeq/Software/Miniconda/bin/ccs \
+		--min-passes 1 --min-rq 0.9 --max-length 50000 --min-length 100 \
+		~{projectdir + "Subreads/"}~{sampleName + ".subreads.bam"}  ~{sampleName + ".ccs.bam"} -j 20
 
-		touch run_ccs_done
+		python /export/pipeline/RNASeq/Pipeline/noRef_Isoseq/seq_np_rq.py ~{sampleName + ".ccs.bam"}
+
+		Rscript /export/pipeline/RNASeq/Pipeline/Ref_Isoseq/automation/scripts/plot_np_rq.r  ~{sampleName} 
+
+		perl /export/pipeline/RNASeq/Pipeline/Ref_Isoseq/automation/scripts/fastaDeal.pl -attr id:len ~{sampleName + ".ccs.fasta"} > ~{sampleName + ".ccs.fasta.len"}
+
+		/export/pipeline/RNASeq/Software/R/R_3.5.1/bin/Rscript /export/pipeline/RNASeq/Pipeline/Ref_Isoseq/automation/scripts/ccs_length_distribution.R ~{sampleName + ".ccs.fasta.len"} ~{sampleName}
+		
+		convert ~{sampleName + "_np_rq.png"} ~{sampleName + "_np_rq.pdf"}
+
+		touch ~{workdir + "/run_ccs_done"}
 		date	
 	>>>
+	output {
+		String wkdir = ${projectdir + "/CCS"}
+	}
 
 }
 
