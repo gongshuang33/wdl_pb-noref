@@ -53,6 +53,10 @@ task LimaStatTask {
 		touch run_lima_stat_done
 	>>>
 
+	output {
+		String lima_stat_xls = lima_stat.xls
+	}
+
 	runtime {
         #docker: image
         cpu: cpu

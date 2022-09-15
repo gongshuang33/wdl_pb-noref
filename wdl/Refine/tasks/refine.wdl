@@ -63,7 +63,7 @@ task RefineStatTask {
 		cat ~{refine_dir}*/*.flnc.fasta > total.flnc.fasta
 		perl ~{scriptDir}/fastaDeal.pl -attr id:len total.flnc.fasta > total.flnc.fasta.len
 		/export/pipeline/RNASeq/Software/R/R_3.5.1/bin/Rscript ~{scriptDir}/Cluster_Bar.R total.flnc.fasta.len total.flnc.fasta.length_distribution
-		python /export/pipeline/RNASeq/Pipeline/DAG_workflow/Isoseq3_automation/scripts/refine_stat.py ~{roi_reads_summary_xls} > refine_stat.xls
+		python ~{scriptDir}/refine_stat.py ~{roi_reads_summary_xls} > refine_stat.xls
 		samtools merge -c -b flnc.fofn merged_flnc.bam
 
 		touch run_refine_merge_done

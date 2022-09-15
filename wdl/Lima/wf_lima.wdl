@@ -1,35 +1,35 @@
 version 1.0
 
-import "tasks/ccs.wdl" as ccs
+import "tasks/lima.wdl" as lima
 
-workflow RunCCS{
+workflow RunLima{
 	input {
         Array[String] samples
 		String workdir
+		String barcodes
 		String scriptDir
 
 		#Map[String, String] dockerImages
     }
 
 	scatter (smp in samples) {
-        call ccs.CCSTask as CCS {
+        call lima.LimaTask as Lima {
             input:
                 workdir = workdir,
                 sample = smp,
-                scriptDir = scriptDir,
-                #image = dockerImages["CCS"]
+                #image = dockerImages["Lima"]
         }
     }
 
-	call ccs.CCSStatTask as CCSStat {
+	call lima.LimaStatTask as LimaStat {
         input:
-			ccs_dir = CCS.ccs_dir
+			lima_dir = Lima.lima_dir
             scriptDir = scriptDir,
-            #image = dockerImages["CCS"]
+            #image = dockerImages["Lima"]
     }
 
 	output {
-		String roi_reads_summary_xls = CCSStat.roi_reads_summary_xls
+		String lima_stat_xls = LimaStat.lima_stat_xls
 	}
 
 }
