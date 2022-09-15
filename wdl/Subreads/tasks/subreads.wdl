@@ -5,6 +5,8 @@ task SubreadsTask {
 		String wkdir
 		String bam
 		String movie
+
+		
 	}
 
 	command <<<
@@ -23,6 +25,8 @@ task SubreadsTask {
 	output {
 		String movie = "${movie}.subreads.bam"
 	}
+
+	
 }
 
 task SubreadsStatTask {
