@@ -10,7 +10,7 @@ workflow RunCluster{
 		String ccs_dir	  # from wf_ccs.wdl
 
 		#Map[String, String] dockerImages
-    }
+	}
 
 	
 	call cluster.ClusterTask as Cluster {
@@ -19,16 +19,16 @@ workflow RunCluster{
 			refine_dir = refine_dir
 			#image = dockerImages["Cluster"]
 	}
-    
+		
 
 	call cluster.ClusterStatTask as ClusterStat {
-        input:
+		input:
 			cluster_dir = Cluster.cluster_dir
-            scriptDir = scriptDir,
+			scriptDir = scriptDir,
 			ccs_dir = ccs_dir,
 			refine_dir = refine_dir
-            #image = dockerImages["Cluster"]
-    }
+			#image = dockerImages["Cluster"]
+	}
 
 	output {
 		

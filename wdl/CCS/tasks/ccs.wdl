@@ -7,9 +7,9 @@ task CCSTask {
 		String scriptDir
 
 		Int cpu = 8
-        String memgb = '16G'
-        String image
-        String? ROOTDIR = "/export/"
+		String memgb = '16G'
+		String image
+		String? ROOTDIR = "/export/"
 	}
 	
 	String ccs_dir = workdir + "/CCS/"
@@ -18,8 +18,8 @@ task CCSTask {
 		set -ex
 		mkdir -p ~{ccs_dir}~{sample} && cd ~{ccs_dir}~{sample}
 		if [ -f "run_ccs_done" ]; then
-            exit 0
-        fi
+			exit 0
+		fi
 		ccs --min-passes 1 --min-rq 0.9 --max-length 50000 --min-length 100	~{workdir}/Subreads/~{sample + ".subreads.bam"}  ~{sample + ".ccs.bam"} -j ~{cpu}
 		python ~{scriptDir}/seq_np_rq.py ~{sample + ".ccs.bam"}
 		Rscript ~{scriptDir}/plot_np_rq.r  ~{sample} 
@@ -33,11 +33,11 @@ task CCSTask {
 		String ccs_fasta = ccs_dir + sample + "/${sample}.ccs.fasta"
 	}
 	runtime {
-        #docker: image
-        cpu: cpu
-        memory: memgb
-        root: ROOTDIR
-    }
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
+	}
 }
 
 
@@ -48,9 +48,9 @@ task CCSStatTask {
 		String scriptDir
 
 		Int cpu = 1
-        String memgb = '2G'
-        String image
-        String? ROOTDIR = "/export/"
+		String memgb = '2G'
+		String image
+		String? ROOTDIR = "/export/"
 	}
 
 
@@ -65,10 +65,10 @@ task CCSStatTask {
 		String roi_reads_summary_xls = ccs_dir + "ROI_reads.summary.xls"
 	}
 	runtime {
-        #docker: image
-        cpu: cpu
-        memory: memgb
-        root: ROOTDIR
-    }
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
+	}
 }
  

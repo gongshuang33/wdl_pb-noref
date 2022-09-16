@@ -8,9 +8,9 @@ task RefineTask {
 		String scriptDir
 
 		Int cpu = 8
-        String memgb = '16G'
-        String image
-        String? ROOTDIR = "/export/"
+		String memgb = '16G'
+		String image
+		String? ROOTDIR = "/export/"
 	}
 
 	String refine_dir = workdir + "/Refine/"
@@ -34,11 +34,11 @@ task RefineTask {
 	}
 
 	runtime {
-        #docker: image
-        cpu: cpu
-        memory: memgb
-        root: ROOTDIR
-    }
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
+	}
 }
 
 
@@ -50,9 +50,9 @@ task RefineStatTask {
 		String roi_reads_summary_xls  # ccstask.roi_reads_summary_xls
 
 		Int cpu = 1
-        String memgb = '2G'
-        String image
-        String? ROOTDIR = "/export/"
+		String memgb = '2G'
+		String image
+		String? ROOTDIR = "/export/"
 	}
 	command <<< 
 		set -ex
@@ -73,9 +73,9 @@ task RefineStatTask {
 	}
 
 	runtime {
-        #docker: image
-        cpu: cpu
-        memory: memgb
-        root: ROOTDIR
-    }
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
+	}
 }

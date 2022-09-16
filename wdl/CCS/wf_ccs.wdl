@@ -4,29 +4,29 @@ import "tasks/ccs.wdl" as ccs
 
 workflow RunCCS{
 	input {
-        Array[String] samples
+		Array[String] samples
 		String workdir
 		String scriptDir
 
 		#Map[String, String] dockerImages
-    }
+	}
 
 	scatter (smp in samples) {
-        call ccs.CCSTask as CCS {
-            input:
-                workdir = workdir,
-                sample = smp,
-                scriptDir = scriptDir,
-                #image = dockerImages["CCS"]
-        }
-    }
+		call ccs.CCSTask as CCS {
+			input:
+				workdir = workdir,
+				sample = smp,
+				scriptDir = scriptDir,
+				#image = dockerImages["CCS"]
+		}
+	}
 
 	call ccs.CCSStatTask as CCSStat {
-        input:
+		input:
 			ccs_dir = CCS.ccs_dir
-            scriptDir = scriptDir,
-            #image = dockerImages["CCS"]
-    }
+			scriptDir = scriptDir,
+			#image = dockerImages["CCS"]
+	}
 
 	output {
 		String roi_reads_summary_xls = CCSStat.roi_reads_summary_xls

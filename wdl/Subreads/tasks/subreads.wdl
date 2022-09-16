@@ -2,7 +2,7 @@ version 1.0
 
 task SubreadsTask {
 	input {
-		String wkdir
+		String workdir
 		String bam
 		String movie
 
@@ -11,7 +11,7 @@ task SubreadsTask {
 
 	command <<<
 		set -ex
-		cd ~{wkdir}
+		cd ~{workdir}
 		mkdir -p Subreads && cd Subreads
 
 		if [ -f "~{movie}.subreads.bam" ]; then

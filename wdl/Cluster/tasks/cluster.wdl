@@ -7,9 +7,9 @@ task ClusterTask {
 		String refine_dir
 
 		Int cpu = 8
-        String memgb = '16G'
-        String image
-        String? ROOTDIR = "/export/"
+		String memgb = '16G'
+		String image
+		String? ROOTDIR = "/export/"
 	}
 
 	String cluster_dir = workdir + "/Cluster/"
@@ -30,11 +30,11 @@ task ClusterTask {
 	}
 
 	runtime {
-        #docker: image
-        cpu: cpu
-        memory: memgb
-        root: ROOTDIR
-    }
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
+	}
 }
 
 
@@ -47,9 +47,9 @@ task ClusterStatTask {
 		String refine_dir
 
 		Int cpu = 1
-        String memgb = '2G'
-        String image
-        String? ROOTDIR = "/export/"
+		String memgb = '2G'
+		String image
+		String? ROOTDIR = "/export/"
 	}
 
 	command <<<
@@ -79,9 +79,9 @@ task ClusterStatTask {
 	}
 
 	runtime {
-        #docker: image
-        cpu: cpu
-        memory: memgb
-        root: ROOTDIR
-    }
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
+	}
 }

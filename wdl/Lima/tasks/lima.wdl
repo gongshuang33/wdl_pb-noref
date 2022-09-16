@@ -7,9 +7,9 @@ task LimaTask {
 		String barcodes = "/export/pipeline/RNASeq/Pipeline/pbbarcoding/scripts/Sequel2_isoseq_barcode.fa"
 
 		Int cpu = 8
-        String memgb = '16G'
-        String image
-        String? ROOTDIR = "/export/"
+		String memgb = '16G'
+		String image
+		String? ROOTDIR = "/export/"
 	}
 
 	String lima_dir = workdir + "/Lima/"
@@ -28,11 +28,11 @@ task LimaTask {
 	}
 
 	runtime {
-        #docker: image
-        cpu: cpu
-        memory: memgb
-        root: ROOTDIR
-    }
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
+	}
 }
 
 task LimaStatTask {
@@ -41,9 +41,9 @@ task LimaStatTask {
 		String scriptDir
 
 		Int cpu = 1
-        String memgb = '2G'
-        String image
-        String? ROOTDIR = "/export/"
+		String memgb = '2G'
+		String image
+		String? ROOTDIR = "/export/"
 	}
 
 	command <<<
@@ -58,9 +58,9 @@ task LimaStatTask {
 	}
 
 	runtime {
-        #docker: image
-        cpu: cpu
-        memory: memgb
-        root: ROOTDIR
-    }
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
+	}
 }
