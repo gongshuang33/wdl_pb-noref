@@ -23,7 +23,7 @@ workflow RunCCS{
 
 	call ccs.CCSStatTask as CCSStat {
 		input:
-			ccs_dir = CCS.dir[1],
+			ccs_dir = CCS.dir[0],
 			scriptDir = scriptDir,
 			#image = dockerImages["CCS"]
 	}

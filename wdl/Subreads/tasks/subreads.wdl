@@ -48,6 +48,7 @@ task SubreadsStatTask {
 		String workdir
 		Array[String] samples
 		String subreads_dir
+		String scriptDir
 
 		Int cpu = 2
 		String memgb = '4G'

@@ -13,7 +13,7 @@ workflow RunSubreads {
 
 	}
 	scatter (i in movie_bams) {
-		call SubreadsTask {
+		call subreads.SubreadsTask {
 			input:
 				workdir = workdir,
 				movie = i[0],	# movie号
@@ -23,16 +23,16 @@ workflow RunSubreads {
 		}
 	}
 
-	call SubreadsStatTask {
+	call subreads.SubreadsStatTask {
 		input:
 			workdir = workdir,
-			samples = RunSubreads.subreads_bam,
-			subreads_dir = RunSubreads.dir,
+			samples = SubreadsTask.subreads_bam,
+			subreads_dir = SubreadsTask.dir[0],
 			#image = dockerImages,
 	}
 
 	output {
-        String Post-Filter_Polymerase_reads_summary_xls = SubreadsStatTask.summary_xls
+        String Post_Filter_Polymerase_reads_summary_xls = SubreadsStatTask.summary_xls
     }
 
 

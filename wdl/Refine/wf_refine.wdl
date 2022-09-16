@@ -24,7 +24,7 @@ workflow RunRefine{
 
 	call refine.RefineStatTask as RefineStat {
 		input:
-			refine_dir = Refine.dir[1],
+			refine_dir = Refine.dir[0],
 			scriptDir = scriptDir,
 			roi_reads_summary_xls = roi_reads_summary_xls
 			#image = dockerImages["Refine"]

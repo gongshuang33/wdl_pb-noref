@@ -23,7 +23,7 @@ workflow RunLima{
 
 	call lima.LimaStatTask as LimaStat {
 		input:
-			lima_dir = Lima.dir[1],
+			lima_dir = Lima.dir[0],
 			scriptDir = scriptDir,
 			#image = dockerImages["Lima"]
 	}
