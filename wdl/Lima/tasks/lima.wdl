@@ -23,7 +23,7 @@ task LimaTask {
 	>>>
 
 	output {
-		String lima_dir = lima_dir
+		String dir = lima_dir
 		String fl_bam = lima_sample_dir + "${sample}.fl.bam"
 	}
 
@@ -54,7 +54,7 @@ task LimaStatTask {
 	>>>
 
 	output {
-		String lima_stat_xls = lima_stat.xls
+		String lima_stat_xls = "lima_stat.xls"
 	}
 
 	runtime {

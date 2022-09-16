@@ -15,11 +15,6 @@ workflow RunLima{
 	scatter (smp in samples) {
 		call lima.LimaTask as Lima {
 			input:
-
-
-	output {
-		String lima_stat_xls = LimaStat.lima_stat_xls
-	}
 				workdir = workdir,
 				sample = smp,
 				#image = dockerImages["Lima"]
@@ -28,7 +23,7 @@ workflow RunLima{
 
 	call lima.LimaStatTask as LimaStat {
 		input:
-			lima_dir = Lima.lima_dir
+			lima_dir = Lima.dir[1],
 			scriptDir = scriptDir,
 			#image = dockerImages["Lima"]
 	}

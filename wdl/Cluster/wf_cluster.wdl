@@ -16,17 +16,17 @@ workflow RunCluster{
 	call cluster.ClusterTask as Cluster {
 		input:
 			workdir = workdir,
-			refine_dir = refine_dir
+			refine_dir = refine_dir,
 			#image = dockerImages["Cluster"]
 	}
 		
 
 	call cluster.ClusterStatTask as ClusterStat {
 		input:
-			cluster_dir = Cluster.cluster_dir
+			cluster_dir = Cluster.dir,
 			scriptDir = scriptDir,
 			ccs_dir = ccs_dir,
-			refine_dir = refine_dir
+			refine_dir = refine_dir,
 			#image = dockerImages["Cluster"]
 	}
 

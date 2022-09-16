@@ -14,7 +14,7 @@ workflow RunRefine{
 	}
 
 	scatter (smp in samples) {
-		call lima.RefineTask as Refine {
+		call refine.RefineTask as Refine {
 			input:
 				workdir = workdir,
 				sample = smp,
@@ -24,7 +24,7 @@ workflow RunRefine{
 
 	call refine.RefineStatTask as RefineStat {
 		input:
-			refine_dir = Refine.refine_dir
+			refine_dir = Refine.dir[1],
 			scriptDir = scriptDir,
 			roi_reads_summary_xls = roi_reads_summary_xls
 			#image = dockerImages["Refine"]

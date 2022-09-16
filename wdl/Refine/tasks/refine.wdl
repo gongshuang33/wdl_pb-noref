@@ -28,7 +28,7 @@ task RefineTask {
 	>>>
 
 	output {
-		String refine_dir = refine_dir
+		String dir = refine_dir
 		String flnc_bam = refine_sample_dir + "${sample}.flnc.bam"
 		String flnc_fasta = refine_sample_dir + "${sample}.flnc.fasta"
 	}

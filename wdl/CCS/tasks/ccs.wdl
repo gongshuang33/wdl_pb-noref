@@ -29,7 +29,7 @@ task CCSTask {
 		touch run_ccs_done
 	>>>
 	output {
-		String ccs_dir = ccs_dir
+		String dir = ccs_dir
 		String ccs_fasta = ccs_dir + sample + "/${sample}.ccs.fasta"
 	}
 	runtime {

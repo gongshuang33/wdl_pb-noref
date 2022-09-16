@@ -26,7 +26,7 @@ task ClusterTask {
 
 	output {
 		File polished_bam = cluster_dir + "polished.bam"
-		String cluster_dir = cluster_dir
+		String dir = cluster_dir
 	}
 
 	runtime {
