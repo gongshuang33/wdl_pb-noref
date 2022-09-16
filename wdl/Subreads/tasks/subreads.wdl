@@ -15,7 +15,7 @@ task SubreadsTask {
 		
 	}
 
-	String subreads_dir = ~{workdir} + "/Subreads"
+	String subreads_dir = workdir + "/Subreads"
 
 	command <<<
 		set -ex
