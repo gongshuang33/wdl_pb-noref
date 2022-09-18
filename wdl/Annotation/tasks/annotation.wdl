@@ -24,6 +24,7 @@ task LinkUnigeneTask {
 	>>>
 
 	output {
+		String unigene = annotation_dir + "/unigene.fa"
 	}
 
 	runtime {
@@ -38,6 +39,10 @@ task AnnotationTask {
 	input {
 		String workdir
 		String scriptDir
+		String unigene
+		String species_type
+		Int split_num
+		String name
 
 		Int cpu = 8
 		String memgb = '16G'
@@ -51,11 +56,12 @@ task AnnotationTask {
 		set -ex
 		
 		mkdir -p ~{annotation_dir} && cd ~{annotation_dir}
-		python3 ~{scriptDir}/run_functional_annotation_cds.py --seq unigene.fa --work_dir ~{annotation_dir} --name Unigene --species_type plant --split_num 30
+		python3 ~{scriptDir}/run_functional_annotation_cds.py --seq ~{unigene} --work_dir ~{annotation_dir} --name ~{name} --species_type ~{species_type} --split_num ~{split_num}
 		touch run_annot_done
 	>>>
 
 	output {
+		String dir = annotation_dir
 	}
 
 	runtime {
