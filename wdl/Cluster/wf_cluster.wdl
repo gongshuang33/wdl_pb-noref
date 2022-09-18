@@ -31,7 +31,7 @@ workflow RunCluster{
 	}
 
 	output {
-		
+		String polished_hq_fa = 
 	}
 
 }
