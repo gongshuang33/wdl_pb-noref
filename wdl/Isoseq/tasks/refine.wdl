@@ -9,12 +9,12 @@ task RefineTask {
 
 		Int cpu = 8
 		String memgb = '16G'
-		String image
+		# String image
 		String? ROOTDIR = "/export/"
 	}
 
-	String refine_dir = workdir + "/Refine/"
-	String refine_sample_dir = refine_dir + sample + "/"
+	String refine_dir = workdir + "/Refine"
+	String refine_sample_dir = refine_dir +"/" + sample
 
 	command <<<
 		set -ex
@@ -51,7 +51,7 @@ task RefineStatTask {
 
 		Int cpu = 1
 		String memgb = '2G'
-		String image
+		# String image
 		String? ROOTDIR = "/export/"
 	}
 	command <<< 
@@ -59,8 +59,8 @@ task RefineStatTask {
 
 		cd ~{refine_dir}
 
-		ls ~{refine_dir}*/*.flnc.bam > flnc.fofn
-		cat ~{refine_dir}*/*.flnc.fasta > total.flnc.fasta
+		ls ~{refine_dir}/*/*.flnc.bam > flnc.fofn
+		cat ~{refine_dir}/*/*.flnc.fasta > total.flnc.fasta
 		perl ~{scriptDir}/fastaDeal.pl -attr id:len total.flnc.fasta > total.flnc.fasta.len
 		/export/pipeline/RNASeq/Software/R/R_3.5.1/bin/Rscript ~{scriptDir}/Cluster_Bar.R total.flnc.fasta.len total.flnc.fasta.length_distribution
 		python ~{scriptDir}/refine_stat.py ~{roi_reads_summary_xls} > refine_stat.xls
@@ -69,7 +69,8 @@ task RefineStatTask {
 		touch run_refine_merge_done
 	>>>
 	output {
-		
+		String dir = refine_dir
+		String merged_flnc_bam = refine_dir + "/merged_flnc.bam"
 	}
 
 	runtime {

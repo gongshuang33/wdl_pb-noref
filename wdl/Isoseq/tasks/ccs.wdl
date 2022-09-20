@@ -5,22 +5,23 @@ task CCSTask {
 		String workdir
 		String sample
 		String scriptDir
+		String subreads_dir
 
 		Int cpu = 8
 		String memgb = '16G'
-		String image
+		#String image
 		String? ROOTDIR = "/export/"
 	}
 	
-	String ccs_dir = workdir + "/CCS/"
+	String ccs_dir = workdir + "/CCS"
 
 	command <<<
 		set -ex
-		mkdir -p ~{ccs_dir}~{sample} && cd ~{ccs_dir}~{sample}
+		mkdir -p ~{ccs_dir}/~{sample} && cd ~{ccs_dir}/~{sample}
 		if [ -f "run_ccs_done" ]; then
 			exit 0
 		fi
-		ccs --min-passes 1 --min-rq 0.9 --max-length 50000 --min-length 100	~{workdir}/Subreads/~{sample + ".subreads.bam"}  ~{sample + ".ccs.bam"} -j ~{cpu}
+		ccs --min-passes 1 --min-rq 0.9 --max-length 50000 --min-length 100	~{subreads_dir}/~{sample}.subreads.bam  ~{sample + ".ccs.bam"} -j ~{cpu}
 		python ~{scriptDir}/seq_np_rq.py ~{sample + ".ccs.bam"}
 		Rscript ~{scriptDir}/plot_np_rq.r  ~{sample} 
 		perl ~{scriptDir}/fastaDeal.pl -attr id:len ~{sample + ".ccs.fasta"} > ~{sample + ".ccs.fasta.len"}
@@ -30,7 +31,7 @@ task CCSTask {
 	>>>
 	output {
 		String dir = ccs_dir
-		String ccs_fasta = ccs_dir + sample + "/${sample}.ccs.fasta"
+		String ccs_fasta = ccs_dir + "/" + sample + "/${sample}.ccs.fasta"
 	}
 	runtime {
 		#docker: image
@@ -62,7 +63,8 @@ task CCSStatTask {
 		touch run_ccs_stat_done
 	>>>
 	output {
-		String roi_reads_summary_xls = ccs_dir + "ROI_reads.summary.xls"
+		String dir = ccs_dir
+		String roi_reads_summary_xls = ccs_dir + "/ROI_reads.summary.xls"
 	}
 	runtime {
 		#docker: image

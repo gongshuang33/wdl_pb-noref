@@ -4,27 +4,29 @@ task LimaTask {
 	input {
 		String workdir
 		String sample
+		String ccs_dir
 		String barcodes = "/export/pipeline/RNASeq/Pipeline/pbbarcoding/scripts/Sequel2_isoseq_barcode.fa"
 
-		Int cpu = 8
+		Int cpu = 2
 		String memgb = '16G'
-		String image
+		# String image
 		String? ROOTDIR = "/export/"
 	}
 
-	String lima_dir = workdir + "/Lima/"
-	String lima_sample_dir = lima_dir + sample + "/"
+	String lima_dir = workdir + "/Lima"
+	String lima_sample_dir = lima_dir + '/' + sample 
 
 	command <<<
 		set -ex
 		mkdir -p ~{lima_sample_dir} && cd ~{lima_sample_dir}
-		lima ~{lima_sample_dir}~{sample}.ccs.bam ~{barcodes} ~{sample}.fl.bam --isoseq --peek-guess -j ~{cpu}
+		/export/pipeline/RNASeq/Software/Miniconda/bin/lima ~{ccs_dir}/~{sample}/~{sample}.ccs.bam ~{barcodes} ~{sample}.fl.bam --isoseq --peek-guess -j ~{cpu}
+
 		touch run_lima_1_done
 	>>>
 
 	output {
 		String dir = lima_dir
-		String fl_bam = lima_sample_dir + "${sample}.fl.bam"
+		String fl_bam = lima_sample_dir + "/${sample}.fl.bam"
 	}
 
 	runtime {
@@ -42,7 +44,7 @@ task LimaStatTask {
 
 		Int cpu = 1
 		String memgb = '2G'
-		String image
+		# String image
 		String? ROOTDIR = "/export/"
 	}
 
@@ -54,7 +56,7 @@ task LimaStatTask {
 	>>>
 
 	output {
-		String lima_stat_xls = "lima_stat.xls"
+		String lima_stat_xls = lima_dir + "/lima_stat.xls"
 	}
 
 	runtime {
