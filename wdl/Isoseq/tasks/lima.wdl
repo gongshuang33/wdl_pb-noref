@@ -57,6 +57,7 @@ task LimaStatTask {
 
 	output {
 		String lima_stat_xls = lima_dir + "/lima_stat.xls"
+		String dir = lima_dir
 	}
 
 	runtime {

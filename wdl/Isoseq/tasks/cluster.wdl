@@ -3,12 +3,10 @@ version 1.0
 task ClusterTask {
 	input {
 		String workdir
-		
 		String merged_flnc_bam
-
 		Int cpu = 8
 		String memgb = '16G'
-		String image
+		#String image
 		String? ROOTDIR = "/export/"
 	}
 

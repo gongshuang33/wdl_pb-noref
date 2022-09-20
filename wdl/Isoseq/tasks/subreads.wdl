@@ -4,7 +4,7 @@ task SubreadsTask {
 	input{
 		String workdir
 		String scriptDir
-		File subreads_info
+		String subreads_info
 	}
 	
 	String subreads_dir = workdir + "/Subreads"
@@ -42,6 +42,6 @@ task SubreadsStatTask {
 	>>>
 	
 	output {
-		File summary_xls = subreads_dir + "/Post-Filter_Polymerase_reads.summary.xls"
+		String summary_xls = subreads_dir + "/Post-Filter_Polymerase_reads.summary.xls"
 	}
 }

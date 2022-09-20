@@ -6,6 +6,7 @@ task RefineTask {
 		String sample
 		String barcodes = "/export/pipeline/RNASeq/Pipeline/pbbarcoding/scripts/Sequel2_isoseq_barcode.fa"
 		String scriptDir
+		String lima_dir
 
 		Int cpu = 8
 		String memgb = '16G'
@@ -21,8 +22,8 @@ task RefineTask {
 		
 		mkdir -p ~{refine_sample_dir} && cd ~{refine_sample_dir}
 
-		isoseq3 refine --require-polya ~{sample}.fl.*_5p--*_3p.bam ~{barcodes} ~{sample}.flnc.bam
-		samtools view ~{sample}.flnc.bam | awk '{printf ">"$1"\t"$13"\t"$14"\n"$10"\n"}' > ~{sample}.flnc.fasta
+		/export/pipeline/RNASeq/Software/Miniconda/bin/isoseq3 refine --require-polya ~{lima_dir}/~{sample}/~{sample}.fl.*_5p--*_3p.bam /export/pipeline/RNASeq/Pipeline/pbbarcoding/scripts/Sequel2_isoseq_barcode.fa ~{sample}.flnc.bam
+		/export/pipeline/RNASeq/Software/Samtools/samtools_v1.9/bin/samtools view ~{sample}.flnc.bam | awk '{printf ">"$1"\t"$13"\t"$14"\n"$10"\n"}' > ~{sample}.flnc.fasta
 
 		touch run_refine_1_done
 	>>>

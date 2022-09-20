@@ -50,7 +50,7 @@ task CCSStatTask {
 
 		Int cpu = 1
 		String memgb = '2G'
-		String image
+		#String image
 		String? ROOTDIR = "/export/"
 	}
 

@@ -73,6 +73,7 @@ workflow RunIsoseq {
 				workdir = workdir,
 				sample = samp,
 				scriptDir = scriptDir,
+				lima_dir = LimaStat.dir,
 				#image = dockerImages[""]
 		}
 	}
