@@ -21,7 +21,9 @@ task RefineTask {
 		set -ex
 		
 		mkdir -p ~{refine_sample_dir} && cd ~{refine_sample_dir}
-
+		if [ -f "run_refine_1_done" ]; then
+			exit 0
+		fi
 		/export/pipeline/RNASeq/Software/Miniconda/bin/isoseq3 refine --require-polya ~{lima_dir}/~{sample}/~{sample}.fl.*_5p--*_3p.bam /export/pipeline/RNASeq/Pipeline/pbbarcoding/scripts/Sequel2_isoseq_barcode.fa ~{sample}.flnc.bam
 		/export/pipeline/RNASeq/Software/Samtools/samtools_v1.9/bin/samtools view ~{sample}.flnc.bam | awk '{printf ">"$1"\t"$13"\t"$14"\n"$10"\n"}' > ~{sample}.flnc.fasta
 
@@ -59,7 +61,9 @@ task RefineStatTask {
 		set -ex
 
 		cd ~{refine_dir}
-
+		if [ -f "run_refine_merge_done" ]; then
+			exit 0
+		fi
 		ls ~{refine_dir}/*/*.flnc.bam > flnc.fofn
 		cat ~{refine_dir}/*/*.flnc.fasta > total.flnc.fasta
 		perl ~{scriptDir}/fastaDeal.pl -attr id:len total.flnc.fasta > total.flnc.fasta.len

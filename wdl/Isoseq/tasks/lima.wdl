@@ -19,6 +19,9 @@ task LimaTask {
 	command <<<
 		set -ex
 		mkdir -p ~{lima_sample_dir} && cd ~{lima_sample_dir}
+		if [ -f 'run_lima_1_done' ]; then
+			exit 0
+		fi
 		/export/pipeline/RNASeq/Software/Miniconda/bin/lima ~{ccs_dir}/~{sample}/~{sample}.ccs.bam ~{barcodes} ~{sample}.fl.bam --isoseq --peek-guess -j ~{cpu}
 
 		touch run_lima_1_done
@@ -51,6 +54,9 @@ task LimaStatTask {
 	command <<<
 		set -ex
 		cd ~{lima_dir}
+		if [ -f 'run_lima_stat_done' ]; then
+			exit 0
+		fi
 		python ~{scriptDir}/lima_stat.py lima_stat.xls
 		touch run_lima_stat_done
 	>>>

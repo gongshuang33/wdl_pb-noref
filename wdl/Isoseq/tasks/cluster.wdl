@@ -16,7 +16,9 @@ task ClusterTask {
 		set -ex
 
 		mkdir -p ~{cluster_dir} && cd ~{cluster_dir}
-
+		if [ -f "run_cluster_done" ]; then
+			exit 0
+		fi
 		isoseq3 cluster ~{merged_flnc_bam} polished.bam --verbose --use-qvs -j ~{cpu} --singletons
 
 		touch run_cluster_done
@@ -54,7 +56,9 @@ task ClusterStatTask {
 		set -vex
 
 		cd ~{cluster_dir}
-
+		if [ -f "run_cluster_stat_done" ]; then
+			exit 0
+		fi
 		gunzip polished.hq.fasta.gz
 		gunzip polished.lq.fasta.gz
 		gunzip polished.singletons.fasta.gz

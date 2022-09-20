@@ -58,6 +58,9 @@ task CCSStatTask {
 	command <<< 
 		set -ex
 		cd ~{ccs_dir}
+		if [ -f 'run_ccs_stat_done' ]; then
+			exit 0
+		fi
 		python ~{scriptDir}/ccs_stat.py > ROI_reads.summary.xls
 		cat */*.ccs.fasta > total.ccs.fasta
 		touch run_ccs_stat_done
