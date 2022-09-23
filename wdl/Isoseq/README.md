@@ -1,4 +1,5 @@
-## 测试步骤
+# 三代无参WDL
+## 1、测试步骤
 ### 验证WDL合法性：
 ```shell
 /opt/jdk-11.0.6/bin/java -jar /export/pipeline/RNASeq/Software/Cromwell/womtool-80.jar validate wf_isoseq.wdl
@@ -19,7 +20,7 @@ cd /export/personal1/gongshuang/ceshi/Isoseq03/Isoseq [wf_isoseq.wdl脚本目录
 touch wf_isoseq_done
 ```
 
-## wf_isoseq.wdl 输入参数：
+## 2、wf_isoseq.wdl input参数：（路径用绝对路径）
 
 - scriptDir	**String**	脚本路径	示例："/export/personal1/gongshuang/ceshi/scripts"
 - subreads_info	 **File**	subreads路径文件，文件第一列为样本名，第二列为对应的subreads.bam
