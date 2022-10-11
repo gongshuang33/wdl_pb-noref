@@ -8,7 +8,7 @@ workflow RunQC {
         String workdir
         String scriptDir
 
-        Map[String, String] dockerImages
+        # Map[String, String] dockerImages
     }
 
     Array[Array[String]] sample_fqs = read_tsv(sample_group)
@@ -34,7 +34,7 @@ workflow RunQC {
     }
 
     output {
-        Array[Array[String]] sample_clean_fqs = Qc.sample_clean_fqs
+        Array[Array[String]] sample_clean_fqs = Qc.sample_clean_fqs # 用于NGScorrection做校正
         String qc_stat_xls = QcStat.qc_stat_xls
     }
 }

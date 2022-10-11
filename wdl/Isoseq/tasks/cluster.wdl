@@ -25,7 +25,8 @@ task ClusterTask {
 	>>>
 
 	output {
-		File polished_bam = cluster_dir + "/polished.bam"
+		String polished_bam = cluster_dir + "/polished.bam"
+		String all_polished_fa = cluster_dir + "/all.polished.fa"
 		String dir = cluster_dir
 	}
 

@@ -47,7 +47,9 @@ task QcTask {
 
     output {
         Array[String] sample_clean_fqs = [sampleName, fq1, fq2]
-        String qc_dir = basename(dir, sampleName)
+        # String qc_dir = basename(dir, sampleName)
+		String qc_dir = workdir + "/QC"
+
     }
 
     # runtime {
@@ -88,14 +90,19 @@ task QcStatTask {
         cp */*.base_content.png QC_result/
         cp */*.base_content.pdf QC_result/
 
-        python3 ${scriptDir + "/stat_fastp.py"} \
-            ${sample_group} ${qc_dir}
+        python3 ${scriptDir + "/stat_fastp.py"} ${sample_group} ${qc_dir}
+
+		#汇总质控后的所有fq结果到一个文件
+		ls ~{qc_dir}/*/*.fastq.gz > fq_list
 
         touch qc_stat.done
     }
 
+	File fq_list = qc_dir + '/fq_list'
+
     output {
         File qc_stat_xls = qc_dir + "/QC_stat.xls"
+		Array[String] fq_lists = read_lines(fq_list) #传给NGScorrection
     }
 
     # runtime {
