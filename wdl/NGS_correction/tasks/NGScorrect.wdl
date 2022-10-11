@@ -35,5 +35,6 @@ task NGScorrectTask {
 
 	output {
 		String dir = NGScorrectDir
+		String NGS_corrected_fasta = NGScorrectDir + "/NGS_corrected.fasta" #传给cdhit
 	}
 }

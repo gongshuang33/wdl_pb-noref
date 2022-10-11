@@ -4,11 +4,11 @@ task CDhitTask {
 	input {
 		String workdir
 		String scriptDir
-		String NGS_corrected_fasta
+		String all_polished_fa # Isoseq -> cluster
 
 		Int cpu = 8
 		String memgb = '16G'
-		String image
+		# String image
 		String? ROOTDIR = "/export/"
 	}
 
@@ -18,9 +18,12 @@ task CDhitTask {
 		set -ex
 		mkdir -p ~{cdhit_dir} && cd ~{cdhit_dir}
 
-		python ~{scriptDir}/sort_fa.py ~{NGS_corrected_fasta} > sort.fasta
-		cd-hit-est -i sort.fasta -o cdhit1.fasta -c 0.99 -T 10 -G 0 -aL 0.90 -AL 100 -aS 0.99 -AS 30 -M 80000
-		cd-hit-est -i cdhit1.fasta -o cdhit2.fasta -T 10 -M 100000 -c 0.85
+		if [ -f "run_cdhit_done" ];then
+			exit 0
+		fi
+		python ~{scriptDir}/sort_fa.py ~{all_polished_fa} > sort.fasta
+		/export/personal/pengh/Software/cdhit/cd-hit-est -i sort.fasta -o cdhit1.fasta -c 0.99 -T 10 -G 0 -aL 0.90 -AL 100 -aS 0.99 -AS 30 -M 80000
+		/export/personal/pengh/Software/cdhit/cd-hit-est -i cdhit1.fasta -o cdhit2.fasta -T 10 -M 100000 -c 0.85
 		python ~{scriptDir}/rename.stat.py cdhit1.fasta cdhit2.fasta cdhit2.fasta.clstr clstr.stat.xls cd-hit.Unigene.fasta cd-hit.isoforms.fasta > togene
 		python ~{scriptDir}/rename_id.py id.change.info cdhit1.fasta.clstr new_cdhit1.fasta.clstr cdhit2.fasta.clstr new_cdhit2.fasta.clstr clstr.stat.xls new_clstr.stat.xls
 		perl ~{scriptDir}/isoform_stat_length.pl  cd-hit.isoforms.fasta > non-redundant_isoforms_length_distribution.xls
@@ -31,11 +34,13 @@ task CDhitTask {
 		perl ~{scriptDir}/fastaDeal.pl -attr id:len cd-hit.isoforms.fasta > cd-hit.isoforms.fasta.len
 		Rscript ~{scriptDir}/Cluster_Bar.R cd-hit.Unigene.fasta.len cd-hit.Unigene.length_distribution
 		Rscript ~{scriptDir}/Cluster_Bar.R cd-hit.isoforms.fasta.len cd-hit.isoforms.length_distribution
-
 		mkdir -p ~{workdir}/Unigene
 		ln -s ~{cdhit_dir}/cd-hit.Unigene.fasta ~{workdir}/Unigene/Unigene.fasta
 		ln -s ~{cdhit_dir}/cd-hit.isoforms.fasta ~{workdir}/Unigene/isoform.fasta
+
 		touch ~{cdhit_dir}/run_cdhit_done
+		date
+
 	>>>
 
 	output {
