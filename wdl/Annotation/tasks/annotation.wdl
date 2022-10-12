@@ -313,5 +313,5 @@ task TotalStatTask {
 		cpu: cpu
 		memgb: memgb
 		root: ROOTDIR
-	}
+	} 
 } 
