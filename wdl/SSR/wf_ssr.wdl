@@ -6,7 +6,7 @@ workflow RunSSR{
 	input {
 		String workdir
 		String scriptDir
-		String unigene_fasta
+		String unigene_fasta #cdhit.unigene_fasta
 
 		#Map[String, String] dockerImages
 	}
@@ -18,7 +18,6 @@ workflow RunSSR{
 				unigene_fasta = unigene_fasta,
 				# image = dockerImages
 	}
-
 	output {
 
 	}

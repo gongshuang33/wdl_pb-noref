@@ -1,40 +1,31 @@
 version 1.0
 
-import 'tasks/cdhit_ngs.wdl' as cdhit_ngs 
-import 'tasks/cdhit_no_ngs.wdl' as cdhit_no_ngs
+import 'tasks/cdhit.wdl' as cdhit
 
 workflow RunCDhit {
 	input {
 		String workdir
 		String scriptDir
-		String? NGS_corrected_fasta		# 二代数据
-		String all_polished_fa 		# Isoseq -> cluster
+		String? NGS_corrected_fasta		# 二代
+		String all_polished_fa 		# cluster.
 		#Map[String, String] dockerImages
 		String pipline_type  
 	}
 
-	if(!defined(NGS_corrected_fasta)) {
-		call cdhit_no_ngs.CDhitTask as CDhit{
-			input:
-				workdir = workdir,
-				scriptDir = scriptDir,
-				all_polished_fa = all_polished_fa,
-				#image = dockerImages[""]
-		}
+	call cdhit.CDhitTask as CDhit{
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			all_polished_fa = all_polished_fa,
+			NGS_corrected_fasta = NGS_corrected_fasta,
+			#image = dockerImages[""]
 	}
-
-	if(defined(NGS_corrected_fasta)) {
-		call cdhit_ngs.CDhitTask as CDhit{
-			input:
-				workdir = workdir,
-				scriptDir = scriptDir,
-				NGS_corrected_fasta = NGS_corrected_fasta,
-				#image = dockerImages[""]
-		}
-	}
-
 
 	output {
 		String unigene_fasta = CDhit.unigene_fasta
+		String cdhit_isoform_fa = CDhit.cdhit_isoform_fa
 	}
 }
+
+
+

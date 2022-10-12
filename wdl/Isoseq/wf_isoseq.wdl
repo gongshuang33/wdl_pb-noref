@@ -103,7 +103,7 @@ workflow RunIsoseq {
 	}
 
 	output {
-
+		String polished_hq_fasta = cluster.polished_hq_fasta
 	}
 
 

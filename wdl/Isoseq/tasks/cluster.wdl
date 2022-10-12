@@ -28,6 +28,7 @@ task ClusterTask {
 		String polished_bam = cluster_dir + "/polished.bam"
 		String all_polished_fa = cluster_dir + "/all.polished.fa"
 		String dir = cluster_dir
+		String polished_hq_fasta = cluster_dir + "/polished.hq.fasta"
 	}
 
 	runtime {
