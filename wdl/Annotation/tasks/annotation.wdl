@@ -305,6 +305,7 @@ task TotalStatTask {
 	>>>
 
 	output {
+		String dir = annotation_dir
 	}
 
 	runtime {
