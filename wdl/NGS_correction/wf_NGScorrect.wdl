@@ -13,7 +13,7 @@ workflow RunNGScorrect {
 	}
 
 	if(defined(sample_txt)) { # 有二代数据则进行校正
-		call NGScorrect.NGScorrectTask as NGS {
+		call NGSCorrect.NGScorrectTask as NGS {
 			input:
 				workdir = workdir,
 				scriptDir = scriptDir,
