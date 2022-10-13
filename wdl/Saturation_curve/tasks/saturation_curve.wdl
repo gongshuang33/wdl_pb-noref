@@ -5,7 +5,7 @@ task SaturationCurveTask {
 		String workdir
 		String scriptDir
 		String polished_hq_fasta
-		String CDhit_dir
+		String cds_dir
 
 		Int cpu = 8
 		String memgb = '16G'
@@ -21,7 +21,7 @@ task SaturationCurveTask {
 		if [ -f 'saturation_curve_done' ];then
 			exit 0
 		fi
-		~{scriptDir}/Saturation_curve_Nonref.sh ~{polished_hq_fasta} ~{CDhit_dir}/new_clstr.stat.xls ~{CDhit_dir}/new_cdhit1.fasta.clstr Saturation_Curve
+		~{scriptDir}/Saturation_curve_Nonref.sh ~{polished_hq_fasta} ~{cds_dir}/new_clstr.stat.xls ~{cds_dir}/new_cdhit1.fasta.clstr Saturation_Curve
 		touch saturation_curve_done
 		date
 	>>>

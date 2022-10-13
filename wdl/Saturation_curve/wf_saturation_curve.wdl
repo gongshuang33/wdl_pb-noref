@@ -17,7 +17,7 @@ workflow RunSaturationCurveTask {
 			workdir = workdir,
 			scriptDir = scriptDir,
 			polished_hq_fasta = polished_hq_fasta,
-			CDhit_dir = CDhit_dir,
+			cds_dir = cds_dir,
 			
 			# image = dockerImages
 	}
