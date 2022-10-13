@@ -6,7 +6,7 @@ workflow RunNGScorrect {
 	input {
 		String workdir
 		String scriptDir
-		String[Array] fq_lists
+		Array[String] fq_lists  # 来自QC
 		Srting all_polished_fa 	# 来自ClusterTask
 
 		String? sample_txt # 二代数据
