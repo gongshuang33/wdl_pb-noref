@@ -7,7 +7,7 @@ workflow RunNGScorrect {
 		String workdir
 		String scriptDir
 		Array[String] fq_lists  # 来自QC
-		String all_polished_fa 	# 来自ClusterTask
+		Srting all_polished_fa 	# 来自ClusterTask
 
 		String? sample_txt # 二代数据
 	}
@@ -20,11 +20,13 @@ workflow RunNGScorrect {
 				fq_lists = fq_lists,
 				all_polished_fa = all_polished_fa
 		}
+
+		output {
+			String NGS_corrected_fasta = NGS.NGS_corrected_fasta 
+		}
 	}
 
 	
 
-	output {
-		String NGS_corrected_fasta = NGS.NGS_corrected_fasta 
-	}
+	
 }
