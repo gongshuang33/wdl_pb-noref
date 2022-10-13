@@ -28,7 +28,7 @@ workflow RunAnnotationTask {
 		input:
 			workdir = workdir,
 			scriptDir = scriptDir,
-			annotation_dir = LinkUnigene.annotation_dir,
+			annotation_dir = LinkUnigene.dir,
 			unigene = LinkUnigene.unigene,
 			species_type = species_type,
 			split_num = split_num,
