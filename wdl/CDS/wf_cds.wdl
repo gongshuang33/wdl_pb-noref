@@ -7,7 +7,6 @@ workflow RunCDS {
 		String workdir 
 		String scriptDir 
 		String unigene_fasta 			# cdhit.unigene_fasta
-		String polished_hq_fa			# cluster.polished_hq_fa	
 		String cdhit_isoforms_fasta		# cdhit.cdhit_isoform_fa
 		String? NGS_corrected_fasta		# ngs 二代
 		String polished_hq_fasta		# isoseq.polished_hq_fasta
@@ -21,7 +20,7 @@ workflow RunCDS {
 			workdir = workdir,
 			scriptDir = scriptDir,
 			unigene_fasta = unigene_fasta,
-			polished_hq_fa = polished_hq_fa,
+			polished_hq_fasta = polished_hq_fasta,
 			cdhit_isoforms_fasta = cdhit_isoforms_fasta,
 			good_fasta = good_fasta,
 			#image = dockerImages
@@ -29,6 +28,6 @@ workflow RunCDS {
 
 	output {
 		String cds_removed_isoform_fasta = CDS.cds_removed_isoform_fasta
-		String cds_dir = CDS.dir
+		String dir = CDS.dir
 	}
 }

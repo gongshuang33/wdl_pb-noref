@@ -2,7 +2,7 @@ version 1.0
 
 import 'tasks/saturation_curve.wdl' as saturation_curve
 
-workflow RunSaturationCurveTask {
+workflow RunSaturationCurve {
 	input {
 		String workdir 
 		String scriptDir 

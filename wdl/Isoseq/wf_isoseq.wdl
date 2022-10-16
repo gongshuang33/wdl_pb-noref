@@ -10,7 +10,6 @@ workflow RunIsoseq {
 	input {
 		String workdir
 		String scriptDir
-		File subreads_info
 		String pbfile
 		#Map[String, String] dockerImages
 	}
@@ -20,7 +19,7 @@ workflow RunIsoseq {
 	call subreads.SubreadsTask as getSubreads {
 		input:
 			workdir = workdir,
-			subreads_info = subreads_info ,
+			pbfile = pbfile ,
 			scriptDir = scriptDir,
 			#image = dockerImages[""]
 	}
@@ -41,7 +40,6 @@ workflow RunIsoseq {
 				#image = dockerImages[""]
 		}
 	}
-
 	call ccs.CCSStatTask as CCSStat {
 		input:
 			ccs_dir = CCS.dir[0],
@@ -57,7 +55,6 @@ workflow RunIsoseq {
 				#image = dockerImages[""]
 		}
 	}
-	
 	call lima.LimaStatTask as LimaStat {
 		input:
 			lima_dir = Lima.dir[0],
@@ -75,7 +72,6 @@ workflow RunIsoseq {
 				#image = dockerImages[""]
 		}
 	}
-
 	call refine.RefineStatTask as RefineStat {
 		input:
 			refine_dir = Refine.dir[0],
@@ -90,7 +86,6 @@ workflow RunIsoseq {
 			merged_flnc_bam = RefineStat.merged_flnc_bam,
 			#image = dockerImages[""]
 	}
-
 	call cluster.ClusterStatTask as ClusterStat {
 		input:
 			cluster_dir = Cluster.dir,
@@ -102,6 +97,7 @@ workflow RunIsoseq {
 
 	output {
 		String polished_hq_fasta = Cluster.polished_hq_fasta
+		String all_polished_fa = Cluster.all_polished_fa
 	}
 
 

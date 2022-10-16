@@ -2,7 +2,7 @@ version 1.0
 
 import 'tasks/lncRNA.wdl' as lncRNA
 
-workflow RunLncRNATask {
+workflow RunLncRNA {
 	input {
 		String workdir 
 		String species_type 

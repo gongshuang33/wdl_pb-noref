@@ -2,7 +2,7 @@ version 1.0
 
 import 'tasks/as.wdl' as AS
 
-workflow RunASTask {
+workflow RunAS {
 	input {
 		String workdir
 		String scriptDir

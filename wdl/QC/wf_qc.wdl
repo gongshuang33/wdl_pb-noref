@@ -14,7 +14,6 @@ workflow RunQC {
     Array[Array[String]] sample_fqs = read_tsv(sample_group)
 
 	if(defined(sample_txt)) {
-		
 		scatter (smp in sample_fqs) {
 			call qc.QcTask as Qc {
 				input:

@@ -2,14 +2,14 @@ version 1.0
 
 import 'tasks/annotation.wdl' as annot
 
-workflow RunAnnotationTask {
+workflow RunAnnotation {
 	input {
 		String workdir
 		String scriptDir
 		String unigene_fasta #来自wf_cdhit.unigene_fasta
 		String species_type
 		Int split_num
-		String name
+		String? name = "Unigene"
 		
 		#Map[String, String] dockerImages
 	}

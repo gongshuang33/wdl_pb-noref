@@ -4,6 +4,7 @@ task ClusterTask {
 	input {
 		String workdir
 		String merged_flnc_bam
+		
 		Int cpu = 8
 		String memgb = '16G'
 		#String image

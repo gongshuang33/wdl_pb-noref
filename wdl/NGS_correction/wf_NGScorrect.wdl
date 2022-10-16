@@ -20,11 +20,13 @@ workflow RunNGScorrect {
 				fq_lists = fq_lists,
 				all_polished_fa = all_polished_fa
 		}
+
+		output {
+			String? NGS_corrected_fasta = NGS.NGS_corrected_fasta
+		}
 	}
 
-	output {
-		String? NGS_corrected_fasta = NGS.NGS_corrected_fasta
-	}
+	
 
 	
 

@@ -5,7 +5,7 @@ task CDSTask {
 		String workdir
 		String scriptDir
 		String unigene_fasta  
-		String polished_hq_fa 
+		String polished_hq_fasta 
 		String cdhit_isoforms_fasta #/CDhit/cd-hit.isoforms.fasta
 		String good_fasta  # NGS_corrected.fasta or isoseq.polished_hq_fasta
 
@@ -22,7 +22,7 @@ task CDSTask {
 		if [ -f 'run_cds_done' ];then
 			exit 0
 		fi
-		~{scriptDir}/make_train.py --hq ~{polished_hq_fa} --cor ~{good_fasta} --top 200 --out train.fasta
+		~{scriptDir}/make_train.py --hq ~{polished_hq_fasta} --cor ~{good_fasta} --top 200 --out train.fasta
 		export PATH=/export/personal/pengh/Software/cdhit:$PATH
 		export PYTHONPATH=/export/pipeline/RNASeq/python3package/:/export/pipeline/RNASeq/Software/ANGEL/v3.0/ANGEL/lib/python3.6/site-packages/
 

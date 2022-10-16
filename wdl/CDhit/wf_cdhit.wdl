@@ -9,7 +9,6 @@ workflow RunCDhit {
 		String? NGS_corrected_fasta		# 二代
 		String all_polished_fa 		# cluster.
 		#Map[String, String] dockerImages
-		String pipline_type  
 	}
 
 	call cdhit.CDhitTask as CDhit{
@@ -25,6 +24,7 @@ workflow RunCDhit {
 		String unigene_fasta = CDhit.unigene_fasta
 		String cdhit_isoform_fa = CDhit.cdhit_isoform_fa
 		String cdhit_togene = CDhit.cdhit_togene
+		String dir = CDhit.dir
 	}
 }
 
