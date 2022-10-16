@@ -1,7 +1,20 @@
 version 1.0
 
+# 纯三代
 import './Isoseq/wf_isoseq.wdl' as wf_isoseq
+import './CDhit/wf_cdhit.wdl' as wf_cdhit
+import './Annotation/wf_annotation.wdl' as wf_annotation
+import './SSR/wf_ssr.wdl' as wf_ssr
+import './CDS/wf_cds.wdl' as wf_cds
+import './LncRNA/wf_lncRNA.wdl' as wf_lncRNA
+import './Saturation_curve/wf_saturation_curve.wdl' as wf_saturation_curve
+import './AS/wf_as.wdl' as wf_as
+import './TF/wf_tf.wdl' as wf_tf
+
+# 三+二
 import './QC/wf_qc.wdl' as wf_qc_ngs
+import './NGS_correction/wf_NGScorrect.wdl' as wf_NGScorrect
+import './RSEM/wf_rsem.wdl' as wf_rsem
 
 
 workflow Run_PacBio_Noref{
@@ -10,8 +23,7 @@ workflow Run_PacBio_Noref{
 
 		String project	# 合同编号
 		String workdir	# 工作目录
-		String subreads_info	# pbfile 三代测序数据subreads信息pbfile文件第一列为样品名第二列为存放路径
-		String? pipline_type		# 纯三代无参【pipline_type = 3】还是3+2无参【pipline_type = 3+2】
+		String subreads_info	# pbfile 三代数据，第一列为样品名 第二列为存放路径
 		String species_type	# 物种 animal plant fungi
 		String? sample_txt	# 【无二代数据，仅三代无参时不填】sample.txt二代测序数据信息 sample.txt第一列样品名，第二列组名，第三列存放路径（R1,R2用逗号隔开）
 		String barcode	# barcode序列的fasta文件

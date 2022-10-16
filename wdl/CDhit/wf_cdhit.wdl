@@ -24,6 +24,7 @@ workflow RunCDhit {
 	output {
 		String unigene_fasta = CDhit.unigene_fasta
 		String cdhit_isoform_fa = CDhit.cdhit_isoform_fa
+		String cdhit_togene = CDhit.cdhit_togene
 	}
 }
 

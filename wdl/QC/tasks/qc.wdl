@@ -8,8 +8,8 @@ task QcTask {
         String read2
         String scriptDir
 
-        # Int cpu = 8
-        # String memgb = '16G'
+        Int cpu = 8
+        String memgb = '16G'
         # String image
 
         String? ROOTDIR = "/export/"
@@ -52,12 +52,12 @@ task QcTask {
 
     }
 
-    # runtime {
-    #     docker: image
-    #     cpu: cpu
-    #     memory: memgb
-    #     root: ROOTDIR
-    # }
+    runtime {
+        # docker: image
+        cpu: cpu
+        memory: memgb
+        root: ROOTDIR
+    }
 }
 
 task QcStatTask {
