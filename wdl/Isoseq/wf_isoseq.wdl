@@ -1,23 +1,21 @@
 version 1.0
 
 import 'tasks/subreads.wdl' as subreads
-
 import 'tasks/ccs.wdl' as ccs
 import 'tasks/lima.wdl' as lima
 import 'tasks/refine.wdl' as refine
 import 'tasks/cluster.wdl' as cluster
-
-
-
 
 workflow RunIsoseq {
 	input {
 		String workdir
 		String scriptDir
 		File subreads_info
-		Array[String] samples
+		String pbfile
 		#Map[String, String] dockerImages
 	}
+
+	Array[Array[String]] pbfile_data = read_tsv(pbfile)
 
 	call subreads.SubreadsTask as getSubreads {
 		input:
@@ -33,11 +31,11 @@ workflow RunIsoseq {
 			#image = dockerImages[""]
 	}
 
-	scatter (samp in samples) {
+	scatter (line in pbfile_data) {
 		call ccs.CCSTask as CCS {
 			input:
 				workdir = workdir,
-				sample = samp,
+				sample = line[0],
 				scriptDir = scriptDir,
 				subreads_dir = getSubreads.dir,
 				#image = dockerImages[""]
@@ -50,11 +48,11 @@ workflow RunIsoseq {
 			scriptDir = scriptDir
 	}
 
-	scatter (samp in samples) {
+	scatter (line in pbfile_data) {
 		call lima.LimaTask as Lima {
 			input:
 				workdir = workdir,
-				sample = samp,
+				sample = line[0],
 				ccs_dir = CCS.dir[0],
 				#image = dockerImages[""]
 		}
@@ -67,11 +65,11 @@ workflow RunIsoseq {
 			#image = dockerImages[""]
 	}
 
-	scatter (samp in samples) {
+	scatter (line in pbfile_data) {
 		call refine.RefineTask as Refine {
 			input:
 				workdir = workdir,
-				sample = samp,
+				sample = line[0],
 				scriptDir = scriptDir,
 				lima_dir = LimaStat.dir,
 				#image = dockerImages[""]
