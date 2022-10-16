@@ -11,7 +11,7 @@ workflow RunQC {
         # Map[String, String] dockerImages
     }
 
-    Array[Array[String]] sample_fqs = read_tsv(sample_group)
+    Array[Array[String]] sample_fqs = read_tsv(sample_txt)
 
 	if(defined(sample_txt)) {
 		scatter (smp in sample_fqs) {
