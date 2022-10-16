@@ -45,7 +45,7 @@ task AnnotationTask {
 		String unigene  		# from LinkUnigeneTask.unigene
 		String species_type
 		Int split_num			# 拆成多少份
-		String name
+		String? name
 		String annotation_dir	# from  LinkUnigeneTask.dir
 
 		Int cpu = 8

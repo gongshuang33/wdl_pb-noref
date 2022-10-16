@@ -33,11 +33,10 @@ workflow RunQC {
 				scriptDir = scriptDir,
 				# image = dockerImages["QC"]
 		}
-
-		output {
+	}
+	output {
 			String qc_stat_xls = QcStat.qc_stat_xls
 			Array[String] fq_lists = QcStat.fq_lists # 用于NGScorrection做校正
 		}
-	}
     
 }
