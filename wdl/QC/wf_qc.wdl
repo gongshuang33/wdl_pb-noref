@@ -14,12 +14,12 @@ workflow RunQC {
     
 
 	if(defined(sample_txt)) {
-		
+
 		Array[Array[String]] sample_fqs = read_tsv(sample_txt)
 		scatter (smp in sample_fqs) {
 			call qc.QcTask as Qc {
 				input:
-					projectdir = projectdir,
+					workdir = workdir,
 					sampleName = smp[0],
 					read1 = smp[1],
 					read2 = smp[2],
