@@ -14,7 +14,7 @@ import './TF/wf_tf.wdl' as wf_tf
 # 三+二
 import './QC/wf_qc.wdl' as wf_qc_ngs
 import './NGS_correction/wf_NGScorrect.wdl' as wf_NGScorrect
-import './RSEM/wf_rsem.wdl' as wf_rsem
+# import './RSEM/wf_rsem.wdl' as wf_rsem
 
 
 workflow Run_PacBio_Noref{
@@ -145,7 +145,7 @@ workflow Run_PacBio_Noref{
 	}
 
 	output {
-		
+
 	}
 
 
