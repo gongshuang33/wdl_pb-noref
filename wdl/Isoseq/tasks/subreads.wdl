@@ -7,11 +7,11 @@ task SubreadsTask {
 		String pbfile
 
 		Int cpu = 1
-        String memgb = '2G'
-        # String image
-        String? ROOTDIR = "/export/"
+		String memgb = '2G'
+		# String image
+		String? ROOTDIR = "/export/"
 	}
-	
+		
 	String subreads_dir = workdir + "/Subreads"
 
 	command <<<
@@ -33,10 +33,10 @@ task SubreadsTask {
 					if not os.path.exists('%s/%s.subreads.bam' % (work_dir, movie)):
 						os.system("ln -s %s %s/%s.subreads.bam" % (bam, work_dir, movie))
 						os.system("ln -s %s.pbi %s/%s.subreads.bam.pbi" % (bam, work_dir, movie))
-        EOF
+		EOF
 		touch get_subreads_done		
 	>>>
-	
+		
 	output {
 		String dir = subreads_dir
 	}
@@ -55,9 +55,9 @@ task SubreadsStatTask {
 		String scriptDir
 
 		Int cpu = 1
-        String memgb = '2G'
-        # String image
-        String? ROOTDIR = "/export/"
+		String memgb = '2G'
+		# String image
+		String? ROOTDIR = "/export/"
 	}
 	command <<<
 		set -ex
@@ -69,7 +69,7 @@ task SubreadsStatTask {
 		python ~{scriptDir}/stat_barcode.py -i *.subreads.bam -o Post-Filter_Polymerase_reads.summary.xls
 		touch stat_subreads_done
 	>>>
-	
+		
 	output {
 		String summary_xls = subreads_dir + "/Post-Filter_Polymerase_reads.summary.xls"
 	}
