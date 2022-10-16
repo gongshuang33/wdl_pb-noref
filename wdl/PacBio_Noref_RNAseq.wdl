@@ -25,7 +25,7 @@ workflow Run_PacBio_Noref{
 		String workdir	# 工作目录(项目目录)
 		String pbfile	# pbfile 三代数据，第一列为样品名 第二列为存放路径
 		String species_type	# 物种 animal plant fungi
-		String? sample_txt	# 【无二代数据，仅三代无参时不填】sample.txt二代测序数据信息 sample.txt第一列样品名，第二列组名，第三列存放路径（R1,R2用逗号隔开）
+		File? sample_txt	# 【无二代数据，仅三代无参时不填】sample.txt二代测序数据信息 sample.txt第一列样品名，第二列组名，第三列存放路径（R1,R2用逗号隔开）
 		String barcode	# barcode序列的fasta文件
 		String? compare_txt 	# 【无二代数据，仅三代无参时不填,如果有重复组，需要做差异表达则有compare.txt文件】，第一列和第二列比较（第一列为实验组，第二列为对照组）；若无需做差异比较分析则忽略忽该参数（是否做看差异分析表）
 		String? venn	# 【无韦恩分析不填】差异基因venn分析的文件信息venn_cluster.txt，放在项目路径下（是否做看差异分析表）
