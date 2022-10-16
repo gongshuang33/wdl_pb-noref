@@ -90,7 +90,7 @@ task QcStatTask {
 		cp */*.base_content.png QC_result/
 		cp */*.base_content.pdf QC_result/
 
-		python3 ${scriptDir + "/stat_fastp.py"} ${sample_group} ${qc_dir}
+		python3 ${scriptDir + "/stat_fastp.py"} ${sample_txt} ${qc_dir}
 
 		#汇总质控后的所有fq结果到一个文件
 		ls ~{qc_dir}/*/*.fastq.gz > fq_list
