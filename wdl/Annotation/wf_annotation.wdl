@@ -125,6 +125,6 @@ workflow RunAnnotation {
 # 			# image = dockerImages[""]
 # 	}
 
-# 	output {
-# 	}
-# }
+	output {
+	}
+}
