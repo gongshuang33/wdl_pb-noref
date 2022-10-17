@@ -22,7 +22,7 @@ task AnnotPreTask {
 
 		mkdir -p ~{annot_dir} && cd ~{annot_dir}
 
-		if [ -f "annot_pre.done" ]; then
+		if [ -f "annot_pre.done" ];then
 			exit 0
 		fi
 
@@ -36,7 +36,7 @@ task AnnotPreTask {
 	>>>
 
 	output {
-		String split_sh_dir = annot_dir + "/~{fa_prefix}.function.work/Script"
+		String split_sh_dir = annot_dir + "/" +  fa_prefix + ".function.work/Script"
 		String fa_name = fa_prefix
 		String dir = annot_dir
 	}
