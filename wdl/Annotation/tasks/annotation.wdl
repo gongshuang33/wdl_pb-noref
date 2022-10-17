@@ -3,7 +3,7 @@ version 1.0
 task AnnotPreTask {
 	input {
 		String unigene   # cdhit/unigene.fa
-		String fa_prefix = "unigene.fasta"
+		String fa_prefix
 		Int n_splits
 		String species_type
 		String workdir
