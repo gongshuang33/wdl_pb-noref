@@ -12,7 +12,7 @@ workflow RunQC {
     }
 
 	if(defined(sample_txt)) {
-		Array[Array[String]] sample_fqs = read_tsv(select_first(sample_txt))
+		Array[Array[String]] sample_fqs = read_tsv(select_first([sample_txt]))
 		scatter (smp in sample_fqs) {
 			call qc.QcTask as Qc {
 				input:
