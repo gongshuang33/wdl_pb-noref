@@ -244,7 +244,7 @@ task KOGStatTask {
 
 		Int cpu = 2
 		String memgb = '4G'
-		String image
+		# String image
 		String? ROOTDIR = "/export/"
 	}
 
