@@ -24,9 +24,10 @@ task AnnotPreTask {
 		if [ -f "annot_pre.done" ];then
 			exit 0
 		fi
-
-		ln -s ~{unigene} ~{fa_prefix}
-
+		if [ ! -f ~{fa_prefix} ];then
+			ln -s ~{unigene} ~{fa_prefix}
+		fi
+		
 		/export/pipeline/RNASeq/Pipeline/Annotation/Run_Annotation_with_diamond.py \
 			-~{species_type} -k -i -n -s -cog \
 			-c ~{n_splits} -f ~{fa_prefix}
