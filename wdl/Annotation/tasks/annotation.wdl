@@ -19,7 +19,6 @@ task AnnotPreTask {
 
 	command <<<
 		set -ex
-
 		mkdir -p ~{annot_dir} && cd ~{annot_dir}
 
 		if [ -f "annot_pre.done" ];then

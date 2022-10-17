@@ -10,7 +10,7 @@ workflow RunAnnotation {
 		String species_type
 		Int split_num
 		String fa_prefix = "unigene.fasta"
-		String name = "Unigene"
+		String name = "unigene"
 		#Map[String, String] dockerImages
 	}
 
