@@ -9,7 +9,7 @@ workflow RunAnnotation {
 		String unigene_fasta #来自wf_cdhit.unigene_fasta
 		String species_type
 		Int split_num
-		String name = "unigene.fasta"
+		String fa_prefix = "unigene.fasta"
 		
 		#Map[String, String] dockerImages
 	}
@@ -19,7 +19,7 @@ workflow RunAnnotation {
 			workdir = workdir,
 			scriptDir = scriptDir,
 			unigene = unigene_fasta,
-			fa_prefix = name,
+			fa_prefix = fa_prefix,
 			n_splits = split_num,
 			species_type = species_type,
 			# image = dockerImages[""]
