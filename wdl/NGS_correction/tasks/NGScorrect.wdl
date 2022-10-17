@@ -7,8 +7,8 @@ task NGScorrectTask {
 		Array[String]? fq_lists
 		String all_polished_fa
 
-        # Int cpu = 8
-        # String memgb = '16G'
+        Int cpu = 8
+        String memgb = '16G'
         # String image
 
         String? ROOTDIR = "/export/"
@@ -36,5 +36,12 @@ task NGScorrectTask {
 	output {
 		String dir = NGScorrectDir
 		String NGS_corrected_fasta = NGScorrectDir + "/NGS_corrected.fasta" #传给cdhit
+	}
+
+	runtime {
+		#docker: image
+		cpu: cpu
+		memory: memgb
+		root: ROOTDIR
 	}
 }

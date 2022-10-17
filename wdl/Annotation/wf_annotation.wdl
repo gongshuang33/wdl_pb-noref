@@ -9,80 +9,121 @@ workflow RunAnnotation {
 		String unigene_fasta #来自wf_cdhit.unigene_fasta
 		String species_type
 		Int split_num
-		String? name = "Unigene"
+		String name = "Unigene"
 		
 		#Map[String, String] dockerImages
 	}
 
-	call annot.LinkUnigeneTask as LinkUnigene{
+	call annot.AnnotPre as AnnotPre {
 		input:
 			workdir = workdir,
-			scriptDir = scriptDir,
-			unigene_fasta = unigene_fasta,
+			scriptDir = scriptDir
+			cds_fa = unigene_fasta,
+			fa_prefix = name,
+			n_splits = split_num,
 			species_type = species_type,
-			#image = dockerImages[""]
+			# image = dockerImages[""]
 	}
 
+	scatter (i in range(split_num)) {
+		Int split_i = i + 1
+		call annot.GOTask as GO{
+			input:
+				split_sh_dir = AnnotPre.split_sh_dir,
+				fa_name = AnnotPre.fa_name,
+				split_i = split_i,
+				# image = dockerImages[""]
+		}
 
-	call annot.AnnotationTask as Annotation {
+		call annot.KEGGTask as KEGG {
+			input:
+				split_sh_dir = AnnotPre.split_sh_dir,
+				fa_name = AnnotPre.fa_name,
+				split_i = split_i,
+				# image = dockerImages[""]
+		}
+
+		call annot.NRTask as NR {
+			input:
+				split_sh_dir = AnnotPre.split_sh_dir,
+				fa_name = AnnotPre.fa_name,
+				split_i = split_i,
+				# image = dockerImages[""]
+		}
+
+		call annot.KOGTask as KOG {
+			input:
+				split_sh_dir = AnnotPre.split_sh_dir,
+				fa_name = AnnotPre.fa_name,
+				split_i = split_i,
+				# image = dockerImages[""]
+		}
+
+		call annot.SwissProtTask as SwissProt {
+			input:
+				split_sh_dir = AnnotPre.split_sh_dir,
+				fa_name = AnnotPre.fa_name,
+				split_i = split_i,
+				# image = dockerImages[""]
+		}
+	}
+  
+	call annot.CombineGOTask as CombineGO {
 		input:
-			workdir = workdir,
+			go_done_files = GO.done_file,
+			annot_dir = AnnotPre.dir,
 			scriptDir = scriptDir,
-			annotation_dir = LinkUnigene.dir,
-			unigene = LinkUnigene.unigene,
+			n_splits = split_num,
+			fa_name = fa_prefix,
+			prefix = name,
+			# image = dockerImages[""]
+	}
+
+	call annot.CombineKEGGTask as CombineKEGG {
+		input:
+			kegg_done_files = KEGG.done_file,
+			annot_dir = AnnotPre.dir,
+			scriptDir = scriptDir,
+			n_splits = split_num,
+			fa_name = fa_prefix,
 			species_type = species_type,
-			split_num = split_num,
-			name = name,
-			#image = dockerImages[""]
+			prefix = name,
+			# image = dockerImages[""]
 	}
 
-	call annot.NRStatTask as NRstat{
+	call annot.CombineKOGTask as CombineKOG {
 		input:
+			kog_done_files = KOG.done_file,
+			annot_dir = AnnotPre.dir,
 			scriptDir = scriptDir,
-			annotation_dir = Annotation.dir,
-			#image = dockerImages[""]
+			n_splits = split_num,
+			fa_name = fa_prefix,
+			prefix = name,
+			# image = dockerImages[""]
 	}
 
-	call annot.KEGGStatTask as KEGGstat{
+	call annot.CombineNRTask as CombineNR {
 		input:
+			nr_done_files = NR.done_file,
+			annot_dir = AnnotPre.dir,
 			scriptDir = scriptDir,
-			annotation_dir = Annotation.dir,
-			#image = dockerImages[""]
+			n_splits = split_num,
+			fa_name = fa_prefix,
+			prefix = name,
+			# image = dockerImages[""]
 	}
 
-	call annot.GOStatTask as GOstat{
+	call annot.CombineSwissProtTask as CombineSwissProt {
 		input:
+			swissprot_done_files = SwissProt.done_file,
+			annot_dir = AnnotPre.dir,
 			scriptDir = scriptDir,
-			annotation_dir = Annotation.dir,
-			#image = dockerImages[""]
+			n_splits = split_num,
+			fa_name = fa_prefix,
+			prefix = name,
+			# image = dockerImages[""]
 	}
 
-	call annot.SwissprotStatTask as Swissprotstat{
-		input:
-			scriptDir = scriptDir,
-			annotation_dir = Annotation.dir,
-			#image = dockerImages[""]
-	}
-
-	call annot.KOGStatTask as KOGstat{
-		input:
-			scriptDir = scriptDir,
-			annotation_dir = Annotation.dir,
-			#image = dockerImages[""]
-	}
-
-	call annot.TotalStatTask as Totalstat {
-		input:
-			annotation_dir = Annotation.dir,
-			scriptDir = scriptDir,
-			Unigene_kog_annotation_xls = KOGstat.Unigene_kog_annotation_xls,
-			Unigene_go_annotation_xls = GOstat.Unigene_go_annotation_xls,
-			Unigene_kegg_annotation_xls = KEGGstat.Unigene_kegg_annotation_xls,
-			Unigene_nr_annotation_xls = NRstat.Unigene_nr_annotation_xls,
-			Unigene_swissprot_annotation_xls = Swissprotstat.Unigene_swissprot_annotation_xls,
-			#image = dockerImages[""]
-	}
 	output {
-		String annot_dir = Totalstat.dir
 	}
 }
