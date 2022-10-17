@@ -223,7 +223,7 @@ task CombineGOTask {
 		String scriptDir
 		Int n_splits
 		String fa_name
-		String prefix = 'ref_gene'
+		String prefix 
 
 		Int cpu = 1
 		String memgb = '2G'
@@ -281,7 +281,7 @@ task CombineKEGGTask {
 		String species_type
 		Int n_splits
 		String fa_name
-		String prefix = 'ref_gene'
+		String prefix 
 
 		Int cpu = 1
 		String memgb = '2G'
@@ -342,7 +342,7 @@ task CombineKOGTask {
 		String scriptDir
 		Int n_splits
 		String fa_name
-		String prefix = 'ref_gene'
+		String prefix 
 
 		Int cpu = 1
 		String memgb = '2G'
@@ -387,7 +387,7 @@ task CombineNRTask {
 		String scriptDir
 		Int n_splits
 		String fa_name
-		String prefix = 'ref_gene'
+		String prefix 
 
 		Int cpu = 1
 		String memgb = '2G'
@@ -435,7 +435,7 @@ task CombineSwissProtTask {
 		String scriptDir
 		Int n_splits
 		String fa_name
-		String prefix = 'ref_gene'
+		String prefix 
 
 		Int cpu = 1
 		String memgb = '2G'
