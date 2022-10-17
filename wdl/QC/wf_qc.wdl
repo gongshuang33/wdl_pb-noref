@@ -4,7 +4,7 @@ import "tasks/qc.wdl" as qc
 
 workflow RunQC {
     input {
-        File sample_txt # 二代数据
+        File? sample_txt # 二代数据
         String workdir
         String scriptDir
 
