@@ -27,7 +27,7 @@ task AnnotPreTask {
 
 		ln -s ~{unigene} ~{fa_prefix}
 
-		python3 ~{scriptDir}/Run_Annotation_with_diamond.py \
+		python3 /export/pipeline/RNASeq/Pipeline/Annotation/Run_Annotation_with_diamond.py \
 			-~{species_type} -k -i -n -s -cog \
 			-c ~{n_splits} -f ~{fa_prefix}
 
