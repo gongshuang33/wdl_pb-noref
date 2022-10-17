@@ -18,7 +18,7 @@ workflow RunAnnotation {
 		input:
 			workdir = workdir,
 			scriptDir = scriptDir
-			cds_fa = unigene_fasta,
+			unigene = unigene_fasta,
 			fa_prefix = name,
 			n_splits = split_num,
 			species_type = species_type,

@@ -2,7 +2,7 @@ version 1.0
 
 task AnnotPreTask {
 	input {
-		String cds_fa   # cdhit/unigene.fa
+		String unigene   # cdhit/unigene.fa
 		String fa_prefix = "unigene.fasta"
 		Int n_splits
 		String species_type
@@ -26,7 +26,7 @@ task AnnotPreTask {
 			exit 0
 		fi
 
-		ln -s ~{cds_fa} ~{fa_prefix}
+		ln -s ~{unigene} ~{fa_prefix}
 
 		python3 ~{scriptDir}/Run_Annotation_with_diamond.py \
 			-~{species_type} -k -i -n -s -cog \
