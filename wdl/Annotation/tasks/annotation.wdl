@@ -60,6 +60,7 @@ task AnnotationTask {
 			exit 0
 		fi
 		mkdir -p ~{annotation_dir} && cd ~{annotation_dir}
+		# run_functional_annotation_cds.py 变成具体的命令
 		python3 ~{scriptDir}/run_functional_annotation_cds.py --seq ~{unigene} --work_dir ~{annotation_dir} --name ~{name} --species_type ~{species_type} --split_num ~{split_num}
 		touch run_annot_done
 	>>>
