@@ -12,7 +12,7 @@ import './AS/wf_as.wdl' as wf_as
 import './TF/wf_tf.wdl' as wf_tf
 
 # 三+二
-import './QC/wf_qc.wdl' as wf_qc_ngs
+import './QC/wf_qc.wdl' as wf_qc
 import './NGS_correction/wf_NGScorrect.wdl' as wf_NGScorrect
 # import './RSEM/wf_rsem.wdl' as wf_rsem
 
@@ -51,7 +51,7 @@ workflow Run_PacBio_Noref{
     }
 
 	# QC_ngs
-	call wf_qc_ngs.RunQC as QC{
+	call wf_qc.RunQC as QC{
 		input:
 			workdir = workdir,
 			scriptDir = scriptDir,	

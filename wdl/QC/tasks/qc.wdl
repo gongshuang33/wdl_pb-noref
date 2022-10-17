@@ -63,7 +63,7 @@ task QcTask {
 task QcStatTask {
 	input {
 		Array[String]+ qc_dirs
-		File sample_txt
+		String? sample_txt
 		String scriptDir
 
 		# Int cpu = 1
