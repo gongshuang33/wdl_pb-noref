@@ -9,12 +9,12 @@ workflow RunAnnotation {
 		String unigene_fasta #来自wf_cdhit.unigene_fasta
 		String species_type
 		Int split_num
-		String name = "Unigene"
+		String name = "unigene.fasta"
 		
 		#Map[String, String] dockerImages
 	}
 
-	call annot.AnnotPre as AnnotPre {
+	call annot.AnnotPreTask as AnnotPre {
 		input:
 			workdir = workdir,
 			scriptDir = scriptDir

@@ -2,8 +2,8 @@ version 1.0
 
 task AnnotPreTask {
 	input {
-		String cds_fa   # cds/unigene.fa
-		String fa_prefix = "gene.fasta"
+		String cds_fa   # cdhit/unigene.fa
+		String fa_prefix = "unigene.fasta"
 		Int n_splits
 		String species_type
 		String workdir
