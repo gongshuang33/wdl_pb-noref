@@ -17,7 +17,7 @@ workflow RunAnnotation {
 	call annot.AnnotPreTask as AnnotPre {
 		input:
 			workdir = workdir,
-			scriptDir = scriptDir
+			scriptDir = scriptDir,
 			unigene = unigene_fasta,
 			fa_prefix = name,
 			n_splits = split_num,
