@@ -143,7 +143,7 @@ workflow Run_PacBio_Noref{
 			#dockerImages = dockerImages[]
 	}
 
-	TF
+	# TF
 	call wf_tf.RunTFTask as TF {
 		input:
 			workdir = workdir,
