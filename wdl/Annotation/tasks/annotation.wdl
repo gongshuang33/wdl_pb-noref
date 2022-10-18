@@ -240,7 +240,7 @@ task CombineGOTask {
 		if [ -f "go_stat_work_done" ]; then
 			exit 0
 		fi
-		if [ ~{DONE} == 'false']; then
+		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
 		cd ~{annot_dir}
@@ -298,7 +298,7 @@ task CombineKEGGTask {
 		if [ -f "kegg_stat_work_done" ]; then
 			exit 0
 		fi
-		if [ ~{DONE} == 'false']; then
+		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
 		cat ~{fa_name}.function.work/*/*kegg.m8 > ~{fa_name}.function.work/~{prefix}.kegg.m8
@@ -359,7 +359,7 @@ task CombineKOGTask {
 		if [ -f "kog_stat_work_done" ]; then
 			exit 0
 		fi
-		if [ ~{DONE} == 'false']; then
+		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
 		cat ~{fa_name}.function.work/*/*kog.m8 > ~{prefix}.kog.m8
@@ -404,7 +404,7 @@ task CombineNRTask {
 		if [ -f "nr_stat_work_done" ]; then
 			exit 0
 		fi
-		if [ ~{DONE} == 'false']; then
+		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
 		
@@ -451,7 +451,7 @@ task CombineSwissProtTask {
 		if [ -f "swissprot_stat_work_done" ]; then
 			exit 0
 		fi
-		if [ ~{DONE} == 'false']; then
+		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
 		cat ~{fa_name}.function.work/*/*swissprot.m8 > ~{prefix}.swissprot.m8
