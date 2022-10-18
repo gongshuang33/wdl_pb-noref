@@ -143,15 +143,17 @@ workflow Run_PacBio_Noref{
 	# 		#dockerImages = dockerImages[]
 	# }
 
-	# # TF
+	# TF
 	# call wf_tf.RunTFTask as TF {
 	# 	input:
 	# 		workdir = workdir,
 	# 		scriptDir = scriptDir,
 	# 		unigene_fasta = CDhit.unigene_fasta,
+	# 		species_type = species_type,
+	# 		cds_dir = CDS.dir,
 	# 		#dockerImages = dockerImages[]
 	# }
-	
+
 	output {
 
 	}
