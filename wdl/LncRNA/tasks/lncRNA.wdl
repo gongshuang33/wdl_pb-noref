@@ -77,10 +77,18 @@ task LncRNAStatTask {
 
 		perl ~{scriptDir}/fastaDeal.pl -attr id:len ~{cds_removed_isoform_fasta} > ~{cds_dir}/cds_removed_isoform.fasta.len
 		python ~{scriptDir}/lnc_stat_V2.py -len ~{cds_dir}/cds_removed_isoform.fasta.len -plek ~{lncRNA_dir}/work/shell/PLEK/cds_removed_plek.out -cpc ~{lncRNA_dir}/work/shell/CPC/cpc_lncRNA.txt -cnci ~{lncRNA_dir}/work/shell/CNCI/CNCI_out/CNCI.index -pfam ~{lncRNA_dir}/work/shell/Pfam/pfam.besthit -o1 lnc_stat.xls -o2 lncRNA.id.txt
-		ln -s ~{lncRNA_dir}/work/shell/CPC/cpc.id.txt .
-		ln -s ~{lncRNA_dir}/work/shell/PLEK/plek.id.txt .
-		ln -s ~{lncRNA_dir}/work/shell/Pfam/pfam.id.txt .
-		ln -s ~{lncRNA_dir}/work/shell/CNCI/cnci.id.txt .
+		if [ ! -f 'cpc.id.txt' ];then
+			ln -s ~{lncRNA_dir}/work/shell/CPC/cpc.id.txt .
+		fi
+		if [ ! -f 'plek.id.txt' ];then
+			ln -s ~{lncRNA_dir}/work/shell/PLEK/plek.id.txt .
+		fi
+		if [ ! -f 'pfam.id.txt' ];then
+			ln -s ~{lncRNA_dir}/work/shell/Pfam/pfam.id.txt .
+		fi
+		if [ ! -f 'pfam.id.txt' ];then
+			ln -s ~{lncRNA_dir}/work/shell/CNCI/cnci.id.txt .
+		fi
 		Rscript ~{scriptDir}/lnc_Venn_4.R ~{lncRNA_dir}/work/shell/CNCI/cnci.id.txt ~{lncRNA_dir}/work/shell/CPC/cpc.id.txt ~{lncRNA_dir}/work/shell/PLEK/plek.id.txt ~{lncRNA_dir}/work/shell/Pfam/pfam.id.txt
 		python ~{scriptDir}/getname_from_lnc_stat.py lncRNA.id.txt ~{cds_removed_isoform_fasta} > LncRNA.fasta
 		perl ~{scriptDir}/fastaDeal.pl -attr id:len LncRNA.fasta > LncRNA.fasta.len

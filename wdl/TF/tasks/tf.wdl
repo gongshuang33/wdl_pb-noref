@@ -31,7 +31,9 @@ task TFTask {
 		fi
 
 		if [[ ~{species_type} == "animal" ]]; then
-			ln -s ~{cds_dir}/Final.predict.ANGEL.pep isoform.pep
+			if [ ! -f 'isoform.pep' ];then
+				ln -s ~{cds_dir}/Final.predict.ANGEL.pep isoform.pep
+			fi
 			python ~{scriptDir}/choose_unigene.py Unigene.fasta isoform.pep
 			export PATH=/export/personal/pengh/Software/hmmer-3.1b2-linux-intel-x86_64/bin/:$PATH
 			python ~{scriptDir}/AnimalTF_noref_V2.py --pep unigene.pep --out ./

@@ -37,8 +37,10 @@ task CDhitTask {
 		Rscript ~{scriptDir}/Cluster_Bar.R cd-hit.isoforms.fasta.len cd-hit.isoforms.length_distribution
 
 		mkdir -p ~{workdir}/Unigene 
-		ln -s ~{cdhit_dir}/cd-hit.Unigene.fasta ~{workdir}/Unigene/Unigene.fasta
-		ln -s ~{cdhit_dir}/cd-hit.isoforms.fasta ~{workdir}/Unigene/isoform.fasta
+		if [ ! -f '~{workdir}/Unigene/Unigene.fasta' ];then
+			ln -s ~{cdhit_dir}/cd-hit.Unigene.fasta ~{workdir}/Unigene/Unigene.fasta
+			ln -s ~{cdhit_dir}/cd-hit.isoforms.fasta ~{workdir}/Unigene/isoform.fasta
+		fi
 		touch ~{cdhit_dir}/run_cdhit_done
 	>>>
 

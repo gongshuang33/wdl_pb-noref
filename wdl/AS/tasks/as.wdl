@@ -22,8 +22,8 @@ task ASTask {
 		if [ -f 'run_as_done' ];then
 			exit 0
 		fi
-		python ~{scriptDir}AS_24.py ~{cdhit_dir}/new_clstr.stat.xls ~{unigene_fasta} ~{cdhit_dir}/new_cdhit1.fasta.clstr
-		/export/pipeline/RNASeq/Software/R/R_3.5.1/bin/Rscript ~{as_dir}/histogram_AS.R Unigene.AS_Event_Number.xls.dis
+		python ~{scriptDir}/AS_24.py ~{cdhit_dir}/new_clstr.stat.xls ~{unigene_fasta} ~{cdhit_dir}/new_cdhit1.fasta.clstr
+		/export/pipeline/RNASeq/Software/R/R_3.5.1/bin/Rscript ~{scriptDir}/histogram_AS.R Unigene.AS_Event_Number.xls.dis
 		touch run_as_done
 		date
 	>>>
