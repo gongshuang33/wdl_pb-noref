@@ -79,17 +79,17 @@ workflow Run_PacBio_Noref{
 			#dockerImages = dockerImages[]
 	}
 
-	# # Annotation
-	# call wf_annotation.RunAnnotation as Annotation {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		unigene_fasta = CDhit.unigene_fasta,
-	# 		species_type = species_type,
-	# 		split_num = split_num,
-	# 		name = name,
-	# 		#dockerImages = dockerImages[]
-	# }
+	# Annotation
+	call wf_annotation.RunAnnotation as Annotation {
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			unigene_fasta = CDhit.unigene_fasta,
+			species_type = species_type,
+			split_num = split_num,
+			name = name,
+			#dockerImages = dockerImages[]
+	}
 
 	# # SSR
 	# call wf_ssr.RunSSR as SSR {
