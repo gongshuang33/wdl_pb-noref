@@ -10,7 +10,7 @@ task TFTask {
 
 		Int cpu = 8
 		String memgb = '16G'
-		String image
+		# String image
 		String? ROOTDIR = "/export/"
 	}
 
