@@ -22,8 +22,8 @@ task SubreadsTask {
 		fi
 		python <<EOF
 		import os
-		subreads_file = ~{pbfile}
-		work_dir = ~{subreads_dir}
+		subreads_file = "~{pbfile}"
+		work_dir = "~{subreads_dir}"
 		with open(subreads_file) as f:
 			sample = []
 			for line in f.readlines():
