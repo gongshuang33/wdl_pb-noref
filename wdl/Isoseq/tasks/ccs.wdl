@@ -21,7 +21,10 @@ task CCSTask {
 		if [ -f "run_ccs_done" ]; then
 			exit 0
 		fi
-		ccs --min-passes 1 --min-rq 0.9 --max-length 50000 --min-length 100	~{subreads_dir}/~{sample}.subreads.bam  ~{sample + ".ccs.bam"} -j ~{cpu}
+		if [ ! -f  'ccs_done' ];then
+			/export/pipeline/RNASeq/Software/Miniconda/bin/ccs --min-passes 1 --min-rq 0.9 --max-length 50000 --min-length 100	~{subreads_dir}/~{sample}.subreads.bam  ~{sample + ".ccs.bam"} -j ~{cpu}
+			touch ccs_done
+		fi
 		python ~{scriptDir}/seq_np_rq.py ~{sample + ".ccs.bam"}
 		Rscript ~{scriptDir}/plot_np_rq.r  ~{sample} 
 		perl ~{scriptDir}/fastaDeal.pl -attr id:len ~{sample + ".ccs.fasta"} > ~{sample + ".ccs.fasta.len"}
