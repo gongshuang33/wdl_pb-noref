@@ -245,7 +245,7 @@ task CombineGOTask {
 		fi
 		cd ~{annot_dir}
 
-		cat ~{fa_name}.function.work/*/*iprOut > ~{fa_name}.function.result/~{prefix}.iprOut
+		cat ~{fa_name}.function.work/*/*iprOut > ~{prefix}.iprOut
 
 		python ~{scriptDir}/deal_ipr2go_V2.py --iprFile ~{prefix}.iprOut --goAnnot ~{prefix}.go.annot --gene
 		python ~{scriptDir}/Annot_GO.py -a ~{prefix}.go.annot -p ~{prefix}
