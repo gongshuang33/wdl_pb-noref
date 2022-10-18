@@ -129,7 +129,7 @@ task NRTask {
 		String? ROOTDIR = "/export/"
 	}
 
-	String split_dir = split_sh_dir + "/KOG"
+	String split_dir = split_sh_dir + "/NR"
 
 	command<<<
 		set -ex
@@ -137,7 +137,7 @@ task NRTask {
 		if [ -f "~{fa_name}.~{split_i}.DONE" ]; then
 			exit 0
 		fi
-		bash kog.~{fa_name}.~{split_i}.sh > ~{split_i}.stdout 2> ~{split_i}.stderr
+		bash nr.~{fa_name}.~{split_i}.sh > ~{split_i}.stdout 2> ~{split_i}.stderr
 	>>>
 	output {
 		String done_file = split_dir + "/~{fa_name}.~{split_i}.DONE"
@@ -162,7 +162,7 @@ task KOGTask {
 		String? ROOTDIR = "/export/"
 	}
 
-	String split_dir = split_sh_dir + "/NR"
+	String split_dir = split_sh_dir + "/KOG"
 
 	command<<<
 		set -ex
@@ -170,7 +170,7 @@ task KOGTask {
 		if [ -f "~{fa_name}.~{split_i}.DONE" ]; then
 			exit 0
 		fi
-		bash nr.~{fa_name}.~{split_i}.sh > ~{split_i}.stdout 2> ~{split_i}.stderr
+		bash kog.~{fa_name}.~{split_i}.sh > ~{split_i}.stdout 2> ~{split_i}.stderr
 	>>>
 	output {
 		String done_file = split_dir + "/~{fa_name}.~{split_i}.DONE"
