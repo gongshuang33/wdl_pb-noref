@@ -31,8 +31,8 @@ workflow Run_PacBio_Noref{
 		String? venn	# 【无韦恩分析不填】差异基因venn分析的文件信息venn_cluster.txt，放在项目路径下（是否做看差异分析表）
 		String scriptDir	# 脚本路径
 
-		Int split_num 	# 功能注释拆分数量
-		String? name = "Unigene"	# 功能注释NAME  default:Unigene
+		Int split_num 	# 功能注释拆分数
+		String name = "unigene"	# 功能注释NAME  default:Unigene
 
 
 
@@ -67,6 +67,7 @@ workflow Run_PacBio_Noref{
 			fq_lists = QC.fq_lists,
 			all_polished_fa = Isoseq.polished_hq_fasta,
 			sample_txt = sample_txt,
+			name = name,
 			#dockerImages = dockerImages[]
 	}
 
