@@ -69,15 +69,15 @@ workflow Run_PacBio_Noref{
 			#dockerImages = dockerImages[]
 	}
 
-	# # CDhit
-	# call wf_cdhit.RunCDhit as CDhit {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		NGS_corrected_fasta = NGScorrect.NGS_corrected_fasta,
-	# 		all_polished_fa = Isoseq.all_polished_fa,
-	# 		#dockerImages = dockerImages[]
-	# }
+	# CDhit
+	call wf_cdhit.RunCDhit as CDhit {
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			NGS_corrected_fasta = NGScorrect.NGS_corrected_fasta,
+			all_polished_fa = Isoseq.all_polished_fa,
+			#dockerImages = dockerImages[]
+	}
 
 	# # Annotation
 	# call wf_annotation.RunAnnotation as Annotation {
