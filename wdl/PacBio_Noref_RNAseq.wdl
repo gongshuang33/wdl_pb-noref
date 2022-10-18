@@ -91,68 +91,68 @@ workflow Run_PacBio_Noref{
 			#dockerImages = dockerImages[]
 	}
 
-	# # SSR
-	# call wf_ssr.RunSSR as SSR {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		unigene_fasta = CDhit.unigene_fasta,
-	# 		#dockerImages = dockerImages[]
-	# }
+	# SSR
+	call wf_ssr.RunSSR as SSR {
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			unigene_fasta = CDhit.unigene_fasta,
+			#dockerImages = dockerImages[]
+	}
 
-	# # CDS
-	# call wf_cds.RunCDS as CDS {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		unigene_fasta = CDhit.unigene_fasta,
-	# 		polished_hq_fasta = Isoseq.polished_hq_fasta,
-	# 		cdhit_isoforms_fasta = CDhit.cdhit_isoform_fa,
-	# 		NGS_corrected_fasta = NGScorrect.NGS_corrected_fasta,
-	# 		#dockerImages = dockerImages[]
-	# }
+	# CDS
+	call wf_cds.RunCDS as CDS {
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			unigene_fasta = CDhit.unigene_fasta,
+			polished_hq_fasta = Isoseq.polished_hq_fasta,
+			cdhit_isoforms_fasta = CDhit.cdhit_isoform_fa,
+			NGS_corrected_fasta = NGScorrect.NGS_corrected_fasta,
+			#dockerImages = dockerImages[]
+	}
 
-	# # LncRNA
-	# call wf_lncRNA.RunLncRNA as LncRNA {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		species_type = species_type,
-	# 		cds_removed_isoform_fasta = CDS.cds_removed_isoform_fasta,
-	# 		cds_dir = CDS.dir,
-	# 		#dockerImages = dockerImages[]
-	# }
+	# LncRNA
+	call wf_lncRNA.RunLncRNA as LncRNA {
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			species_type = species_type,
+			cds_removed_isoform_fasta = CDS.cds_removed_isoform_fasta,
+			cds_dir = CDS.dir,
+			#dockerImages = dockerImages[]
+	}
 
-	# # Saturation_curve
-	# call wf_saturation_curve.RunSaturationCurve as Saturation_curve {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		polished_hq_fasta = Isoseq.polished_hq_fasta,
-	# 		cds_dir = CDS.dir,
-	# 		#dockerImages = dockerImages[]
-	# }
+	# Saturation_curve
+	call wf_saturation_curve.RunSaturationCurve as Saturation_curve {
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			polished_hq_fasta = Isoseq.polished_hq_fasta,
+			cds_dir = CDS.dir,
+			#dockerImages = dockerImages[]
+	}
 
-	# # AS
-	# call wf_as.RunAS as AS {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		unigene_fasta = CDhit.unigene_fasta,
-	# 		cdhit_dir = CDhit.dir,
-	# 		#dockerImages = dockerImages[]
-	# }
+	# AS
+	call wf_as.RunAS as AS {
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			unigene_fasta = CDhit.unigene_fasta,
+			cdhit_dir = CDhit.dir,
+			#dockerImages = dockerImages[]
+	}
 
-	# TF
-	# call wf_tf.RunTFTask as TF {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		unigene_fasta = CDhit.unigene_fasta,
-	# 		species_type = species_type,
-	# 		cds_dir = CDS.dir,
-	# 		#dockerImages = dockerImages[]
-	# }
+	TF
+	call wf_tf.RunTFTask as TF {
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			unigene_fasta = CDhit.unigene_fasta,
+			species_type = species_type,
+			cds_dir = CDS.dir,
+			#dockerImages = dockerImages[]
+	}
 
 	output {
 
