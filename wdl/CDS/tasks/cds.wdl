@@ -17,11 +17,11 @@ task CDSTask {
 
 	String cds_dir = workdir + "/CDS"
 	command <<<
-		set -vex
 		mkdir -p ~{cds_dir} && cd ~{cds_dir}
 		if [ -f 'run_cds_done' ];then
 			exit 0
 		fi
+		
 		/export/pipeline/RNASeq/Pipeline/noRef_Isoseq/CDS_prediction/make_train.py --hq ~{polished_hq_fasta} --cor ~{good_fasta} --top 200 --out train.fasta
 		export PATH=/export/personal/pengh/Software/cdhit:$PATH
 		export PYTHONPATH=/export/pipeline/RNASeq/python3package/:/export/pipeline/RNASeq/Software/ANGEL/v3.0/ANGEL/lib/python3.6/site-packages/

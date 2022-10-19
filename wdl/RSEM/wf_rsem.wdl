@@ -9,7 +9,7 @@ workflow RunRSEM {
 		String cdhit_togene
 		String cdhit_isoforms_fasta
 		String? sample_txt
-		Array[Array[String]] sample_clean_fqs  #QC.sample_clean_fqs
+		Array[Array[String]]? sample_clean_fqs  #QC.sample_clean_fqs
 
 		# Map[String, String] dockerImages
 	}
