@@ -11,7 +11,6 @@ task QcTask {
 		Int cpu = 8
 		String memgb = '16G'
 		# String image
-
 		String? ROOTDIR = "/export/"
 	}
 

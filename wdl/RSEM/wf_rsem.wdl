@@ -11,7 +11,7 @@ workflow RunRSEM {
 		String? sample_txt
 		Array[Array[String]] sample_clean_fqs  #QC.sample_clean_fqs
 
-		 # Map[String, String] dockerImages
+		# Map[String, String] dockerImages
 	}
 
 	call rsem.RSEMPreTask as RSEMPre {
@@ -20,7 +20,7 @@ workflow RunRSEM {
 			scriptDir = scriptDir,
 			cdhit_togene = cdhit_togene,
 			cdhit_isoforms_fasta = cdhit_isoforms_fasta,
-			# Map[String, String] dockerImages
+			# image = dockerImages["QC"]
 	}
 
 	scatter(line in sample_clean_fqs) {
@@ -30,7 +30,7 @@ workflow RunRSEM {
 				rsem_dir = RSEMPre.dir,
 				rsem_isoforms = RSEMPre.rsem_isoforms,
 				sample_clean_fqs = line,
-				# Map[String, String] dockerImages
+				# image = dockerImages["QC"]
 		}
 	}
 
@@ -40,6 +40,6 @@ workflow RunRSEM {
 			scriptDir = scriptDir,
 			sample_txt = sample_txt,
 			samples = RSEM.samplename,
-			# Map[String, String] dockerImages
+			# image = dockerImages["QC"]
 	}
 }

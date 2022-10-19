@@ -6,7 +6,7 @@ import './CDhit/wf_cdhit.wdl' as wf_cdhit
 import './Annotation/wf_annotation.wdl' as wf_annotation
 import './SSR/wf_ssr.wdl' as wf_ssr
 import './CDS/wf_cds.wdl' as wf_cds
-# import './LncRNA/wf_lncRNA.wdl' as wf_lncRNA
+import './LncRNA/wf_lncRNA.wdl' as wf_lncRNA
 import './Saturation_curve/wf_saturation_curve.wdl' as wf_saturation_curve
 import './AS/wf_as.wdl' as wf_as
 import './TF/wf_tf.wdl' as wf_tf
@@ -122,16 +122,16 @@ workflow Run_PacBio_Noref{
 			#dockerImages = dockerImages[]
 	}
 
-	# # LncRNA
-	# call wf_lncRNA.RunLncRNA as LncRNA {
-	# 	input:
-	# 		workdir = workdir,
-	# 		scriptDir = scriptDir,
-	# 		species_type = species_type,
-	# 		cds_removed_isoform_fasta = CDS.cds_removed_isoform_fasta,
-	# 		cds_dir = CDS.dir,
-	# 		#dockerImages = dockerImages[]
-	# }
+	# LncRNA
+	call wf_lncRNA.RunLncRNA as LncRNA {
+		input:
+			projectdir = workdir,
+			ScriptDir = scriptDir,
+			species_type = species_type,
+			novel_cds_removed_fa = CDS.cds_removed_isoform_fasta,
+			# cds_dir = CDS.dir,
+			#dockerImages = dockerImages[]
+	}
 
 	# Saturation_curve
 	call wf_saturation_curve.RunSaturationCurve as Saturation_curve {
