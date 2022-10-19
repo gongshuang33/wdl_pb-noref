@@ -14,15 +14,16 @@ workflow RunRSEM {
 		# Map[String, String] dockerImages
 	}
 
-	call rsem.RSEMPreTask as RSEMPre {
-		input:
-			workdir = workdir,
-			scriptDir = scriptDir,
-			cdhit_togene = cdhit_togene,
-			cdhit_isoforms_fasta = cdhit_isoforms_fasta,
-			# image = dockerImages["QC"]
-	}
-	if(defined(sample_clean_fqs)) {
+	if(defined(sample_txt)) {
+		call rsem.RSEMPreTask as RSEMPre {
+			input:
+				workdir = workdir,
+				scriptDir = scriptDir,
+				cdhit_togene = cdhit_togene,
+				cdhit_isoforms_fasta = cdhit_isoforms_fasta,
+				# image = dockerImages["QC"]
+		}
+
 		scatter(line in select_first([sample_clean_fqs])) {
 			call rsem.RSEMTask as RSEM {
 				input:
@@ -32,16 +33,19 @@ workflow RunRSEM {
 					sample_clean_fqs = line,
 					# image = dockerImages["QC"]
 			}
-	}
+		
+		}
 
-	call rsem.RSEMStatTask as RSEMStat {
-		input:
-			rsem_dir = RSEMPre.dir,
-			scriptDir = scriptDir,
-			sample_txt = sample_txt,
-			samples = RSEM.samplename,
-			# image = dockerImages["QC"]
+		call rsem.RSEMStatTask as RSEMStat {
+			input:
+				rsem_dir = RSEMPre.dir,
+				scriptDir = scriptDir,
+				sample_txt = sample_txt,
+				samples = RSEM.samplename,
+				# image = dockerImages["QC"]
+		}
+		
 	}
-	}
+	
 	
 }

@@ -57,8 +57,8 @@ task RSEMTask {
 		String? ROOTDIR = "/export/"
 	}
 
-	String sample_dir = rsem_dir + '/' + sample
 	String sample = sample_clean_fqs[0]
+	String sample_dir = rsem_dir + '/' + sample
 	String sample_R1_fq = sample_clean_fqs[1]
 	String sample_R2_fq = sample_clean_fqs[2]
 
@@ -79,6 +79,7 @@ task RSEMTask {
 
 	output {
 		String samplename = sample
+
 	}
 
 	runtime {
