@@ -45,7 +45,7 @@ task QcTask {
 	String fq2 = dir + "/${sampleName}.clean.R2.fq.gz"
 
 	output {
-		Array[String] sample_clean_fqs = [sampleName, fq1, fq2]
+		Array[String]? sample_clean_fqs = [sampleName, fq1, fq2]
 		# String qc_dir = basename(dir, sampleName)
 		String qc_dir = workdir + "/QC"
 
