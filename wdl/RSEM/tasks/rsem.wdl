@@ -79,7 +79,6 @@ task RSEMTask {
 
 	output {
 		String samplename = sample
-
 	}
 
 	runtime {

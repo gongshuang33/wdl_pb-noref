@@ -47,5 +47,8 @@ workflow RunRSEM {
 		
 	}
 	
+	output {
+		
+	}
 	
 }
