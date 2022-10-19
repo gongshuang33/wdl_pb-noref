@@ -78,7 +78,7 @@ task RSEMTask {
 	>>>
 
 	output {
-		String? samplename = sample
+		String samplename = sample
 	}
 
 	runtime {
@@ -95,7 +95,7 @@ task RSEMStatTask {
 		String rsem_dir
 		String scriptDir
 		String? sample_txt
-		Array[String]? samples  # RSEMTask.samplename
+		Array[String] samples  # RSEMTask.samplename
 
 		Int cpu = 8
 		String memgb = '16G'
