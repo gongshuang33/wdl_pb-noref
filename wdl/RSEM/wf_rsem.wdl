@@ -23,7 +23,7 @@ workflow RunRSEM {
 			# image = dockerImages["QC"]
 	}
 	if(defined(sample_clean_fqs)) {
-		scatter(line in sample_clean_fqs) {
+		scatter(line in [${sep=', ' sample_clean_fqs}]) {
 			call rsem.RSEMTask as RSEM {
 				input:
 					workdir = workdir,
