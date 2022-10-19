@@ -11,5 +11,5 @@
 ### 1.4 运行workflow（测试时建议写进work.sh脚本,qsub投递）
 ```shell
 # work.sh 
-/usr/bin/time --verbose java -Dconfig.file=/export/personal1/fengl/ceshi/Q20_single_cell_test/HX002_WHXWZKY-202204026F-01/test_split_fastq_parallel/test_wdl_workflow/SGE.cromwell.conf -jar /export/pipeline/RNASeq/Software/Cromwell/cromwell-80.jar run /export/personal1/fengl/ceshi/cromwell/FullLengthTranscriptome/wf_fl_transcriptome.wdl -i input_template.json
+/usr/bin/time --verbose java -jar /export/pipeline/RNASeq/Software/Cromwell/cromwell-80.jar run PacBio_Noref_RNAseq.wdl -i input.json
 ```

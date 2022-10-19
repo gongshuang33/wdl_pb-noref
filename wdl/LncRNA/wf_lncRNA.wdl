@@ -1,6 +1,6 @@
 version 1.0
 
-import "tasks/LncRNA.wdl" as LncRNA
+import "./tasks/lncRNA.wdl" as LncRNA
 
 workflow RunLncRNA {
 	input {
