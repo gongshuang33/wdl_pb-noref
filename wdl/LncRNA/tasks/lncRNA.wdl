@@ -36,7 +36,7 @@ task SplitTask {
 	}
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
@@ -99,7 +99,7 @@ task CPCTask {
 	}
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
@@ -142,7 +142,7 @@ task CPCStatTask {
 	}
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
@@ -154,12 +154,14 @@ task CNCITask {
 		String ScriptDir
 		String workdir
 		String novel_cds_removed_fa
+		String species_type
 
 		Int cpu = 10
 		String memgb = "20G"
 		# String image
 		String? ROOTDIR = "/export/"
 	}
+
 
 	String cncidir = workdir + "/CNCI"
 
@@ -173,10 +175,18 @@ task CNCITask {
 			exit 0
 		fi
 
-		python ~{ScriptDir}/CNCI.py -f ~{novel_cds_removed_fa} -o CNCI_out -m ve -p ~{cpu}
-		python ~{ScriptDir}/get_LncRNA_from_cnci.py ~{cncidir}/CNCI_out/CNCI.index cnci.id.txt
+		if [ ~{species_type} = "plant" ]; then
+			python ~{ScriptDir}/CNCI.py -f ~{novel_cds_removed_fa} -o CNCI_out -m pl -p ~{cpu}
+			python ~{ScriptDir}/get_LncRNA_from_cnci.py ~{cncidir}/CNCI_out/CNCI.index cnci.id.txt
+			touch run_cnci_work_done
+		fi
 
-		touch run_cnci_work_done
+		if [ ~{species_type} != "plant" ]; then
+			python ~{ScriptDir}/CNCI.py -f ~{novel_cds_removed_fa} -o CNCI_out -m ve -p ~{cpu}
+			python ~{ScriptDir}/get_LncRNA_from_cnci.py ~{cncidir}/CNCI_out/CNCI.index cnci.id.txt
+			touch run_cnci_work_done
+		fi
+		
 		date
 	>>>
 
@@ -186,7 +196,7 @@ task CNCITask {
 	}
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
@@ -232,7 +242,7 @@ task PlekTask {
 	}
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
@@ -273,7 +283,7 @@ task PlekStatTask {
 	}
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
@@ -317,7 +327,7 @@ task PfamTask {
 	>>>
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
@@ -363,7 +373,7 @@ task PfamStatTask {
 	}
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
@@ -433,12 +443,9 @@ task TotalStatTask {
 	}
 
 	runtime {
-		# docker: image
+		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
 	}
 }
-
-
-

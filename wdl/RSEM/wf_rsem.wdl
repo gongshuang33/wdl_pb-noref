@@ -42,13 +42,13 @@ workflow RunRSEM {
 				scriptDir = scriptDir,
 				sample_txt = sample_txt,
 				samples = RSEM.samplename,
-				# image = dockerImages["QC"]
+				# image = dockerImages[""]
 		}
 		
 	}
 	
 	output {
-		
+
 	}
 	
 }

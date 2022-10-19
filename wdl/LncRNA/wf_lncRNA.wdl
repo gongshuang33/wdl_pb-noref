@@ -1,6 +1,6 @@
 version 1.0
 
-import "./tasks/lncRNA.wdl" as LncRNA
+import "tasks/LncRNA.wdl" as LncRNA
 
 workflow RunLncRNA {
 	input {
@@ -9,7 +9,6 @@ workflow RunLncRNA {
 		String novel_cds_removed_fa
 		String species_type
 		Int split_num = 20
-		
 		# Map[String, String] dockerImages
 	}
 
@@ -49,6 +48,7 @@ workflow RunLncRNA {
 			ScriptDir = ScriptDir,
 			workdir = split.workdir,
 			novel_cds_removed_fa = novel_cds_removed_fa,
+			species_type = species_type,
 			# image = dockerImages[""]
 	}
 
