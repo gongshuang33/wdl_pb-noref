@@ -33,6 +33,7 @@ task RSEMPreTask {
 
 	output {
 		String dir = rsem_dir
+		String rsem_isoforms = rsem_dir + '/tmp/isoforms'
 	}
 
 	runtime {
@@ -45,6 +46,11 @@ task RSEMPreTask {
 
 task RSEMTask {
 	input {
+		String workdir
+		String rsem_dir
+		String sample
+		String sample_R1_fq  # QC/sample/sample.R1.fq.gz
+		String sample_R2_fq
 
 		Int cpu = 8
 		String memgb = '16G'
@@ -52,8 +58,21 @@ task RSEMTask {
 		String? ROOTDIR = "/export/"
 	}
 
+	String sample_dir = rsem_dir + '/' + sample
+
 	command <<<
-	
+		set -vex
+		hostname
+		date
+		mkdir -p ~{sample_dir} && cd ~{sample_dir}
+		if [ -f 'RSEM_~{sample}_done' ];then
+			exit 0
+		fi
+		/usr/bin/perl /export/personal/pengh/Software/RSEM-master/rsem-calculate-expression --bowtie2 --bowtie2-path /export/personal/pengh/Software/bowtie2-2.3.2-legacy/ --paired-end ~{sample_R1_fq} ~{sample_R2_fq} -p 10 ~{rsem_isoforms} ~{sample_dir}/~{sample}
+
+		rm ~{sample_dir}/~{sample}.transcript.bam
+		touch ~{sample_dir}/RSEM_~{sample}_done
+		date
 	>>>
 
 	output {
@@ -81,6 +100,8 @@ task RSEMStatTask {
 		String? ROOTDIR = "/export/"
 	}
 
+	Array[String] samples = [Dc-A-1,Dc-A-2,Dc-A-3,Dc-B-1,Dc-B-2,Dc-B-3,Dc-C-1,Dc-C-2,Dc-C-3]
+
 	command <<<
 		set -vex
 		hostname
@@ -91,7 +112,7 @@ task RSEMStatTask {
 		fi
 		python ~{scriptDir}/merge_rsem.py
 		python ~{scriptDir}/merge_rsem_transcript.py
-		perl ~{scriptDir}/mapping_rate_trans_v5.pl -n Dc-A-1,Dc-A-2,Dc-A-3,Dc-B-1,Dc-B-2,Dc-B-3,Dc-C-1,Dc-C-2,Dc-C-3
+		perl ~{scriptDir}/mapping_rate_trans_v5.pl -n ~{sep=', ' samples}
 
 		cut -f 1-2 ~{sample_txt} > grouplist
 		mv samples.fpkm.xls samples.fpkm.xls_bak

@@ -29,7 +29,7 @@ task LncRNATask {
 		fi
 
 		# fungi
-		if [[ ~{species_type} =="fungi" ]];then
+		if [[ ~{species_type} == "fungi" ]];then
 			python3 ~{scriptDir}/run_lncrna_fungi.py --seq  ~{cds_removed_isoform_fasta} --work_dir ~{lncRNA_dir} --species_type ~{species_type}
 			touch run_lncrna_done
 		fi
