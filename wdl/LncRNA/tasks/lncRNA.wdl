@@ -1,5 +1,15 @@
 version 1.0
 
+task SeqSplitTask {
+	input {
+		String
+	}
+
+	command <<<
+		
+	>>>
+}
+
 task LncRNATask {
 	input {
 		String workdir

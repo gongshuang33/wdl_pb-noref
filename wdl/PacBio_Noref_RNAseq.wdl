@@ -78,13 +78,14 @@ workflow Run_PacBio_Noref{
 	# RSEM
 	if(defined(sample_txt)) {
 		call wf_rsem.RunRSEM as RSEM {
-			workdir = workdir,
-			scriptDir = scriptDir,
-			cdhit_togene = CDhit.cdhit_togene,
-			cd-hit_isoforms_fasta = CDhit.cdhit_isoform_fa,
-			sample_txt = sample_txt,
-			sample_clean_fqs = QC.sample_clean_fqs,
-			#dockerImages = dockerImages[]
+			input:
+				workdir = workdir,
+				scriptDir = scriptDir,
+				cdhit_togene = CDhit.cdhit_togene,
+				cd-hit_isoforms_fasta = CDhit.cdhit_isoform_fa,
+				sample_txt = sample_txt,
+				sample_clean_fqs = QC.sample_clean_fqs,
+				#dockerImages = dockerImages[]
 		}
 	}
 
