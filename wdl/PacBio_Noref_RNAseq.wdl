@@ -14,7 +14,7 @@ import './TF/wf_tf.wdl' as wf_tf
 # 三+二
 import './QC/wf_qc.wdl' as wf_qc
 import './NGS_correction/wf_NGScorrect.wdl' as wf_NGScorrect
-# import './RSEM/wf_rsem.wdl' as wf_rsem
+import './RSEM/wf_rsem.wdl' as wf_rsem
 
 
 workflow Run_PacBio_Noref{
@@ -33,13 +33,9 @@ workflow Run_PacBio_Noref{
 
 		Int split_num 	# 功能注释拆分数
 		String name = "unigene"	# 功能注释NAME  default:Unigene
-
-
-
 	}
+
 	#Map[String, String] dockerImages = read_json(dockerImagesJson)
-
-
 	
 	# isoseq
 	call wf_isoseq.RunIsoseq as Isoseq{
@@ -77,6 +73,19 @@ workflow Run_PacBio_Noref{
 			NGS_corrected_fasta = NGScorrect.NGS_corrected_fasta,
 			all_polished_fa = Isoseq.all_polished_fa,
 			#dockerImages = dockerImages[]
+	}
+
+	# RSEM
+	if(defined(sample_txt)) {
+		call wf_rsem.RunRSEM as RSEM {
+			workdir = workdir,
+			scriptDir = scriptDir,
+			cdhit_togene = CDhit.cdhit_togene,
+			cd-hit_isoforms_fasta = CDhit.cdhit_isoform_fa,
+			sample_txt = sample_txt,
+			sample_clean_fqs = QC.sample_clean_fqs,
+			#dockerImages = dockerImages[]
+		}
 	}
 
 	# Annotation

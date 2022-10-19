@@ -36,6 +36,7 @@ workflow RunQC {
 	output {
 			String? qc_stat_xls = QcStat.qc_stat_xls
 			Array[String]? fq_lists = QcStat.fq_lists # 用于NGScorrection做校正
+			Array[Array[String]] sample_clean_fqs = QC.sample_clean_fqs
 		}
     
 }

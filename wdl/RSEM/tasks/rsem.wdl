@@ -48,9 +48,8 @@ task RSEMTask {
 	input {
 		String workdir
 		String rsem_dir
-		String sample
-		String sample_R1_fq  # QC/sample/sample.R1.fq.gz
-		String sample_R2_fq
+		String rsem_isoforms
+		Array[String] sample_clean_fqs # [samplename, fq1,fq2]
 
 		Int cpu = 8
 		String memgb = '16G'
@@ -59,6 +58,9 @@ task RSEMTask {
 	}
 
 	String sample_dir = rsem_dir + '/' + sample
+	String sample = sample_clean_fqs[0]
+	String sample_R1_fq = sample_clean_fqs[1]
+	String sample_R2_fq = sample_clean_fqs[2]
 
 	command <<<
 		set -vex
@@ -76,7 +78,7 @@ task RSEMTask {
 	>>>
 
 	output {
-
+		String samplename = sample
 	}
 
 	runtime {
@@ -92,15 +94,14 @@ task RSEMStatTask {
 	input {
 		String rsem_dir
 		String scriptDir
-		String sample_txt
+		String? sample_txt
+		Array[String] samples  # RSEMTask.samplename
 
 		Int cpu = 8
 		String memgb = '16G'
 		# String image
 		String? ROOTDIR = "/export/"
 	}
-
-	Array[String] samples = [Dc-A-1,Dc-A-2,Dc-A-3,Dc-B-1,Dc-B-2,Dc-B-3,Dc-C-1,Dc-C-2,Dc-C-3]
 
 	command <<<
 		set -vex
