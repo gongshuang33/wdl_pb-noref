@@ -22,7 +22,7 @@ task SSRTask {
 		fi
 
 		cp /export/pipeline/RNASeq/Pipeline/noRef_Isoseq/bin/misa.ini ./
-		if[ ! -f 'Unigene.fasta' ];then
+		if [ ! -f 'Unigene.fasta' ];then
 			ln -s ~{unigene_fasta} Unigene.fasta
 		fi
 		/export/personal/pengh/Software/misa/misa.pl Unigene.fasta
