@@ -19,7 +19,9 @@ task TFTask {
 	command <<<
 		set -ex
 		mkdir -p ~{tf_dir} && cd ~{tf_dir}
-		ln -s ~{unigene_fasta} Unigene.fasta
+		if [ ! -f 'Unigene.fasta' ];then
+			ln -s ~{unigene_fasta} Unigene.fasta
+		fi
 		if [[ -f 'TF_plant_done' || -f 'TF_animal_done' ]];then
 			exit 0
 		fi
