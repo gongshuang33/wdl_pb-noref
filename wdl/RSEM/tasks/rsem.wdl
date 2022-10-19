@@ -49,7 +49,7 @@ task RSEMTask {
 		String workdir
 		String rsem_dir
 		String rsem_isoforms
-		Array[String]? sample_clean_fqs # [samplename, fq1,fq2]
+		Array[String] sample_clean_fqs # [samplename, fq1,fq2]
 
 		Int cpu = 8
 		String memgb = '16G'
@@ -58,9 +58,9 @@ task RSEMTask {
 	}
 
 	String sample_dir = rsem_dir + '/' + sample
-	String? sample = sample_clean_fqs[0]
-	String? sample_R1_fq = sample_clean_fqs[1]
-	String? sample_R2_fq = sample_clean_fqs[2]
+	String sample = sample_clean_fqs[0]
+	String sample_R1_fq = sample_clean_fqs[1]
+	String sample_R2_fq = sample_clean_fqs[2]
 
 	command <<<
 		set -vex

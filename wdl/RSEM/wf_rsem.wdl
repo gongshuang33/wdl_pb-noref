@@ -22,16 +22,16 @@ workflow RunRSEM {
 			cdhit_isoforms_fasta = cdhit_isoforms_fasta,
 			# image = dockerImages["QC"]
 	}
-
-	scatter(line in sample_clean_fqs) {
-		call rsem.RSEMTask as RSEM {
-			input:
-				workdir = workdir,
-				rsem_dir = RSEMPre.dir,
-				rsem_isoforms = RSEMPre.rsem_isoforms,
-				sample_clean_fqs = line,
-				# image = dockerImages["QC"]
-		}
+	if(defined(sample_clean_fqs)) {
+		scatter(line in sample_clean_fqs) {
+			call rsem.RSEMTask as RSEM {
+				input:
+					workdir = workdir,
+					rsem_dir = RSEMPre.dir,
+					rsem_isoforms = RSEMPre.rsem_isoforms,
+					sample_clean_fqs = line,
+					# image = dockerImages["QC"]
+			}
 	}
 
 	call rsem.RSEMStatTask as RSEMStat {
@@ -42,4 +42,6 @@ workflow RunRSEM {
 			samples = RSEM.samplename,
 			# image = dockerImages["QC"]
 	}
+	}
+	
 }
