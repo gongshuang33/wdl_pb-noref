@@ -6,7 +6,7 @@ import './CDhit/wf_cdhit.wdl' as wf_cdhit
 import './Annotation/wf_annotation.wdl' as wf_annotation
 import './SSR/wf_ssr.wdl' as wf_ssr
 import './CDS/wf_cds.wdl' as wf_cds
-import './LncRNA/wf_lncRNA.wdl' as wf_lncRNA
+# import './LncRNA/wf_lncRNA.wdl' as wf_lncRNA
 import './Saturation_curve/wf_saturation_curve.wdl' as wf_saturation_curve
 import './AS/wf_as.wdl' as wf_as
 import './TF/wf_tf.wdl' as wf_tf
