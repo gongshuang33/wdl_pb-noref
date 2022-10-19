@@ -82,7 +82,7 @@ workflow Run_PacBio_Noref{
 				workdir = workdir,
 				scriptDir = scriptDir,
 				cdhit_togene = CDhit.cdhit_togene,
-				cd-hit_isoforms_fasta = CDhit.cdhit_isoform_fa,
+				cdhit_isoforms_fasta = CDhit.cdhit_isoform_fa,
 				sample_txt = sample_txt,
 				sample_clean_fqs = QC.sample_clean_fqs,
 				#dockerImages = dockerImages[]
@@ -122,16 +122,16 @@ workflow Run_PacBio_Noref{
 			#dockerImages = dockerImages[]
 	}
 
-	# LncRNA
-	call wf_lncRNA.RunLncRNA as LncRNA {
-		input:
-			workdir = workdir,
-			scriptDir = scriptDir,
-			species_type = species_type,
-			cds_removed_isoform_fasta = CDS.cds_removed_isoform_fasta,
-			cds_dir = CDS.dir,
-			#dockerImages = dockerImages[]
-	}
+	# # LncRNA
+	# call wf_lncRNA.RunLncRNA as LncRNA {
+	# 	input:
+	# 		workdir = workdir,
+	# 		scriptDir = scriptDir,
+	# 		species_type = species_type,
+	# 		cds_removed_isoform_fasta = CDS.cds_removed_isoform_fasta,
+	# 		cds_dir = CDS.dir,
+	# 		#dockerImages = dockerImages[]
+	# }
 
 	# Saturation_curve
 	call wf_saturation_curve.RunSaturationCurve as Saturation_curve {

@@ -7,7 +7,7 @@ task RSEMPreTask {
 		String workdir
 		String scriptDir
 		String cdhit_togene  #CDhit.togene
-		String cd-hit_isoforms_fasta #cdhit.cd-hit_isoforms_fasta
+		String cdhit_isoforms_fasta #cdhit.cdhit_isoforms_fasta
 		
 		Int cpu = 8
 		String memgb = '16G'
@@ -26,7 +26,7 @@ task RSEMPreTask {
 		fi
 
 		mkdir ~{rsem_dir}/tmp
-		/export/personal/pengh/Software/RSEM-master/rsem-prepare-reference --transcript-to-gene-map ~{cdhit_togene} --bowtie2 --bowtie2-path /export/personal/pengh/Software/bowtie2-2.3.2-legacy/ ~{cd-hit_isoforms_fasta} ~{rsem_dir}/tmp/isoforms
+		/export/personal/pengh/Software/RSEM-master/rsem-prepare-reference --transcript-to-gene-map ~{cdhit_togene} --bowtie2 --bowtie2-path /export/personal/pengh/Software/bowtie2-2.3.2-legacy/ ~{cdhit_isoforms_fasta} ~{rsem_dir}/tmp/isoforms
 		touch RSEM_pre_done
 		date
 	>>>
