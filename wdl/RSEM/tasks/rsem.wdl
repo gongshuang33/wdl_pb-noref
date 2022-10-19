@@ -58,9 +58,9 @@ task RSEMTask {
 	}
 
 	String sample_dir = rsem_dir + '/' + sample
-	String sample = sample_clean_fqs[0]
-	String sample_R1_fq = sample_clean_fqs[1]
-	String sample_R2_fq = sample_clean_fqs[2]
+	String? sample = sample_clean_fqs[0]
+	String? sample_R1_fq = sample_clean_fqs[1]
+	String? sample_R2_fq = sample_clean_fqs[2]
 
 	command <<<
 		set -vex
@@ -78,7 +78,7 @@ task RSEMTask {
 	>>>
 
 	output {
-		String samplename = sample
+		String? samplename = sample
 	}
 
 	runtime {
@@ -95,7 +95,7 @@ task RSEMStatTask {
 		String rsem_dir
 		String scriptDir
 		String? sample_txt
-		Array[String] samples  # RSEMTask.samplename
+		Array[String]? samples  # RSEMTask.samplename
 
 		Int cpu = 8
 		String memgb = '16G'
