@@ -121,7 +121,7 @@ workflow Run_PacBio_Noref{
 	}
 
 	# LncRNA
-	call wf_lncRNA.RunLncRNA as LncRNA {
+	call wf_lncRNA.RunLncRNA as lncRNA {
 		input:
 			projectdir = workdir,
 			ScriptDir = scriptDir,
