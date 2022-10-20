@@ -95,6 +95,7 @@ workflow RunLncRNA {
 			cpc_id = cpcstat.cpc_id,
 			plek_id = plekstat.plek_id,
 			pfam_id = pfamstat.pfam_id,
+			cnci_id = cnci.cnci_id,
 			# image = dockerImages[""]
 	}
 
