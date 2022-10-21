@@ -11,6 +11,9 @@ workflow RunIsoseq {
 		String workdir
 		String scriptDir
 		String pbfile
+		String ccs_bam_txt   				# 多个ccs.bam用samtools merge手动合并成一个传进来
+
+
 		#Map[String, String] dockerImages
 	}
 
@@ -30,31 +33,38 @@ workflow RunIsoseq {
 			#image = dockerImages[""]
 	}
 
-	scatter (line in pbfile_data) {
-		call ccs.CCSTask as CCS {
+	if(!defined(ccs_bam_txt)) {
+		scatter (line in pbfile_data) {
+			call ccs.CCSTask as CCS {
+				input:
+					workdir = workdir,
+					sample = line[0],
+					scriptDir = scriptDir,
+					subreads_dir = getSubreads.dir,
+					#image = dockerImages[""]
+			}
+		}
+		call ccs.CCSStatTask as CCSStat {
 			input:
-				workdir = workdir,
-				sample = line[0],
-				scriptDir = scriptDir,
-				subreads_dir = getSubreads.dir,
-				#image = dockerImages[""]
+				ccs_dir = CCS.dir[0],
+				scriptDir = scriptDir
 		}
 	}
-	call ccs.CCSStatTask as CCSStat {
-		input:
-			ccs_dir = CCS.dir[0],
-			scriptDir = scriptDir
-	}
 
-	scatter (line in pbfile_data) {
+	Array[Array[String]] ccs_bam = read_tsv(ccs_bam_txt)
+	scatter (i in range(length(ccs_bam))) {
+		String sample = ccs_bam[i][0]
+		String ccs_bam = ccs_bam[i][1]
 		call lima.LimaTask as Lima {
 			input:
 				workdir = workdir,
-				sample = line[0],
-				ccs_dir = CCS.dir[0],
+				sample = sample,
+				# ccs_dir = CCS.dir[0],
+				ccs_dir = ccs_bam,
 				#image = dockerImages[""]
 		}
 	}
+	
 	call lima.LimaStatTask as LimaStat {
 		input:
 			lima_dir = Lima.dir[0],

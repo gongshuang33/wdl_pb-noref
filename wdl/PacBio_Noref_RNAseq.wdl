@@ -46,6 +46,7 @@ workflow Run_PacBio_Noref{
 			workdir = workdir,
 			scriptDir = scriptDir,
 			pbfile = pbfile,
+			ccs_bam_txt = ccs_bam_txt,
 			#dockerImages = dockerImages[]
 	}
 
