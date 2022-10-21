@@ -15,6 +15,9 @@ import './TF/wf_tf.wdl' as wf_tf
 import './QC/wf_qc.wdl' as wf_qc
 import './NGS_correction/wf_NGScorrect.wdl' as wf_NGScorrect
 import './RSEM/wf_rsem.wdl' as wf_rsem
+import "Diff/wf_DGE.wdl" as wf_DGE
+import "Enrich/wf_func_enrich.wdl" as wf_func_enrich
+import "common.wdl" as common
 
 
 workflow Run_PacBio_Noref{
@@ -39,12 +42,12 @@ workflow Run_PacBio_Noref{
 	
 	# isoseq
 	call wf_isoseq.RunIsoseq as Isoseq{
-        input:
-            workdir = workdir,
-            scriptDir = scriptDir,
-            pbfile = pbfile,
-            #dockerImages = dockerImages[]
-    }
+		input:
+			workdir = workdir,
+			scriptDir = scriptDir,
+			pbfile = pbfile,
+			#dockerImages = dockerImages[]
+	}
 
 	# QC_ngs
 	call wf_qc.RunQC as QC{
@@ -161,9 +164,55 @@ workflow Run_PacBio_Noref{
 			#dockerImages = dockerImages[]
 	}
 
-	output {
-
+	# Diff
+	call wf_DGE.RunDGE as DEG {
+		input:
+			diff_dir = RSEM.diff_dir,
+			sample_group = sample_txt,
+			compare_txt = compare_txt,
+			gene_count = RSEM.gene_count,
+			gene_fpkm = RSEM.gene_fpkm,
+			# gene_tpm = RSEM.gene_tpm,
+			scriptDir = scriptDir,
+			# dockerImages = dockerImages[]
 	}
+
+	call wf_DGE.DgeAddAnnotTask {
+		input:
+			diff_dir_done = DEG.diff_dir_done,
+			go_annotation_xls = Annotation.go_annotation_xls,
+			kegg_annotation_xls = Annotation.kegg_annotation_xls,
+			scriptDir = scriptDir,
+			# image = dockerImages[]
+	}
+
+	call common.tsv_to_string as COMM_String{
+		input:
+			tsv_path = compare_txt
+	}
+
+	# Enrichment
+	call wf_func_enrich.RunGOEnrich {
+		input:
+			comp_strings = COMM_String.comp_strings,
+			projectdir = workdir,
+			diff_dir_done = DEG.diff_dir_done,
+			go_annotation_xls = Annotation.go_annotation_xls,
+			scriptDir = scriptDir,
+			# dockerImages = dockerImages[]
+	}
+
+	call wf_func_enrich.RunKEGGEnrich {
+		input:
+			comp_strings = COMM_String.comp_strings,
+			projectdir = workdir,
+			diff_dir_done = DEG.diff_dir_done,
+			No_HumanDisease_map = Annotation.kegg_map,
+			scriptDir = scriptDir,
+			# dockerImages = dockerImages[]
+	}
+
+	output {}
 
 
 }

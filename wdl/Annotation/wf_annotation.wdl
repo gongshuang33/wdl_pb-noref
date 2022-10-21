@@ -125,5 +125,8 @@ workflow RunAnnotation {
 	}
 
 	output {
+		String go_annotation_xls = CombineKOG.go_annotation_xls
+		String kegg_annotation_xls = CombineKEGG.kegg_annotation_xls
+		String kegg_map = CombineKEGG.kegg_map
 	}
 }

@@ -129,7 +129,8 @@ task RSEMStatTask {
 	>>>
 
 	output {
-
+		String gene_count = rsem_dir +  '/samples.readcount.xls'
+		String gene_fpkm = rsem_dir +  '/samples.fpkm.xls'
 	}
 
 	runtime {
