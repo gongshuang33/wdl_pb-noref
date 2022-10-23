@@ -24,7 +24,7 @@ task join_string_array {
 
 workflow tsv_to_string {
 	input {
-		String? tsv_path
+		File? tsv_path
 	}
 
 	if(defined(tsv_path)) {

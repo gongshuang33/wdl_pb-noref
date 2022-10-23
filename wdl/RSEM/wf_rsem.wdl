@@ -51,7 +51,6 @@ workflow RunRSEM {
 		String diff_dir = workdir + '/Diff'
 		String gene_count = RSEMStat.gene_count
 		String gene_fpkm = RSEMStat.gene_fpkm
-		String gene_tpm = 
 	}
 	
 }

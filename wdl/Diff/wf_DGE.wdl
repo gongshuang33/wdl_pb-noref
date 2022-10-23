@@ -44,7 +44,7 @@ workflow RunDGE {
 
 task DgeAddAnnotTask {
 	input {
-		String diff_dir_done
+		String? diff_dir_done
 		String go_annotation_xls
 		String kegg_annotation_xls
 		String scriptDir
