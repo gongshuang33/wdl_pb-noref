@@ -198,7 +198,7 @@ workflow Run_PacBio_Noref{
 		input:
 			comp_strings = COMM_String.comp_strings,
 			projectdir = workdir,
-			diff_dir_done = DEG.diff_dir_done,
+			diff_dir_done = select_first([DEG.diff_dir_done]),
 			go_annotation_xls = Annotation.go_annotation_xls,
 			scriptDir = scriptDir,
 			# dockerImages = dockerImages[]
@@ -208,7 +208,7 @@ workflow Run_PacBio_Noref{
 		input:
 			comp_strings = COMM_String.comp_strings,
 			projectdir = workdir,
-			diff_dir_done = DEG.diff_dir_done,
+			diff_dir_done = select_first([DEG.diff_dir_done]),
 			No_HumanDisease_map = Annotation.kegg_map,
 			scriptDir = scriptDir,
 			# dockerImages = dockerImages[]
