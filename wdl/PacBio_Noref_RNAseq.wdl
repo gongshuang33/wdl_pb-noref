@@ -33,6 +33,7 @@ workflow Run_PacBio_Noref{
 		String? compare_txt 	# 【无二代数据，仅三代无参时不填,如果有重复组，需要做差异表达则有compare.txt文件】，第一列和第二列比较（第一列为实验组，第二列为对照组）；若无需做差异比较分析则忽略忽该参数（是否做看差异分析表）
 		String? venn	# 【无韦恩分析不填】差异基因venn分析的文件信息venn_cluster.txt，放在项目路径下（是否做看差异分析表）
 		String scriptDir	# 脚本路径
+		String ccs_bam_txt
 
 		Int split_num 	# 功能注释拆分数
 		String name = "unigene"	# 功能注释NAME  default:Unigene
