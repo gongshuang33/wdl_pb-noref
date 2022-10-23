@@ -24,10 +24,10 @@ task join_string_array {
 
 workflow tsv_to_string {
 	input {
-		File? tsv_path
+		File tsv_path
 	}
 
-	if(defined(tsv_path)) {
+	# if(defined(tsv_path)) {
 		Array[Array[String]] lines = read_tsv(tsv_path)
 		scatter (line in lines) {
 			call join_string_array {
@@ -35,7 +35,7 @@ workflow tsv_to_string {
 					str_arr = line
 			}
 		}
-	}
+	# }
 		
 
 	output {
