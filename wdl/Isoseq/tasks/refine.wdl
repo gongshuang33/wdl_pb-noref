@@ -50,7 +50,7 @@ task RefineStatTask {
 	input {
 		String refine_dir
 		String scriptDir
-		String roi_reads_summary_xls  # ccstask.roi_reads_summary_xls
+		String? roi_reads_summary_xls  # ccstask.roi_reads_summary_xls
 
 		Int cpu = 1
 		String memgb = '2G'
