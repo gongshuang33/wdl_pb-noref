@@ -52,9 +52,10 @@ workflow RunIsoseq {
 	}
 
 	Array[Array[String]] ccs_bam = read_tsv(ccs_bam_txt)
-	scatter (i in range(length(ccs_bam[0]))) {
-		String sample = ccs_bam[i][0]
-		String ccs_bam = ccs_bam[i][1]
+	# scatter (i in range(length(ccs_bam[0]))) {
+	scatter (i in ccs_bam) {
+		String sample = i[0]
+		String ccs_bam = i[1]
 		call lima.LimaTask as Lima {
 			input:
 				workdir = workdir,
