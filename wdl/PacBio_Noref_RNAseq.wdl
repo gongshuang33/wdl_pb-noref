@@ -172,7 +172,7 @@ workflow Run_PacBio_Noref{
 			diff_dir = RSEM.diff_dir,
 			sample_group = sample_txt,
 			compare_txt = compare_txt,
-			gene_count = RSEM.gene_count,
+			gene_count = select_first([RSEM.gene_count]),
 			gene_fpkm = RSEM.gene_fpkm,
 			# gene_tpm = RSEM.gene_tpm,
 			scriptDir = scriptDir,
