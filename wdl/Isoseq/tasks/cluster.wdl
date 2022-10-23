@@ -46,7 +46,7 @@ task ClusterStatTask {
 	input {
 		String cluster_dir
 		String scriptDir
-		String ccs_dir
+		String? ccs_dir
 		String refine_dir
 
 		Int cpu = 1
