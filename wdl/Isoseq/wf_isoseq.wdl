@@ -72,13 +72,13 @@ workflow RunIsoseq {
 		# scatter (i in range(length(ccs_bam[0]))) {
 		scatter (i in ccs_bam) {
 			String sample = i[0]
-			String ccs_bam = i[1]
+			String ccs_bam_dir = i[1]
 			call lima.LimaTask as Lima {
 				input:
 					workdir = workdir,
 					sample = sample,
 					# ccs_dir = CCS.dir[0],
-					ccs_dir = ccs_bam,
+					ccs_dir = ccs_bam_dir,
 					#image = dockerImages[""]
 			}
 		}
