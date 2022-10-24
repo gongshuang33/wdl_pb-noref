@@ -31,7 +31,7 @@ workflow RunIsoseq {
 			#image = dockerImages[""]
 	}
 
-	if(!defined(ccs_bam_txt)) {
+	# if(!defined(ccs_bam_txt)) {
 		scatter (line in pbfile_data) {
 			call ccs.CCSTask as CCS {
 				input:
@@ -42,6 +42,7 @@ workflow RunIsoseq {
 					#image = dockerImages[""]
 			}
 		}
+		
 		call ccs.CCSStatTask as CCSStat {
 			input:
 				ccs_dir = select_first(CCS.dir),
@@ -58,25 +59,23 @@ workflow RunIsoseq {
 					#image = dockerImages[""]
 			}
 		}
+	# }
 
-		
-	}
-
-	if(defined(ccs_bam_txt)) {
-		Array[Array[String]] ccs_bams = read_tsv(ccs_bam_txt)
+	# if(defined(ccs_bam_txt)) {
+	# 	Array[Array[String]] ccs_bams = read_tsv(ccs_bam_txt)
 	
-		# scatter (i in range(length(ccs_bam[0]))) {
-		scatter (i in ccs_bams) {
-			call lima.LimaTask as Lima {
-				input:
-					workdir = workdir,
-					sample = i[0],
-					# ccs_dir = CCS.dir[0],
-					ccs_bam = i[1],
-					#image = dockerImages[""]
-			}
-		}
-	}
+	# 	# scatter (i in range(length(ccs_bam[0]))) {
+	# 	scatter (i in ccs_bams) {
+	# 		call lima.LimaTask as Lima {
+	# 			input:
+	# 				workdir = workdir,
+	# 				sample = i[0],
+	# 				# ccs_dir = CCS.dir[0],
+	# 				ccs_bam = i[1],
+	# 				#image = dockerImages[""]
+	# 		}
+	# 	}
+	# }
 
 	call lima.LimaStatTask as LimaStat {
 		input:
