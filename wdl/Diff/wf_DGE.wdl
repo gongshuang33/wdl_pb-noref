@@ -9,7 +9,7 @@ workflow RunDGE {
 		String? compare_txt
 		String gene_count
 		String gene_fpkm
-		String gene_tpm
+		# String gene_tpm
 		String scriptDir
 		# Map[String, String] dockerImages		 
 	}
