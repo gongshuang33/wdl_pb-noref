@@ -12,8 +12,6 @@ workflow RunIsoseq {
 		String scriptDir
 		String pbfile
 		String? ccs_bam_txt   				# 多个ccs.bam用samtools merge手动合并成一个传进来
-
-
 		#Map[String, String] dockerImages
 	}
 
@@ -47,17 +45,16 @@ workflow RunIsoseq {
 		call ccs.CCSStatTask as CCSStat {
 			input:
 				ccs_dir = select_first(CCS.dir),
-				scriptDir = scriptDir
+				scriptDir = scriptDir,
+				#image = dockerImages[""]
 		}
 
-		scatter (i in CCS.ccs_fasta) {
+		scatter (i in CCS.ccs_bam) {
 			call lima.LimaTask as Lima {
 				input:
 					workdir = workdir,
 					sample = i[0],
 					ccs_bam = i[1],
-					# ccs_dir = select_first(CCS.dir)
-
 					#image = dockerImages[""]
 			}
 		}

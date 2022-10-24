@@ -34,7 +34,7 @@ task CCSTask {
 	>>>
 	output {
 		String dir = ccs_dir
-		Array[String] ccs_fasta = [sample, ccs_dir + "/" + sample + "/${sample}.ccs.fasta"]
+		Array[String] ccs_bam = [sample, ccs_dir + "/" + sample + "/${sample}.ccs.bam"]
 	}
 	runtime {
 		#docker: image
