@@ -5,8 +5,8 @@ task write_diff_script {
 		String diff_dir
 		String? sample_group
 		String? compare_txt
-		String gene_count
-		String gene_fpkm
+		String? gene_count
+		String? gene_fpkm
 		# String gene_tpm
 		String scriptDir
 

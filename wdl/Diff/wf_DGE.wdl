@@ -4,11 +4,11 @@ import "tasks/diff_tasks.wdl" as diff_tasks
 
 workflow RunDGE {
 	input {
-		String diff_dir
+		String? diff_dir
 		String? sample_group
 		String? compare_txt
-		String gene_count
-		String gene_fpkm
+		String? gene_count
+		String? gene_fpkm
 		# String gene_tpm
 		String scriptDir
 		# Map[String, String] dockerImages		 
