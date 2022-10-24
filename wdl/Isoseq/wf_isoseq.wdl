@@ -11,7 +11,7 @@ workflow RunIsoseq {
 		String workdir
 		String scriptDir
 		String pbfile
-		String ccs_bam_txt   				# 多个ccs.bam用samtools merge手动合并成一个传进来
+		String? ccs_bam_txt   				# 多个ccs.bam用samtools merge手动合并成一个传进来
 
 
 		#Map[String, String] dockerImages
