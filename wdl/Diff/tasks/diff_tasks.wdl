@@ -2,7 +2,7 @@ version 1.0
 
 task write_diff_script {
 	input {
-		String diff_dir
+		String? diff_dir
 		String? sample_group
 		String? compare_txt
 		String? gene_count
