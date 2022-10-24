@@ -4,7 +4,7 @@ import 'tasks/enrich_tasks.wdl' as enrich_tasks
 
 workflow RunGOEnrich {
 	input {
-		Array[String] comp_strings
+		Array[String]? comp_strings
 		String projectdir
 		String diff_dir_done
 		String go_annotation_xls
@@ -39,7 +39,7 @@ workflow RunGOEnrich {
 
 workflow RunKEGGEnrich {
 	input {
-		Array[String] comp_strings
+		Array[String]? comp_strings
 		String projectdir
 		String diff_dir_done
 		String No_HumanDisease_map
