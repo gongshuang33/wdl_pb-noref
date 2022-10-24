@@ -192,7 +192,7 @@ workflow Run_PacBio_Noref{
 			input:
 				tsv_path = select_first([compare_txt])
 		}
-	}
+	
 	# Enrichment
 	call wf_func_enrich.RunGOEnrich {
 		input:
@@ -213,7 +213,7 @@ workflow Run_PacBio_Noref{
 			scriptDir = scriptDir,
 			# dockerImages = dockerImages[]
 	}
-
+	}
 	output {}
 
 
