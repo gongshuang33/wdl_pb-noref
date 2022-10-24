@@ -4,7 +4,7 @@ task LimaTask {
 	input {
 		String workdir
 		String sample
-		String ccs_dir
+		String ccs_bam
 		String barcodes = "/export/pipeline/RNASeq/Pipeline/pbbarcoding/scripts/Sequel2_isoseq_barcode.fa"
 
 		Int cpu = 2
@@ -22,7 +22,7 @@ task LimaTask {
 		if [ -f 'run_lima_1_done' ]; then
 			exit 0
 		fi
-		/export/pipeline/RNASeq/Software/Miniconda/bin/lima ~{ccs_dir}/~{sample}/~{sample}.ccs.bam ~{barcodes} ~{sample}.fl.bam --isoseq --peek-guess -j ~{cpu}
+		/export/pipeline/RNASeq/Software/Miniconda/bin/lima ~{ccs_bam} ~{barcodes} ~{sample}.fl.bam --isoseq --peek-guess -j ~{cpu}
 
 		touch run_lima_1_done
 	>>>

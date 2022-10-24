@@ -55,8 +55,9 @@ workflow RunIsoseq {
 				input:
 					workdir = workdir,
 					sample = i[0],
-					ccs_dir = select_first(CCS.dir),
-					ccs_dir = i[1],
+					ccs_bam = i[1],
+					# ccs_dir = select_first(CCS.dir)
+
 					#image = dockerImages[""]
 			}
 		}
@@ -74,7 +75,7 @@ workflow RunIsoseq {
 					workdir = workdir,
 					sample = i[0],
 					# ccs_dir = CCS.dir[0],
-					ccs_dir = i[1],
+					ccs_bam = i[1],
 					#image = dockerImages[""]
 			}
 		}
