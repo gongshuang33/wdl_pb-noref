@@ -67,16 +67,16 @@ workflow RunIsoseq {
 	}
 
 	if(defined(ccs_bam_txt)) {
-		Array[Array[String]] ccs_bam = read_tsv(ccs_bam_txt)
+		Array[Array[String]] ccs_bams = read_tsv(ccs_bam_txt)
 	
 		# scatter (i in range(length(ccs_bam[0]))) {
-		scatter (i in ccs_bam) {
-			String sample = i[0]
+		scatter (i in ccs_bams) {
+			String samplec = i[0]
 			String ccs_bam_dir = i[1]
 			call lima.LimaTask as Lima {
 				input:
 					workdir = workdir,
-					sample = sample,
+					sample = samplec,
 					# ccs_dir = CCS.dir[0],
 					ccs_dir = ccs_bam_dir,
 					#image = dockerImages[""]
