@@ -74,7 +74,7 @@ task write_diff_script {
 
 task DGETask {
 	input {
-		String diff_dir
+		String? diff_dir
 		String diff_script
 		String scriptDir
 		Int cpu = 1
