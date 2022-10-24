@@ -46,8 +46,21 @@ workflow RunIsoseq {
 		}
 		call ccs.CCSStatTask as CCSStat {
 			input:
-				ccs_dir = CCS.dir[0],
+				ccs_dir = select_first(CCS.dir),
 				scriptDir = scriptDir
+		}
+
+		scatter (i in CCS.ccs_fasta) {
+			String sample = i[0]
+			String ccs_bam = i[1]
+			call lima.LimaTask as Lima {
+				input:
+					workdir = workdir,
+					sample = sample,
+					ccs_dir = select_first(CCS.dir),
+					ccs_dir = ccs_bam,
+					#image = dockerImages[""]
+			}
 		}
 
 		
@@ -70,6 +83,7 @@ workflow RunIsoseq {
 			}
 		}
 	}
+
 	call lima.LimaStatTask as LimaStat {
 		input:
 			lima_dir = Lima.dir[0],
