@@ -187,12 +187,12 @@ workflow Run_PacBio_Noref{
 			scriptDir = scriptDir,
 			# image = dockerImages[]
 	}
-
+	if(defined(compare_txt)) {
 		call common.tsv_to_string as COMM_String{
 			input:
 				tsv_path = select_first([compare_txt])
 		}
-
+	}
 	# Enrichment
 	call wf_func_enrich.RunGOEnrich {
 		input:
