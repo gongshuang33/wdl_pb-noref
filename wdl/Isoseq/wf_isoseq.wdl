@@ -49,23 +49,27 @@ workflow RunIsoseq {
 				ccs_dir = CCS.dir[0],
 				scriptDir = scriptDir
 		}
+
+		
 	}
 
-	Array[Array[String]] ccs_bam = read_tsv(ccs_bam_txt)
-	# scatter (i in range(length(ccs_bam[0]))) {
-	scatter (i in ccs_bam) {
-		String sample = i[0]
-		String ccs_bam = i[1]
-		call lima.LimaTask as Lima {
-			input:
-				workdir = workdir,
-				sample = sample,
-				# ccs_dir = CCS.dir[0],
-				ccs_dir = ccs_bam,
-				#image = dockerImages[""]
+	if(defined(ccs_bam_txt)) {
+		Array[Array[String]] ccs_bam = read_tsv(ccs_bam_txt)
+	
+		# scatter (i in range(length(ccs_bam[0]))) {
+		scatter (i in ccs_bam) {
+			String sample = i[0]
+			String ccs_bam = i[1]
+			call lima.LimaTask as Lima {
+				input:
+					workdir = workdir,
+					sample = sample,
+					# ccs_dir = CCS.dir[0],
+					ccs_dir = ccs_bam,
+					#image = dockerImages[""]
+			}
 		}
 	}
-	
 	call lima.LimaStatTask as LimaStat {
 		input:
 			lima_dir = Lima.dir[0],
