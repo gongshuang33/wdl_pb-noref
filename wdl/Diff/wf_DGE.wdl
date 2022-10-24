@@ -37,7 +37,7 @@ workflow RunDGE {
 	}
 
 	output {
-		String dge_stat = diff_dir_done + "/DEG_stat.xls"
+		String dge_stat = select_first([diff_dir_done]) + "/DEG_stat.xls"
 		String? diff_dir_done = DGETask.diff_dir_done
 	}
 }
