@@ -18,7 +18,7 @@ workflow RunIsoseq {
 
 	Array[Array[String]] pbfile_data = read_tsv(pbfile)
 
-	call subreads.SubreadsTask as getSubreads {
+	call subreads.SubreadsTask as Subreads {
 		input:
 			workdir = workdir,
 			pbfile = pbfile ,
@@ -27,7 +27,7 @@ workflow RunIsoseq {
 	}
 	call subreads.SubreadsStatTask as statSubreads {
 		input:
-			subreads_dir = getSubreads.dir,
+			subreads_dir = Subreads.dir,
 			scriptDir = scriptDir,
 			#image = dockerImages[""]
 	}
@@ -39,7 +39,7 @@ workflow RunIsoseq {
 					workdir = workdir,
 					sample = line[0],
 					scriptDir = scriptDir,
-					subreads_dir = getSubreads.dir,
+					subreads_dir = Subreads.dir,
 					#image = dockerImages[""]
 			}
 		}
@@ -98,7 +98,7 @@ workflow RunIsoseq {
 	}
 	call refine.RefineStatTask as RefineStat {
 		input:
-			refine_dir = Refine.dir[0],
+			refine_dir = select_first(Refine.dir),
 			scriptDir = scriptDir,
 			roi_reads_summary_xls = CCSStat.roi_reads_summary_xls,
 			barcodes = Sequel2_isoseq_barcode_fa,
@@ -124,6 +124,4 @@ workflow RunIsoseq {
 		String polished_hq_fasta = Cluster.polished_hq_fasta
 		String all_polished_fa = Cluster.all_polished_fa
 	}
-
-
 }
