@@ -15,20 +15,26 @@ task ClusterTask {
 
 	command <<<
 		set -ex
-
 		mkdir -p ~{cluster_dir} && cd ~{cluster_dir}
 		if [ -f "run_cluster_done" ]; then
 			exit 0
 		fi
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{cluster_dir}
 		isoseq3 cluster ~{merged_flnc_bam} polished.bam --verbose --use-qvs -j ~{cpu} --singletons
-
 		touch run_cluster_done
+		date
+		" > run_cluster.sh
+		bash run_cluster.sh > run_cluster_stdout 2> run_cluster_stderr
 	>>>
 
 	output {
+		String dir = cluster_dir
 		String polished_bam = cluster_dir + "/polished.bam"
 		String all_polished_fa = cluster_dir + "/all.polished.fa"
-		String dir = cluster_dir
 		String polished_hq_fasta = cluster_dir + "/polished.hq.fasta"
 	}
 
@@ -56,12 +62,16 @@ task ClusterStatTask {
 	}
 
 	command <<<
-		set -vex
-
+		set -ex
 		cd ~{cluster_dir}
 		if [ -f "run_cluster_stat_done" ]; then
 			exit 0
 		fi
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{cluster_dir}
 		gunzip polished.hq.fasta.gz
 		gunzip polished.lq.fasta.gz
 		gunzip polished.singletons.fasta.gz
@@ -75,12 +85,13 @@ task ClusterStatTask {
 		Rscript ~{scriptDir}/Cluster_Bar.R all.polished.fa.len all.polished.fa.length_distribution
 		python ~{scriptDir}/isoseq_stat.py -hq polished.hq.fasta.len -lq polished.lq.fasta.len -s polished.singletons.fasta.len -fs filtered.singletons.fasta.len \
 		-refine ~{refine_dir}/refine_stat.xls -o isoseq_stat.xls
-
 		touch run_cluster_stat_done
+		date
+		" > run_cluster_stat.sh
+		bash run_cluster_stat.sh > run_cluster_stat_stdout 2> run_cluster_stat_stderr
 	>>>
 
 	output {
-		
 	}
 
 	runtime {

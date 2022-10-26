@@ -11,7 +11,8 @@ workflow RunIsoseq {
 		String workdir
 		String scriptDir
 		String pbfile
-		String? ccs_bam_txt   				# 多个ccs.bam用samtools merge手动合并成一个传进来
+		String? ccs_bam_txt
+		String Sequel2_isoseq_barcode_fa = "/export/pipeline/RNASeq/Pipeline/pbbarcoding/scripts/Sequel2_isoseq_barcode.fa"				# 多个ccs.bam用samtools merge手动合并成一个传进来
 		#Map[String, String] dockerImages
 	}
 
@@ -81,6 +82,7 @@ workflow RunIsoseq {
 		input:
 			lima_dir = Lima.dir[0],
 			scriptDir = scriptDir,
+			barcodes = Sequel2_isoseq_barcode_fa,
 			#image = dockerImages[""]
 	}
 
@@ -99,6 +101,7 @@ workflow RunIsoseq {
 			refine_dir = Refine.dir[0],
 			scriptDir = scriptDir,
 			roi_reads_summary_xls = CCSStat.roi_reads_summary_xls,
+			barcodes = Sequel2_isoseq_barcode_fa,
 			#image = dockerImages[""]
 	}
 

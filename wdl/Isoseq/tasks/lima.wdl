@@ -5,7 +5,7 @@ task LimaTask {
 		String workdir
 		String sample
 		String ccs_bam
-		String barcodes = "/export/pipeline/RNASeq/Pipeline/pbbarcoding/scripts/Sequel2_isoseq_barcode.fa"
+		String barcodes
 
 		Int cpu = 2
 		String memgb = '16G'
@@ -22,14 +22,21 @@ task LimaTask {
 		if [ -f 'run_lima_1_done' ]; then
 			exit 0
 		fi
-		/export/pipeline/RNASeq/Software/Miniconda/bin/lima ~{ccs_bam} ~{barcodes} ~{sample}.fl.bam --isoseq --peek-guess -j ~{cpu}
-
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{lima_sample_dir}
+		lima ~{ccs_bam} ~{barcodes} ~{sample}.fl.bam --isoseq --peek-guess -j ~{cpu}
 		touch run_lima_1_done
+		date
+		" > ~{sample}_lima.sh
+		bash ~{sample}_lima.sh > ~{sample}_lima_stdout 2> ~{sample}_lima_stderr
 	>>>
 
 	output {
 		String dir = lima_dir
-		String fl_bam = lima_sample_dir + "/${sample}.fl.bam"
+		String fl_bam = lima_sample_dir + '/' +  sample + '.fl.bam'
 	}
 
 	runtime {
@@ -57,8 +64,15 @@ task LimaStatTask {
 		if [ -f 'run_lima_stat_done' ]; then
 			exit 0
 		fi
+		echo "
+		set -vex
+		hostname
+		date
 		python ~{scriptDir}/lima_stat.py lima_stat.xls
 		touch run_lima_stat_done
+		date
+		" > lima_stat.sh
+		bash lima_stat.sh > lima_stat_stdout 2> lima_stat_stderr
 	>>>
 
 	output {
