@@ -83,7 +83,6 @@ workflow RunIsoseq {
 		input:
 			lima_dir = Lima.dir[0],
 			scriptDir = scriptDir,
-			barcodes = Sequel2_isoseq_barcode_fa,
 			#image = dockerImages[""]
 	}
 
