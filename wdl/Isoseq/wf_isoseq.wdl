@@ -57,6 +57,7 @@ workflow RunIsoseq {
 					workdir = workdir,
 					sample = i[0],
 					ccs_bam = i[1],
+					barcodes = Sequel2_isoseq_barcode_fa,
 					#image = dockerImages[""]
 			}
 		}
