@@ -93,6 +93,7 @@ workflow RunIsoseq {
 				sample = line[0],
 				scriptDir = scriptDir,
 				lima_dir = LimaStat.dir,
+				barcodes = Sequel2_isoseq_barcode_fa,
 				#image = dockerImages[""]
 		}
 	}
@@ -101,7 +102,7 @@ workflow RunIsoseq {
 			refine_dir = select_first(Refine.dir),
 			scriptDir = scriptDir,
 			roi_reads_summary_xls = CCSStat.roi_reads_summary_xls,
-			barcodes = Sequel2_isoseq_barcode_fa,
+
 			#image = dockerImages[""]
 	}
 
