@@ -20,10 +20,14 @@ task SubreadsTask {
 		if [ -f "get_subreads_done" ]; then
 			exit 0
 		fi
+		echo "
+		set -vex
+		hostname
+		date
 		python <<EOF
 		import os
-		subreads_file = "~{pbfile}"
-		work_dir = "~{subreads_dir}"
+		subreads_file = '~{pbfile}'
+		work_dir = '~{subreads_dir}'
 		with open(subreads_file) as f:
 			sample = []
 			for line in f.readlines():
@@ -31,22 +35,25 @@ task SubreadsTask {
 				bam = line.strip().split()[1]
 				sample.append(movie)
 				if not os.path.exists('%s/%s.subreads.bam' % (work_dir, movie)):
-					os.system("ln -s %s %s/%s.subreads.bam" % (bam, work_dir, movie))
-					os.system("ln -s %s.pbi %s/%s.subreads.bam.pbi" % (bam, work_dir, movie))
+					os.system('ln -s %s %s/%s.subreads.bam' % (bam, work_dir, movie))
+					os.system('ln -s %s.pbi %s/%s.subreads.bam.pbi' % (bam, work_dir, movie))
 		EOF
-		touch get_subreads_done		
+		touch get_subreads_done	
+		date
+		" > get_subreads.sh
+		bash get_subreads.sh > get_subreads_stdout 2> get_subreads_stderr
 	>>>
 		
 	output {
-		String dir = subreads_dir
+		String dir = subreads_dir  
 	}
+
 	runtime {
 		#docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR
 	}
-
 }
 
 task SubreadsStatTask {
@@ -64,15 +71,22 @@ task SubreadsStatTask {
 		if [ -f 'stat_subreads_done' ]; then
 			exit 0
 		fi
-
+		echo "
+		set -vex
+		hostname
+		date
 		cd ~{subreads_dir}
 		python ~{scriptDir}/stat_barcode.py -i *.subreads.bam -o Post-Filter_Polymerase_reads.summary.xls
 		touch stat_subreads_done
+		date
+		" > subreads_stat.sh
+		bash subreads_stat.sh > subreads_stat_stdout 2> subreads_stat_stderr
 	>>>
 		
 	output {
 		String summary_xls = subreads_dir + "/Post-Filter_Polymerase_reads.summary.xls"
 	}
+	
 	runtime {
 		#docker: image
 		cpu: cpu
