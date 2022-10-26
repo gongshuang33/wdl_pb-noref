@@ -65,7 +65,7 @@ workflow RunIsoseq {
 
 	# if(defined(ccs_bam_txt)) {
 	# 	Array[Array[String]] ccs_bams = read_tsv(ccs_bam_txt)
-	
+
 	# 	# scatter (i in range(length(ccs_bam[0]))) {
 	# 	scatter (i in ccs_bams) {
 	# 		call lima.LimaTask as Lima {
