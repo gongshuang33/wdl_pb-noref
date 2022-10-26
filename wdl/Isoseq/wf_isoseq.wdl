@@ -78,7 +78,7 @@ workflow RunIsoseq {
 	# 		}
 	# 	}
 	# }
-
+ 
 	call lima.LimaStatTask as LimaStat {
 		input:
 			lima_dir = Lima.dir[0],
