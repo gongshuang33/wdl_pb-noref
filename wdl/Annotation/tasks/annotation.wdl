@@ -2,7 +2,7 @@ version 1.0
 
 task AnnotPreTask {
 	input {
-		String unigene   # cdhit/unigene.fa
+		String unigene
 		String fa_prefix
 		Int n_splits
 		String species_type
@@ -27,12 +27,19 @@ task AnnotPreTask {
 		if [ ! -f ~{fa_prefix} ];then
 			ln -s ~{unigene} ~{fa_prefix}
 		fi
-		
-		/export/pipeline/RNASeq/Pipeline/Annotation/Run_Annotation_with_diamond.py \
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{annot_dir}
+		~{scriptDir}/Run_Annotation_with_diamond.py \
 			-~{species_type} -k -i -n -s -cog \
 			-c ~{n_splits} -f ~{fa_prefix}
 
 		touch annot_pre.done
+		date
+		" > annot_pre.sh 
+		bash annot_pre.sh > annot_pre_stdout 2> annot_pre_stderr
 	>>>
 
 	output {
@@ -84,6 +91,7 @@ task GOTask {
 		root: ROOTDIR
 	}
 }
+
 task KEGGTask {
 	input {
 		String split_sh_dir
@@ -243,8 +251,11 @@ task CombineGOTask {
 		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
+		echo "
+		set -vex
+		hostname
+		date
 		cd ~{annot_dir}
-
 		cat ~{fa_name}.function.work/*/*iprOut > ~{prefix}.iprOut
 
 		python ~{scriptDir}/deal_ipr2go_V2.py --iprFile ~{prefix}.iprOut --goAnnot ~{prefix}.go.annot --gene
@@ -255,9 +266,8 @@ task CombineGOTask {
 
 		touch ~{annot_dir}/go_stat_work_done
 		date
-
-
-		touch go_stat.done
+		" > go_stat.sh
+		bash go_stat.sh > go_stat_STDOUT 2> go_stat_STDERR
 	>>>
 
 	output {
@@ -301,6 +311,11 @@ task CombineKEGGTask {
 		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{annot_dir}
 		cat ~{fa_name}.function.work/*/*kegg.m8 > ~{fa_name}.function.work/~{prefix}.kegg.m8
 		python ~{scriptDir}/m8tobesthit.py --m8file ~{fa_name}.function.work/~{prefix}.kegg.m8 --besthit ~{prefix}.kegg.m8.besthit
 
@@ -318,6 +333,8 @@ task CombineKEGGTask {
 
 		touch ~{annot_dir}/kegg_stat_work_done
 		date
+		" > kegg_stat.sh
+		bash kegg_stat.sh > kegg_stat_STDOUT 2> kegg_stat_STDERR
 	>>>
 
 	output {
@@ -362,16 +379,24 @@ task CombineKOGTask {
 		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{annot_dir}
 		cat ~{fa_name}.function.work/*/*kog.m8 > ~{prefix}.kog.m8
 		python ~{scriptDir}/m8tobesthit.py --m8file ~{prefix}.kog.m8 --besthit ~{prefix}.kog.m8.besthit
 		python ~{scriptDir}/Annot_COG.py -i ~{prefix}.kog.m8.besthit -o ~{prefix}.kog.annotation.xls -s ~{prefix} -c ~{prefix}.kog.classification.xls
 		Rscript ~{scriptDir}/plot_KOG.classification.R ~{prefix}.kog.classification.xls KOG_classification
 		touch ~{annot_dir}/kog_stat_work_done
 		date
+		" > kog_stat.sh
+		bash kog_stat.sh > kog_stat_STDOUT 2 > kog_stat_STDERR
 	>>>
 
 	output {
 	}
+
 	runtime {
 		# docker: image
 		cpu: cpu
@@ -407,7 +432,11 @@ task CombineNRTask {
 		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
-		
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{annot_dir}
 		cat ~{fa_name}.function.work/*/*nr.m8 > ~{prefix}.nr.m8
 		python ~{scriptDir}/m8tobesthit.py --m8file ~{prefix}.nr.m8 --besthit ~{prefix}.nr.m8.besthit
 		cut -f 1-4,7-13 ~{prefix}.nr.m8.besthit | sed '1iGene_ID	NR_ID	Identity	Align Length	Q start	Q end	T start	T end	E value	Score	Function' > ~{prefix}.nr.annotation.xls
@@ -416,6 +445,8 @@ task CombineNRTask {
 		Rscript ~{scriptDir}/plot_Species.R
 		touch ~{annot_dir}/nr_stat_work_done
 		date
+		" > nr_stat.sh
+		bash nr_stat.sh > nr_stat_STDOUT 2> nr_stat_STDERR
 	>>>
 
 	output {
@@ -454,12 +485,19 @@ task CombineSwissProtTask {
 		if [ ~{DONE} == false ]; then
 			exit 1
 		fi
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{annot_dir}
 		cat ~{fa_name}.function.work/*/*swissprot.m8 > ~{prefix}.swissprot.m8
 		python ~{scriptDir}/m8tobesthit.py --m8file ~{prefix}.swissprot.m8 --besthit ~{prefix}.swissprot.m8.besthit
 		python ~{scriptDir}/Annot_SwissProt.py -b ~{prefix}.swissprot.m8.besthit -o ~{prefix}.swissprot.annotation.xls
 
 		touch ~{annot_dir}/swissprot_stat_work_done
 		date
+		" > swissprot_stat.sh
+		bash swissprot_stat.sh > swissprot_stat_STDOUT 2> swissprot_stat_STDERR
 	>>>
 
 	output {

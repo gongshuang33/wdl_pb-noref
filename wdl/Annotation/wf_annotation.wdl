@@ -6,7 +6,7 @@ workflow RunAnnotation {
 	input {
 		String workdir
 		String scriptDir
-		String unigene_fasta #来自wf_cdhit.unigene_fasta
+		String unigene_fasta
 		String species_type
 		Int split_num
 		String fa_prefix = "unigene.fasta"
