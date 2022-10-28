@@ -18,7 +18,7 @@ workflow RunIsoseq {
 
 	Array[Array[String]] pbfile_data = read_tsv(pbfile)
 
-	call subreads.SubreadsTask as getSubreads {
+	call subreads.SubreadsTask as Subreads {
 		input:
 			workdir = workdir,
 			pbfile = pbfile ,
@@ -27,7 +27,7 @@ workflow RunIsoseq {
 	}
 	call subreads.SubreadsStatTask as statSubreads {
 		input:
-			subreads_dir = getSubreads.dir,
+			subreads_dir = Subreads.dir,
 			scriptDir = scriptDir,
 			#image = dockerImages[""]
 	}
@@ -39,7 +39,7 @@ workflow RunIsoseq {
 					workdir = workdir,
 					sample = line[0],
 					scriptDir = scriptDir,
-					subreads_dir = getSubreads.dir,
+					subreads_dir = Subreads.dir,
 					#image = dockerImages[""]
 			}
 		}
@@ -57,6 +57,7 @@ workflow RunIsoseq {
 					workdir = workdir,
 					sample = i[0],
 					ccs_bam = i[1],
+					barcodes = Sequel2_isoseq_barcode_fa,
 					#image = dockerImages[""]
 			}
 		}
@@ -64,7 +65,7 @@ workflow RunIsoseq {
 
 	# if(defined(ccs_bam_txt)) {
 	# 	Array[Array[String]] ccs_bams = read_tsv(ccs_bam_txt)
-	
+
 	# 	# scatter (i in range(length(ccs_bam[0]))) {
 	# 	scatter (i in ccs_bams) {
 	# 		call lima.LimaTask as Lima {
@@ -77,12 +78,11 @@ workflow RunIsoseq {
 	# 		}
 	# 	}
 	# }
-
+ 
 	call lima.LimaStatTask as LimaStat {
 		input:
 			lima_dir = Lima.dir[0],
 			scriptDir = scriptDir,
-			barcodes = Sequel2_isoseq_barcode_fa,
 			#image = dockerImages[""]
 	}
 
@@ -93,15 +93,16 @@ workflow RunIsoseq {
 				sample = line[0],
 				scriptDir = scriptDir,
 				lima_dir = LimaStat.dir,
+				barcodes = Sequel2_isoseq_barcode_fa,
 				#image = dockerImages[""]
 		}
 	}
 	call refine.RefineStatTask as RefineStat {
 		input:
-			refine_dir = Refine.dir[0],
+			refine_dir = select_first(Refine.dir),
 			scriptDir = scriptDir,
 			roi_reads_summary_xls = CCSStat.roi_reads_summary_xls,
-			barcodes = Sequel2_isoseq_barcode_fa,
+
 			#image = dockerImages[""]
 	}
 
@@ -124,6 +125,4 @@ workflow RunIsoseq {
 		String polished_hq_fasta = Cluster.polished_hq_fasta
 		String all_polished_fa = Cluster.all_polished_fa
 	}
-
-
 }

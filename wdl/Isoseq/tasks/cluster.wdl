@@ -95,7 +95,7 @@ task ClusterStatTask {
 	}
 
 	runtime {
-		#docker: image
+		# docker: image
 		cpu: cpu
 		memory: memgb
 		root: ROOTDIR

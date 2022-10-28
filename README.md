@@ -13,3 +13,5 @@
 # work.sh 
 /usr/bin/time --verbose java -jar /export/pipeline/RNASeq/Software/Cromwell/cromwell-80.jar run PacBio_Noref_RNAseq.wdl -i input.json
 ```
+hhh
+ 
