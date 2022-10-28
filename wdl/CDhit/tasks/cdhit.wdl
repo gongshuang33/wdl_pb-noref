@@ -4,7 +4,7 @@ task CDhitTask {
 	input {
 		String workdir
 		String scriptDir
-		String? NGS_corrected_fasta #二代
+		String? NGS_corrected_fasta # 二代
 		String all_polished_fa  # cluster.
 
 		Int cpu = 8
@@ -22,9 +22,14 @@ task CDhitTask {
 		if [ -f "run_cdhit_done" ];then
 			exit 0
 		fi
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{cdhit_dir}
 		python ~{scriptDir}/sort_fa.py ~{clean_fasta} > sort.fasta
-		/export/personal/pengh/Software/cdhit/cd-hit-est -i sort.fasta -o cdhit1.fasta -c 0.99 -T 10 -G 0 -aL 0.90 -AL 100 -aS 0.99 -AS 30 -M 80000
-		/export/personal/pengh/Software/cdhit/cd-hit-est -i cdhit1.fasta -o cdhit2.fasta -T 10 -M 100000 -c 0.85
+		cd-hit-est -i sort.fasta -o cdhit1.fasta -c 0.99 -T 10 -G 0 -aL 0.90 -AL 100 -aS 0.99 -AS 30 -M 80000
+		cd-hit-est -i cdhit1.fasta -o cdhit2.fasta -T 10 -M 100000 -c 0.85
 		python ~{scriptDir}/rename.stat.py cdhit1.fasta cdhit2.fasta cdhit2.fasta.clstr clstr.stat.xls cd-hit.Unigene.fasta cd-hit.isoforms.fasta > togene
 		python ~{scriptDir}/rename_id.py id.change.info cdhit1.fasta.clstr new_cdhit1.fasta.clstr cdhit2.fasta.clstr new_cdhit2.fasta.clstr clstr.stat.xls new_clstr.stat.xls
 		perl ~{scriptDir}/isoform_stat_length.pl  cd-hit.isoforms.fasta > non-redundant_isoforms_length_distribution.xls
@@ -42,6 +47,9 @@ task CDhitTask {
 			ln -s ~{cdhit_dir}/cd-hit.isoforms.fasta ~{workdir}/Unigene/isoform.fasta
 		fi
 		touch ~{cdhit_dir}/run_cdhit_done
+		date
+		" > run_cdhit.sh 
+		bash run_cdhit.sh > run_cdhit_stdout 2> run_cdhit_stderr
 	>>>
 
 	output {

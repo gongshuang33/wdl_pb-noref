@@ -6,8 +6,8 @@ workflow RunCDhit {
 	input {
 		String workdir
 		String scriptDir
-		String? NGS_corrected_fasta		# 二代
-		String all_polished_fa 		# cluster.
+		String? NGS_corrected_fasta
+		String all_polished_fa
 		#Map[String, String] dockerImages
 	}
 
