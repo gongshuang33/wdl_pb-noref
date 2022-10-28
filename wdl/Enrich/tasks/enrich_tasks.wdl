@@ -20,15 +20,21 @@ task GoPreTask {
 		set -ex
 
 		mkdir -p ${go_dir} && cd ${go_dir}
-
 		if [ -f "go_pre.done" ]; then
 			exit 0
 		fi
-
+		echo "
+		set -vex
+		hostname
+		date
+		cd ${go_dir}
 		python3 ${scriptDir}/prepare_GO.py \
 			--goMap ${go_annotation_xls} 
 
 		touch go_pre.done
+		date
+		" > go_pre.sh
+		bash go_pre.sh > go_pre_STDOUT 2> go_pre_STDERR
 	}
 
 	output {
@@ -68,11 +74,14 @@ task GoEnrichTask {
 		set -x
 
 		mkdir -p ${comp_dir} && cd ${comp_dir}
-
 		if [ -f "go_enrich.done" ]; then
 			exit 0
 		fi
-
+		echo "
+		set -vex
+		hostname
+		date
+		cd ${comp_dir} 
 		sh ${scriptDir}/ClusterProfiler.sh GO \
 			${dge_all_list} ${comp_string}
 		sh ${scriptDir}/ClusterProfiler.sh GO \
@@ -81,6 +90,9 @@ task GoEnrichTask {
 			${dge_down_list} ${comp_string}
 
 		touch go_enrich.done
+		date
+		" > go_enrich.sh
+		bash go_enrich.sh > go_enrich_STDOUT 2> go_enrich_STDERR
 	}
 
 	output {
@@ -114,15 +126,21 @@ task KeggPreTask {
 		set -ex
 
 		mkdir -p ${kegg_dir} && cd ${kegg_dir}
-
 		if [ -f "kegg_pre.done" ]; then
 			exit 0
 		fi
-
+		echo "
+		set -vex
+		hostname
+		date
+		cd ${kegg_dir}
 		python3 ${scriptDir}/prepare_KEGG.py \
 			--keggMap ${No_HumanDisease_map}
 
 		touch kegg_pre.done
+		date
+		" > kegg_pre.sh
+		bash kegg_pre.sh > kegg_pre_STDOUT 2> kegg_pre_STDERR
 	}
 
 	output {
@@ -162,11 +180,14 @@ task KeggEnrichTask {
 		set -x
 
 		mkdir -p ${comp_dir} && cd ${comp_dir}
-
 		if [ -f "kegg_enrich.done" ]; then
 			exit 0
 		fi
-
+		echo "
+		set -vex
+		hostname
+		date
+		cd ${comp_dir}
 		sh ${scriptDir}/ClusterProfiler.sh KEGG \
 			${dge_all_list} ${comp_string}
 		sh ${scriptDir}/ClusterProfiler.sh KEGG \
@@ -175,6 +196,9 @@ task KeggEnrichTask {
 			${dge_down_list} ${comp_string}
 
 		touch kegg_enrich.done
+		date
+		" > kegg_enrich.sh
+		bash kegg_enrich.sh > kegg_enrich_STDOUT 2> kegg_enrich_STDERR
 	}
 
 	output {

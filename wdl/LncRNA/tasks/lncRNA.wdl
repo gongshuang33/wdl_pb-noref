@@ -2,7 +2,7 @@ version 1.0
 
 task SplitTask {
 	input {
-		String ScriptDir
+		String scriptDir
 		String projectdir
 		String novel_cds_removed_fa
 		Int split_num = 20
@@ -16,19 +16,21 @@ task SplitTask {
 	String lncdir = projectdir + "/LncRNA/work" 
 
 	command <<<
-		set -vex
-		hostname
-		date
-
+		set -ex
 		mkdir -p ~{lncdir} && cd ~{lncdir}
 		if [ -f "run_split_done" ]; then
 			exit 0
 		fi
-
-		python ~{ScriptDir}/seq_split.py -seq ~{novel_cds_removed_fa} -num ~{split_num}
-
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{lncdir}
+		python ~{scriptDir}/seq_split.py -seq ~{novel_cds_removed_fa} -num ~{split_num}
 		touch run_split_done
 		date 
+		" > run_split.sh
+		bash run_split.sh > run_split_STDOUT 2> run_split_STDERR
 	>>>
 
 	output {
@@ -45,7 +47,7 @@ task SplitTask {
 
 task CPCTask {
 	input { 
-		String ScriptDir
+		String scriptDir
 		String workdir
 		String species_type
 		String novel_cds_removed_fa
@@ -74,21 +76,45 @@ task CPCTask {
 		export PATH=/home/tiany/software/align/NCBIblast/latest/bin/:$PATH
 
 		if [ ~{species_type} = "plant" ]; then
-			sh ~{ScriptDir}/run_plant_predict_local.sh ~{split_fa} cpc_lncRNA.txt ./ result_evidence
-			python ~{ScriptDir}/get_LncRNA_from_cpc.py cpc_lncRNA.txt > cpc.id.txt 
+			echo "
+			set -vex
+			hostname
+			date
+			cd ~{split_dir}
+			sh ~{scriptDir}/run_plant_predict_local.sh ~{split_fa} cpc_lncRNA.txt ./ result_evidence
+			python ~{scriptDir}/get_LncRNA_from_cpc.py cpc_lncRNA.txt > cpc.id.txt 
 			touch run_cpc_work_done
+			date
+			" > run_cpc_work.sh
+			bash run_cpc_work.sh > run_cpc_work_STDOUT 2> run_cpc_work_STDERR
 		fi
 
 		if [ ~{species_type} = "animal" ]; then
-			sh ~{ScriptDir}/run_animal_predict_local.sh ~{split_fa} cpc_lncRNA.txt ./ result_evidence
-			python ~{ScriptDir}/get_LncRNA_from_cpc.py cpc_lncRNA.txt > cpc.id.txt 
+			echo "
+			set -vex
+			hostname
+			date
+			cd ~{split_dir}
+			sh ~{scriptDir}/run_animal_predict_local.sh ~{split_fa} cpc_lncRNA.txt ./ result_evidence
+			python ~{scriptDir}/get_LncRNA_from_cpc.py cpc_lncRNA.txt > cpc.id.txt 
 			touch run_cpc_work_done
+			date
+			" > run_cpc_work.sh
+			bash run_cpc_work.sh > run_cpc_work_STDOUT 2> run_cpc_work_STDERR
 		fi
 
 		if [ ~{species_type} = "fungi" ]; then
-			sh ~{ScriptDir}/run_fungi_predict_local.sh ~{split_fa} cpc_lncRNA.txt ./ result_evidence
-			python ~{ScriptDir}/get_LncRNA_from_cpc.py cpc_lncRNA.txt > cpc.id.txt 
+			echo "
+			set -vex
+			hostname
+			date
+			cd ~{split_dir}
+			sh ~{scriptDir}/run_fungi_predict_local.sh ~{split_fa} cpc_lncRNA.txt ./ result_evidence
+			python ~{scriptDir}/get_LncRNA_from_cpc.py cpc_lncRNA.txt > cpc.id.txt 
 			touch run_cpc_work_done
+			date
+			" > run_cpc_work.sh
+			bash run_cpc_work.sh > run_cpc_work_STDOUT 2> run_cpc_work_STDERR
 		fi
 
 		date
@@ -109,7 +135,7 @@ task CPCTask {
 task CPCStatTask {
 	input {
 		String workdir
-		String ScriptDir
+		String scriptDir
 
 		Int cpu = 1
 		String memgb = "2G"
@@ -151,7 +177,7 @@ task CPCStatTask {
 
 task CNCITask {
 	input {
-		String ScriptDir
+		String scriptDir
 		String workdir
 		String novel_cds_removed_fa
 		String species_type
@@ -176,14 +202,14 @@ task CNCITask {
 		fi
 
 		if [ ~{species_type} = "plant" ]; then
-			python ~{ScriptDir}/CNCI.py -f ~{novel_cds_removed_fa} -o CNCI_out -m pl -p ~{cpu}
-			python ~{ScriptDir}/get_LncRNA_from_cnci.py ~{cncidir}/CNCI_out/CNCI.index cnci.id.txt
+			python ~{scriptDir}/CNCI.py -f ~{novel_cds_removed_fa} -o CNCI_out -m pl -p ~{cpu}
+			python ~{scriptDir}/get_LncRNA_from_cnci.py ~{cncidir}/CNCI_out/CNCI.index cnci.id.txt
 			touch run_cnci_work_done
 		fi
 
 		if [ ~{species_type} != "plant" ]; then
-			python ~{ScriptDir}/CNCI.py -f ~{novel_cds_removed_fa} -o CNCI_out -m ve -p ~{cpu}
-			python ~{ScriptDir}/get_LncRNA_from_cnci.py ~{cncidir}/CNCI_out/CNCI.index cnci.id.txt
+			python ~{scriptDir}/CNCI.py -f ~{novel_cds_removed_fa} -o CNCI_out -m ve -p ~{cpu}
+			python ~{scriptDir}/get_LncRNA_from_cnci.py ~{cncidir}/CNCI_out/CNCI.index cnci.id.txt
 			touch run_cnci_work_done
 		fi
 		
@@ -205,7 +231,7 @@ task CNCITask {
 
 task PlekTask {
 	input {
-		String ScriptDir
+		String scriptDir
 		String workdir
 		String novel_cds_removed_fa
 
@@ -251,7 +277,7 @@ task PlekTask {
 
 task PlekStatTask {
 	input {
-		String ScriptDir
+		String scriptDir
 		String workdir
 
 		Int cpu = 1
@@ -272,8 +298,8 @@ task PlekStatTask {
 			exit 0
 		fi
 
-		perl ~{ScriptDir}/fastaDeal.pl -attr id:len ~{plekdir}/cds_removed_ncrna.fa > plek_lncRNA.fasta.len
-		sh ~{ScriptDir}/get_plek_id.sh
+		perl ~{scriptDir}/fastaDeal.pl -attr id:len ~{plekdir}/cds_removed_ncrna.fa > plek_lncRNA.fasta.len
+		sh ~{scriptDir}/get_plek_id.sh
 
 		touch run_plek_stat_work_done
 	>>>
@@ -292,7 +318,7 @@ task PlekStatTask {
 
 task PfamTask {
 	input {
-		String ScriptDir
+		String scriptDir
 		String split_i
 		String workdir
 		String name
@@ -318,9 +344,9 @@ task PfamTask {
 
 		export PERL5LIB=$PERL5LIB:/export/pipeline/RNASeq/Software/Pfam/PfamScan
 
-		perl ~{ScriptDir}/cds2aa.pl ~{split_fa} > pfam.fa
-		perl ~{ScriptDir}/pfam_scan.pl -fasta pfam.fa -dir /export/pipeline/RNASeq/Software/Pfam -out pfam.m8 -cpu ~{cpu}
-		python ~{ScriptDir}/lncrna_m8tobesthit.py --m8file pfam.m8 --besthit pfam.besthit
+		perl ~{scriptDir}/cds2aa.pl ~{split_fa} > pfam.fa
+		perl ~{scriptDir}/pfam_scan.pl -fasta pfam.fa -dir /export/pipeline/RNASeq/Software/Pfam -out pfam.m8 -cpu ~{cpu}
+		python ~{scriptDir}/lncrna_m8tobesthit.py --m8file pfam.m8 --besthit pfam.besthit
 
 		touch run_pfam_work_done
 		date
@@ -336,7 +362,7 @@ task PfamTask {
 
 task PfamStatTask {
 	input {
-		String ScriptDir
+		String scriptDir
 		String workdir
 		String novel_cds_removed_fa
 
@@ -359,8 +385,8 @@ task PfamStatTask {
 		fi
 
 		cat ~{workdir}/*/pfam.besthit > pfam.besthit
-		perl ~{ScriptDir}fastaDeal.pl -attr id:len ~{novel_cds_removed_fa} > ~{novel_cds_removed_fa}.len
-		python ~{ScriptDir}/get_id_from_pfam.py pfam.besthit ~{novel_cds_removed_fa}.len > pfam.id.txt
+		perl ~{scriptDir}fastaDeal.pl -attr id:len ~{novel_cds_removed_fa} > ~{novel_cds_removed_fa}.len
+		python ~{scriptDir}/get_id_from_pfam.py pfam.besthit ~{novel_cds_removed_fa}.len > pfam.id.txt
 
 		touch run_pfam_stat_work_done
 		date
@@ -382,7 +408,7 @@ task PfamStatTask {
 
 task TotalStatTask {
 	input {
-		String ScriptDir
+		String scriptDir
 		String projectdir
 		String novel_cds_removed_fa
 		String novel_cds_removed_fa_len
@@ -415,18 +441,18 @@ task TotalStatTask {
 
 		export R_LIBS_USER=/export/pipeline/RNASeq/Software/R_library
 
-		python ~{ScriptDir}/lnc_stat_V2.py -len ~{novel_cds_removed_fa_len} -plek ~{plek_out} -cpc ~{cpc_lncRNA} -cnci ~{cnci_index} -pfam ~{pfam_besthit} -o1 lnc_stat.xls -o2 lncRNA.id.txt
+		python ~{scriptDir}/lnc_stat_V2.py -len ~{novel_cds_removed_fa_len} -plek ~{plek_out} -cpc ~{cpc_lncRNA} -cnci ~{cnci_index} -pfam ~{pfam_besthit} -o1 lnc_stat.xls -o2 lncRNA.id.txt
 		
 		ln -s ~{cpc_id} .
 		ln -s ~{plek_id} .
 		ln -s ~{pfam_id} .
 		ln -s ~{cnci_id} .
 
-		Rscript ~{ScriptDir}/lnc_Venn_4.R ~{cnci_id} ~{cpc_id} ~{plek_id} ~{pfam_id}
-		python ~{ScriptDir}/getname_from_lnc_stat.py lncRNA.id.txt ~{novel_cds_removed_fa} > LncRNA.fasta
+		Rscript ~{scriptDir}/lnc_Venn_4.R ~{cnci_id} ~{cpc_id} ~{plek_id} ~{pfam_id}
+		python ~{scriptDir}/getname_from_lnc_stat.py lncRNA.id.txt ~{novel_cds_removed_fa} > LncRNA.fasta
 
-		perl ~{ScriptDir}/fastaDeal.pl -attr id:len LncRNA.fasta > LncRNA.fasta.len
-		Rscript ~{ScriptDir}/Cluster_Bar.R LncRNA.fasta.len LncRNA.length_distribution
+		perl ~{scriptDir}/fastaDeal.pl -attr id:len LncRNA.fasta > LncRNA.fasta.len
+		Rscript ~{scriptDir}/Cluster_Bar.R LncRNA.fasta.len LncRNA.length_distribution
 
 		touch run_total_stat_work_done
 		date

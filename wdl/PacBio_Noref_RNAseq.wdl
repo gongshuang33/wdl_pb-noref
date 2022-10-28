@@ -129,7 +129,7 @@ workflow Run_PacBio_Noref{
 	call wf_lncRNA.RunLncRNA as lncRNA {
 		input:
 			projectdir = workdir,
-			ScriptDir = scriptDir,
+			scriptDir = scriptDir,
 			species_type = species_type,
 			novel_cds_removed_fa = CDS.cds_removed_isoform_fasta,
 			#dockerImages = dockerImages[]

@@ -7,7 +7,7 @@ task CDSTask {
 		String unigene_fasta  
 		String polished_hq_fasta 
 		String cdhit_isoforms_fasta #/CDhit/cd-hit.isoforms.fasta
-		String good_fasta  # NGS_corrected.fasta or isoseq.polished_hq_fasta
+		String good_fasta  # NGS_corrected.fasta or Isoseq.polished_hq_fasta
 
 		Int cpu = 8
 		String memgb = '16G'
@@ -21,8 +21,12 @@ task CDSTask {
 		if [ -f 'run_cds_done' ];then
 			exit 0
 		fi
-		
-		/export/pipeline/RNASeq/Pipeline/noRef_Isoseq/CDS_prediction/make_train.py --hq ~{polished_hq_fasta} --cor ~{good_fasta} --top 200 --out train.fasta
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{cds_dir}
+		~{scriptDir}/make_train.py --hq ~{polished_hq_fasta} --cor ~{good_fasta} --top 200 --out train.fasta
 		export PATH=/export/personal/pengh/Software/cdhit:$PATH
 		export PYTHONPATH=/export/pipeline/RNASeq/python3package/:/export/pipeline/RNASeq/Software/ANGEL/v3.0/ANGEL/lib/python3.6/site-packages/
 
@@ -33,10 +37,13 @@ task CDSTask {
 		rm -rf ANGEL.tmp.*
 
 		python ~{scriptDir}/seq_length_stat.py --fasta Final.predict.ANGEL.cds > Final.predict.ANGEL.cds.len.stat
-		/export/pipeline/RNASeq/Software/R/R_3.5.1/bin/Rscript ~{scriptDir}/len_distribution.R Final.predict.ANGEL.cds.len.stat CDS_length_distribution.pdf Read_Length Read_Number
+		Rscript ~{scriptDir}/len_distribution.R Final.predict.ANGEL.cds.len.stat CDS_length_distribution.pdf Read_Length Read_Number
 		convert CDS_length_distribution.pdf CDS_length_distribution.png
 		~{scriptDir}/remove_CDS.py ~{cdhit_isoforms_fasta} Final.predict.ANGEL.cds
 		touch run_cds_done
+		date
+		" > run_cds.sh
+		bash run_cds.sh > run_cds_STDOUT 2> run_cds_STDERR
 	>>>
 
 	output {

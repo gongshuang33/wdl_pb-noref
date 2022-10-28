@@ -4,7 +4,7 @@ import "./tasks/lncRNA.wdl" as LncRNA
 
 workflow RunLncRNA {
 	input {
-		String ScriptDir
+		String scriptDir
 		String projectdir
 		String novel_cds_removed_fa
 		String species_type
@@ -14,7 +14,7 @@ workflow RunLncRNA {
 
 	call LncRNA.SplitTask as split {
 		input:
-			ScriptDir = ScriptDir,
+			scriptDir = scriptDir,
 			projectdir = projectdir,
 			novel_cds_removed_fa = novel_cds_removed_fa,
 			split_num = split_num,
@@ -25,7 +25,7 @@ workflow RunLncRNA {
 		Int split_i = i + 1
 		call LncRNA.CPCTask as cpc {
 			input:
-				ScriptDir = ScriptDir,
+				scriptDir = scriptDir,
 				workdir = split.workdir,
 				species_type = species_type,
 				novel_cds_removed_fa = novel_cds_removed_fa,
@@ -35,7 +35,7 @@ workflow RunLncRNA {
 
 		call LncRNA.PfamTask as pfam {
 			input:
-				ScriptDir = ScriptDir,
+				scriptDir = scriptDir,
 				split_i = split_i,
 				name = cpc.split_name,
 				workdir = split.workdir,
@@ -45,7 +45,7 @@ workflow RunLncRNA {
 
 	call LncRNA.CNCITask as cnci {
 		input:
-			ScriptDir = ScriptDir,
+			scriptDir = scriptDir,
 			workdir = split.workdir,
 			novel_cds_removed_fa = novel_cds_removed_fa,
 			species_type = species_type,
@@ -54,7 +54,7 @@ workflow RunLncRNA {
 
 	call LncRNA.PlekTask as plek {
 		input:
-			ScriptDir = ScriptDir,
+			scriptDir = scriptDir,
 			workdir = split.workdir,
 			novel_cds_removed_fa = novel_cds_removed_fa,
 			# image = dockerImages[""]
@@ -63,20 +63,20 @@ workflow RunLncRNA {
 	call LncRNA.CPCStatTask as cpcstat {
 		input:
 			workdir = split.workdir,
-			ScriptDir = ScriptDir,
+			scriptDir = scriptDir,
 			# image = dockerImages[""]
 	}
 
 	call LncRNA.PlekStatTask as plekstat {
 		input:
-			ScriptDir = ScriptDir,
+			scriptDir = scriptDir,
 			workdir = split.workdir,
 			# image = dockerImages[""]
 	}
 
 	call LncRNA.PfamStatTask as pfamstat {
 		input:
-			ScriptDir = ScriptDir,
+			scriptDir = scriptDir,
 			workdir = split.workdir,
 			novel_cds_removed_fa = novel_cds_removed_fa,
 			# image = dockerImages[""]
@@ -84,7 +84,7 @@ workflow RunLncRNA {
 
 	call LncRNA.TotalStatTask as total {
 		input:
-			ScriptDir = ScriptDir,
+			scriptDir = scriptDir,
 			projectdir = projectdir,
 			novel_cds_removed_fa = novel_cds_removed_fa,
 			novel_cds_removed_fa_len = pfamstat.novel_cds_removed_fa_len,
