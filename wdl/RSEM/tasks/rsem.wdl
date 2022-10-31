@@ -63,18 +63,22 @@ task RSEMTask {
 	String sample_R2_fq = sample_clean_fqs[2]
 
 	command <<<
-		set -vex
-		hostname
-		date
+		set -ex
 		mkdir -p ~{sample_dir} && cd ~{sample_dir}
 		if [ -f 'RSEM_~{sample}_done' ];then
 			exit 0
 		fi
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{sample_dir}
 		/usr/bin/perl /export/personal/pengh/Software/RSEM-master/rsem-calculate-expression --bowtie2 --bowtie2-path /export/personal/pengh/Software/bowtie2-2.3.2-legacy/ --paired-end ~{sample_R1_fq} ~{sample_R2_fq} -p 10 ~{rsem_isoforms} ~{sample_dir}/~{sample}
-
 		rm ~{sample_dir}/~{sample}.transcript.bam
 		touch ~{sample_dir}/RSEM_~{sample}_done
 		date
+		" > run_RSEM_~{sample}.sh
+		bash run_RSEM_~{sample}.sh >  run_RSEM_STDOUT 2> run_RSEM_STDERR
 	>>>
 
 	output {
@@ -111,6 +115,11 @@ task RSEMStatTask {
 		if [ -f 'RSEM_stat_done' ];then
 			exit 0
 		fi
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{rsem_dir}
 		python ~{scriptDir}/merge_rsem.py
 		python ~{scriptDir}/merge_rsem_transcript.py
 		perl ~{scriptDir}/mapping_rate_trans_v5.pl -n ~{sep=', ' samples}
@@ -120,11 +129,13 @@ task RSEMStatTask {
 		python ~{scriptDir}/re_order_sample_fpkm.py
 		rm samples.fpkm.xls_bak
 
-		mkdir ~{rsem_dir}/fpkm_visualization
+		mkdir -p ~{rsem_dir}/fpkm_visualization
 		Rscript ~{scriptDir}/fpkm_visualization_v3.R ~{rsem_dir}/samples.fpkm.xls ~{rsem_dir}/grouplist ~{rsem_dir}/fpkm_visualization
 
 		touch RSEM_stat_done
 		date
+		" > run_RSEM_stat.sh
+		bash run_RSEM_stat.sh > run_RSEM_stat_STDOUT 2> run_RSEM_stat_STDERR
 
 	>>>
 

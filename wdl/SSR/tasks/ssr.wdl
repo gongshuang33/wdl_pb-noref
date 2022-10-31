@@ -20,7 +20,11 @@ task SSRTask {
 		if [ -f 'SSR_done' ];then
 			exit 0
 		fi
-
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{ssr_dir} 
 		cp /export/pipeline/RNASeq/Pipeline/noRef_Isoseq/bin/misa.ini ./
 		if [ ! -f 'Unigene.fasta' ];then
 			ln -s ~{unigene_fasta} Unigene.fasta
@@ -36,6 +40,8 @@ task SSRTask {
 		Rscript ~{scriptDir}/SSR.r
 		touch SSR_done
 		date
+		" > run_ssr.sh
+		bash run_ssr.sh > run_ssr_STDOUT 2> run_ssr_STDERR
 	>>>
 
 	output {
