@@ -24,11 +24,17 @@ task RSEMPreTask {
 		if [ -f 'rsem_dir' ];then
 			exit 0
 		fi
-
+		echo "
+		set -vex
+		hostname
+		date
+		cd ~{rsem_dir}
 		mkdir ~{rsem_dir}/tmp
 		/export/personal/pengh/Software/RSEM-master/rsem-prepare-reference --transcript-to-gene-map ~{cdhit_togene} --bowtie2 --bowtie2-path /export/personal/pengh/Software/bowtie2-2.3.2-legacy/ ~{cdhit_isoforms_fasta} ~{rsem_dir}/tmp/isoforms
 		touch RSEM_pre_done
 		date
+		" > rsem_pre.sh
+		bash rsem_pre.sh > rsem_pre_STDOUT 2> rsem_pre_STDERR
 	>>>
 
 	output {

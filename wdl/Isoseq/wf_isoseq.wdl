@@ -16,7 +16,7 @@ workflow RunIsoseq {
 		#Map[String, String] dockerImages
 	}
 
-	Array[Array[String]] pbfile_data = read_tsv(pbfile)
+	Array[Array[String]] pbfile_data = read_tsv(select_first([ccs_bam_txt,pbfile]))
 
 	call subreads.SubreadsTask as Subreads {
 		input:
@@ -38,8 +38,10 @@ workflow RunIsoseq {
 				input:
 					workdir = workdir,
 					sample = line[0],
+					ccs_bam_dir = line[1],
 					scriptDir = scriptDir,
 					subreads_dir = Subreads.dir,
+					ccs_bam_txt = ccs_bam_txt
 					#image = dockerImages[""]
 			}
 		}

@@ -257,7 +257,7 @@ task PlekTask {
 		export PATH=$PATH:/export/personal/pengh/Software/iso_lncRNA_pipeline/arrigonialberto-lncrnas-pipeline-984a37019773/
 
 		ln -s ~{novel_cds_removed_fa} cds_removed.fasta
-		ncrna_pipeline -f cds_removed.fasta -p ~{cpu} -c plek
+		lncrna_pipeline -f cds_removed.fasta -p ~{cpu} -c plek
 
 		touch run_plek_work_done
 		date
