@@ -44,6 +44,7 @@ task CCSTask {
 			bash ~{sample}_ccs.sh > ~{sample}_ccs_stdout 2> ~{sample}_ccs_stderr
 		>>>
 	}
+	
 	if(!defined(ccs_bam_txt)) {
 		command <<<
 			set -ex
