@@ -32,7 +32,7 @@ workflow RunIsoseq {
 			#image = dockerImages[""]
 	}
 
-	# if(!defined(ccs_bam_txt)) {
+	if(!defined(ccs_bam_txt)) {
 		scatter (line in pbfile_data) {
 			call ccs.CCSTask as CCS {
 				input:
@@ -41,10 +41,26 @@ workflow RunIsoseq {
 					ccs_bam_dir = line[1],
 					scriptDir = scriptDir,
 					subreads_dir = Subreads.dir,
-					ccs_bam_txt = ccs_bam_txt
+					ccs_bam_txt = ccs_bam_txt,
 					#image = dockerImages[""]
 			}
 		}
+	}
+
+	if(defined(ccs_bam_txt)) {
+		scatter (line in pbfile_data) {
+			call ccs.CCSBAMTask as CCS {
+				input:
+					workdir = workdir,
+					sample = line[0],
+					ccs_bam_dir = line[1],
+					scriptDir = scriptDir,
+					subreads_dir = Subreads.dir,
+					ccs_bam_txt = ccs_bam_txt,
+					#image = dockerImages[""]
+			}
+		}
+	}
 		
 		call ccs.CCSStatTask as CCSStat {
 			input:
