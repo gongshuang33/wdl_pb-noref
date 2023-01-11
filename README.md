@@ -1,4 +1,5 @@
 #### 官方文档：https://github.com/openwdl/wdl/blob/main/versions/development/SPEC.md
+#### version 1.0 : https://github.com/openwdl/wdl/blob/main/versions/1.0/SPEC.md
 
 ## 1. 测试步骤
 ### 1.1 验证WDL 语法：
