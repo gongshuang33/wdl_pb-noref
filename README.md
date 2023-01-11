@@ -1,3 +1,5 @@
+## 官网：https://github.com/openwdl/wdl/blob/main/versions/development/SPEC.md
+
 ## 1. 测试步骤
 ### 1.1 验证WDL 语法：
 ```shell
@@ -13,5 +15,5 @@
 # work.sh 
 /usr/bin/time --verbose java -jar /export/pipeline/RNASeq/Software/Cromwell/cromwell-80.jar run PacBio_Noref_RNAseq.wdl -i input.json
 ```
-hhh
+
  
